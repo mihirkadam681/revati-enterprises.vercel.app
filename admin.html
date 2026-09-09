@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVATI ENTERPRISES | Admin & Operations Management Portal</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA & Native Phone App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Revati App">
+    <link rel="apple-touch-icon" href="images/logo.png">
+</head>
+<body class="admin-body-3d" style="color: var(--text-main); position: relative; overflow-x: hidden;">
+
+    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+    <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- DEDICATED ADMIN OPERATIONS PORTAL CONTAINER -->
+    <div id="app" style="display: flex; min-height: 100vh; position: relative; z-index: 1;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar sidebar-3d">
+            <div class="brand-header">
+                <img src="images/logo.png" alt="RE Logo" class="brand-logo-img">
+                <div>
+                    <div class="brand-title">REVATI PORTAL</div>
+                    <div class="brand-subtitle">Housekeeping & Maint.</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <a href="index.html" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center; font-size: 0.78rem; text-decoration: none;">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Company Website
+                </a>
+            </div>
+
+            <div id="roleNoticeBanner" style="padding: 0.6rem 0.85rem; background: rgba(212, 175, 55, 0.12); border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
+                <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">ACTIVE PORTAL MODE</div>
+                <div id="roleBannerText" style="font-size: 0.85rem; font-weight: 700; color: var(--gold-primary); margin-top: 0.15rem;">ADMINISTRATOR</div>
+            </div>
+
+            <div class="nav-group-title">PORTAL NAVIGATION</div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                    <span>Client & Admin Dashboard</span>
+                </li>
+                <li class="nav-item" data-view="employees" data-role-allow="ADMIN,MANAGEMENT">
+                    <span class="nav-icon"><i class="fa-solid fa-building-user"></i></span>
+                    <span>Facility Client Accounts</span>
+                </li>
+                <li class="nav-item" data-view="staff-directory" data-role-allow="ADMIN,SUPERVISOR">
+                    <span class="nav-icon"><i class="fa-solid fa-users-gear"></i></span>
+                    <span>Employee Roster & Work</span>
+                </li>
+                <li class="nav-item" data-view="org-hierarchy" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-sitemap"></i></span>
+                    <span>Management & Leadership</span>
+                </li>
+                <li class="nav-item" data-view="housekeeping" data-role-allow="ADMIN,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-clipboard-check"></i></span>
+                    <span id="navTasksLabel">Quality SLA & Inspections</span>
+                </li>
+                <li class="nav-item" data-view="maintenance" data-role-allow="ADMIN,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-headset"></i></span>
+                    <span id="navMntLabel">Service Tickets & Support</span>
+                </li>
+                <li class="nav-item" data-view="leaves" data-role-allow="ADMIN,SUPERVISOR">
+                    <span class="nav-icon"><i class="fa-solid fa-umbrella-beach"></i></span>
+                    <span>Staff Leaves & OTP Registrations</span>
+                </li>
+                <li class="nav-item" data-view="inventory" data-role-allow="ADMIN,MANAGEMENT">
+                    <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                    <span>Chemical & Material Stock</span>
+                </li>
+                <li class="nav-item" data-view="reports" data-role-allow="ADMIN,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+                    <span>Billing & Contract Invoices</span>
+                </li>
+                <li class="nav-item" data-view="letterhead" onclick="window.location.href='letterhead.html'" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-file-contract" style="color: var(--gold-primary);"></i></span>
+                    <span>Official Letterhead Studio</span>
+                </li>
+            </ul>
+
+            <div class="nav-group-title rbac-admin-only" style="margin-top: 1.5rem;">ADMINISTRATION ONLY</div>
+            <ul class="nav-menu rbac-admin-only">
+                <li class="nav-item" data-view="admin-panel" data-role-allow="ADMIN">
+                    <span class="nav-icon"><i class="fa-solid fa-sliders"></i></span>
+                    <span>Admin Control Panel</span>
+                </li>
+                <li class="nav-item" data-view="users" data-role-allow="ADMIN">
+                    <span class="nav-icon"><i class="fa-solid fa-user-shield"></i></span>
+                    <span>Admin User Accounts</span>
+                </li>
+            </ul>
+
+            <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem;">
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openModal('switchRoleModal')">
+                    <i class="fa-solid fa-user-gear"></i> Switch Role
+                </button>
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center; color: var(--danger);" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout Session
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <div class="main-wrapper">
+            <!-- Top Navigation Header -->
+            <header class="top-header top-header-3d">
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <a href="index.html" class="btn btn-secondary btn-sm" style="text-decoration: none;">
+                        <i class="fa-solid fa-arrow-left"></i> Main Company Website
+                    </a>
+                    <div id="adminBadgeIndicator" class="badge badge-gold" style="font-size: 0.82rem; padding: 0.4rem 0.85rem;">
+                        <i class="fa-solid fa-shield-halved"></i> ADMIN FULL CONTROL
+                    </div>
+                    <button id="firebaseConfigBtn" class="badge" onclick="openFirebaseConfigModal()" style="font-size: 0.82rem; padding: 0.4rem 0.85rem; cursor: pointer; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #F59E0B;" title="Click to configure Firebase">
+                        <i class="fa-solid fa-cloud"></i> <span id="firebaseStatusText">Firebase: Local Fallback</span>
+                    </button>
+                </div>
+
+                <div class="user-profile-badge">
+                    <div id="userAvatar" class="user-avatar">RA</div>
+                    <div class="user-details">
+                        <div id="userNameDisplay" class="user-name">Revati Administrator</div>
+                        <div id="userRoleDisplay" class="user-role-tag">SYSTEM ADMINISTRATOR</div>
+                    </div>
+                    <button id="lockAdminBtn" class="btn btn-danger btn-sm" onclick="lockAdminPortal()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #EF4444; margin-left: 0.75rem; font-weight: 600;">
+                        <i class="fa-solid fa-lock"></i> Lock Portal
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content Body -->
+            <main class="content-body">
+                <!-- VIEW 1: DASHBOARD -->
+                <section id="view-dashboard" class="page-view active">
+                    <!-- Real-Time Operations Status Bar -->
+                    <div class="card-3d" style="display: flex; justify-content: space-between; align-items: center; background: rgba(212, 175, 55, 0.08); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.85rem 1.35rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 600; color: var(--gold-primary);">
+                            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10B981; box-shadow: 0 0 12px #10B981; animation: pulse 2s infinite;"></span>
+                            LIVE OPERATIONS: SYSTEM READY &bull; WAITING FOR CONTRACT & TASK INPUT
+                        </div>
+                        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                            <a href="estimator.html" class="btn btn-gold btn-sm btn-3d" style="text-decoration: none;"><i class="fa-solid fa-calculator"></i> + New Contract Quote</a>
+                            <button class="btn btn-primary btn-sm btn-3d rbac-task-create" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i> + Dispatch Task</button>
+                            <button class="btn btn-warning btn-sm btn-3d rbac-complaint-create" style="color: #000;" onclick="openModal('complaintModal')"><i class="fa-solid fa-triangle-exclamation"></i> + Lodge Ticket</button>
+                            <button class="btn btn-secondary btn-sm btn-3d rbac-admin-only" onclick="openModal('empModal')"><i class="fa-solid fa-user-plus"></i> + Add Client/Staff</button>
+                        </div>
+                    </div>
+
+                    <div class="banner-card card-3d">
+                        <div>
+                            <h1 class="banner-title" id="portalHeaderTitle">Enterprise Commercial Facility Command & Operations Platform</h1>
+                            <p class="banner-desc" id="portalHeaderDesc">Centralized real-time facility automation for commercial client contracts, housekeeping SLA quality audits, maintenance engineering tickets, and chemical inventory logistics.</p>
+                        </div>
+                    </div>
+
+                    <!-- Executive KPI Metrics Grid -->
+                    <div class="stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <span class="stat-value" id="statRevenue">₹ 0</span>
+                                <span class="stat-label">Monthly Contract Revenue</span>
+                            </div>
+                            <div class="stat-icon-wrapper stat-icon-emerald"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <span class="stat-value" id="statSlaScore">0.0% (No Data)</span>
+                                <span class="stat-label">Facility SLA Quality Score</span>
+                            </div>
+                            <div class="stat-icon-wrapper stat-icon-amber"><i class="fa-solid fa-award"></i></div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <span class="stat-value" id="statActiveEmps">0 Personnel</span>
+                                <span class="stat-label">Active Staff & Engineers</span>
+                            </div>
+                            <div class="stat-icon-wrapper stat-icon-blue"><i class="fa-solid fa-user-check"></i></div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <span class="stat-value" id="statCleaningTasks">0 Tasks</span>
+                                <span class="stat-label">Live Active Schedules</span>
+                            </div>
+                            <div class="stat-icon-wrapper stat-icon-emerald"><i class="fa-solid fa-broom"></i></div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <span class="stat-value" id="statOpenComplaints">0 Pending</span>
+                                <span class="stat-label">Maintenance Work Orders</span>
+                            </div>
+                            <div class="stat-icon-wrapper stat-icon-rose"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Commercial Sites Operations SLA Live Tracker Cards -->
+                    <div class="card-box" style="margin-top: 1.5rem;">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title"><i class="fa-solid fa-building" style="color: var(--gold-primary);"></i> Managed Commercial Facility Towers & SLA Compliance Tracker</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Live operational status, square footage, assigned site supervisors, and verified cleanliness ratings across corporate client towers.</p>
+                            </div>
+                            <a href="estimator.html" class="btn btn-secondary btn-sm" style="text-decoration: none;"><i class="fa-solid fa-plus"></i> Estimate New Tower</a>
+                        </div>
+                        <div id="siteCardsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 1rem;"></div>
+                    </div>
+
+                    <!-- Live Tasks & Maintenance Tables Grid -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;" class="form-grid">
+                        <div class="card-box">
+                            <div class="box-header">
+                                <h2 class="box-title"><i class="fa-solid fa-broom" style="color: var(--gold-primary);"></i> Active Housekeeping Tasks</h2>
+                                <button class="btn btn-secondary btn-sm" onclick="switchView('housekeeping')">View All</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Task Code</th>
+                                            <th>Area / Location</th>
+                                            <th>Assigned Specialist</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashTaskTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card-box">
+                            <div class="box-header">
+                                <h2 class="box-title"><i class="fa-solid fa-screwdriver-wrench" style="color: var(--warning);"></i> Maintenance Tickets</h2>
+                                <button class="btn btn-secondary btn-sm" onclick="switchView('maintenance')">View All</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ticket #</th>
+                                            <th>Equipment / System</th>
+                                            <th>Technician</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashComplaintTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW: ADMIN CONTROL PANEL -->
+                <section id="view-admin-panel" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-shield-halved"></i> Master Administrator Control Center</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Full CRUD controls, audit security logs, staff registration, and JWT token management.</p>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="btn btn-secondary btn-sm" onclick="switchView('dashboard')"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
+                                <button class="btn btn-primary" onclick="openModal('empModal')"><i class="fa-solid fa-user-plus"></i> Register Employee</button>
+                            </div>
+                        </div>
+
+                        <div class="stat-grid" style="margin-top: 1rem;">
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-value">JWT HS256</span>
+                                    <span class="stat-label">Token Encryption</span>
+                                </div>
+                                <div class="stat-icon-wrapper stat-icon-emerald"><i class="fa-solid fa-lock"></i></div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-value">Port 8080</span>
+                                    <span class="stat-label">REST API Backend</span>
+                                </div>
+                                <div class="stat-icon-wrapper stat-icon-blue"><i class="fa-solid fa-server"></i></div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-value">99.98%</span>
+                                    <span class="stat-label">System Uptime SLA</span>
+                                </div>
+                                <div class="stat-icon-wrapper stat-icon-amber"><i class="fa-solid fa-bolt"></i></div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <h3 class="box-title" style="margin-bottom: 1rem; font-size: 1rem;"><i class="fa-solid fa-list-check"></i> System Security & Action Audit Trail</h3>
+                            <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>User / Actor</th>
+                                            <th>Role</th>
+                                            <th>Action Executed</th>
+                                            <th>Security Protocol</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2026-08-08 19:30:12</td>
+                                            <td><strong>Revati Administrator</strong></td>
+                                            <td><span class="badge badge-gold">ADMIN</span></td>
+                                            <td>JWT Security Authentication Key Issued & Verified</td>
+                                            <td><span class="badge badge-completed">200 OK</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2026-08-08 19:00:00</td>
+                                            <td><strong>System Security Service</strong></td>
+                                            <td><span class="badge badge-info">SECURITY</span></td>
+                                            <td>REST API Endpoint Health Check & Data Sync Active</td>
+                                            <td><span class="badge badge-completed">200 OK</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: CLIENT ACCOUNTS & STAFF ROSTER -->
+                <section id="view-employees" class="page-view">
+                    <!-- Client Contracts Table Card -->
+                    <div class="card-box" style="margin-bottom: 1.5rem;">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-file-contract"></i> Active Commercial Client Contracts & Retainer Ledger</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Live corporate client agreements, facility square footage, fee pricing tiers, and monthly retainers.</p>
+                            </div>
+                            <a href="estimator.html" class="btn btn-gold btn-sm" style="text-decoration: none;"><i class="fa-solid fa-calculator"></i> + New Contract Quote</a>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Contract ID</th>
+                                        <th>Client Company</th>
+                                        <th>Location</th>
+                                        <th>Facility Area</th>
+                                        <th>Wings</th>
+                                        <th>Company Tier</th>
+                                        <th>Monthly Value</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contractsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title"><i class="fa-solid fa-users"></i> Staff & Engineering Roster Directory</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Manage housekeeping personnel, electrical leads, shift allocations, and efficiency ratings.</p>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="btn btn-success" onclick="openModal('attendanceModal')"><i class="fa-solid fa-clock"></i> Mark Attendance</button>
+                                <button class="btn btn-primary rbac-admin-only" onclick="openModal('empModal')"><i class="fa-solid fa-user-plus"></i> Register Staff (Admin)</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Emp Code</th>
+                                        <th>Full Name</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Shift</th>
+                                        <th>Contact</th>
+                                        <th>Performance Rating</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="empTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-box">
+                        <h2 class="box-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-calendar-check" style="color: var(--success);"></i> Today's Attendance Register</h2>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Emp Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Date</th>
+                                        <th>Clock-In</th>
+                                        <th>Clock-Out</th>
+                                        <th>Status</th>
+                                        <th>Hours Worked</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2B: DEDICATED EMPLOYEE ROSTER & WORK ASSIGNMENT DIRECTORY -->
+                <section id="view-staff-directory" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-users-gear"></i> Employee Roster & Work Assignment Manager</h2>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Administrator command panel to add new employee records, update employee info, assign work tasks, and remove staff members.</p>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="btn btn-primary rbac-admin-only" onclick="openModal('empModal')"><i class="fa-solid fa-user-plus"></i> + Add New Employee</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1.25rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Emp Code</th>
+                                        <th>Employee Name</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Shift Schedule</th>
+                                        <th>Contact Number</th>
+                                        <th>Work Assigned</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center;">Actions (Admin Control)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staffDirectoryTableBody">
+                                    <!-- Dynamically rendered via renderStaffDirectory() -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2B-2: STAFF LEAVES & OTP REGISTRATION DATA MANAGER -->
+                <section id="view-leaves" class="page-view">
+                    <div class="card-box" style="margin-bottom: 1.5rem;">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-umbrella-beach"></i> Staff Leave Applications & Approval Center</h2>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Review, approve, or reject employee leave requests and download official Excel logs.</p>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button class="btn btn-gold btn-sm" onclick="exportLeavesToExcel()"><i class="fa-solid fa-file-excel"></i> Export Leaves Excel</button>
+                                <button class="btn btn-secondary btn-sm" onclick="exportWorkersToExcel()"><i class="fa-solid fa-file-excel"></i> Export Workers Directory</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Emp Code</th>
+                                        <th>Staff Name</th>
+                                        <th>Leave Type</th>
+                                        <th>Date Range</th>
+                                        <th>Reason / Justification</th>
+                                        <th>Contact Phone</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center;">Admin Decision</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leavesAdminTableBody">
+                                    <!-- Rendered via renderLeaveApplications() -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-id-card"></i> Registered Worker Verified Information & Proof IDs</h2>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Permanent worker records including Proof of Nationality IDs, Educational Qualifications, and Residential Addresses.</p>
+                            </div>
+                            <button class="btn btn-gold btn-sm" onclick="exportWorkersToExcel()"><i class="fa-solid fa-file-excel"></i> Download Excel Sheet</button>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Emp Code</th>
+                                        <th>Full Legal Name</th>
+                                        <th>Nationality Proof</th>
+                                        <th>Identity Proof No</th>
+                                        <th>Educational Qualification</th>
+                                        <th>Special Skills</th>
+                                        <th>Residential Address</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center;">Admin Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="registeredWorkersTableBody">
+                                    <!-- Rendered via renderRegisteredWorkers() -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2C: MANAGEMENT & LEADERSHIP HIERARCHY -->
+                <section id="view-org-hierarchy" class="page-view">
+                    <div class="card-box" style="margin-bottom: 1.5rem;">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-sitemap"></i> Management & Organizational Leadership Chart</h2>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Executive leadership tree, management reporting hierarchy, and department heads for Revati Enterprises.</p>
+                            </div>
+                            <button class="btn btn-primary rbac-admin-only" onclick="openOrgModal()"><i class="fa-solid fa-user-plus"></i> + Add Executive / Manager</button>
+                        </div>
+
+                        <!-- VISUAL ORGANIZATIONAL HIERARCHY TREE -->
+                        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding: 1.5rem; background: rgba(10, 15, 26, 0.6); border: 1px solid var(--border-color); border-radius: 12px;" id="visualOrgChartContainer">
+                            <!-- Dynamically rendered visual tree chart -->
+                        </div>
+                    </div>
+
+                    <div class="card-box">
+                        <h3 class="box-title" style="margin-bottom: 1rem;"><i class="fa-solid fa-users-viewfinder"></i> Management Staff Roster & Roles Table</h3>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Executive Name</th>
+                                        <th>Designation / Role</th>
+                                        <th>Department</th>
+                                        <th>Contact Email</th>
+                                        <th>Phone Number</th>
+                                        <th style="text-align: center;" class="rbac-admin-only">Admin Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orgHierarchyTableBody">
+                                    <!-- Dynamically rendered via renderOrgHierarchy() -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: HOUSEKEEPING TASKS -->
+                <section id="view-housekeeping" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" id="taskViewTitle">Housekeeping Task Schedules & Area Assignments</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;" id="taskViewDesc">Assign room cleaning tasks, set cleaning schedules, and inspect completed work.</p>
+                            </div>
+                            <button class="btn btn-primary rbac-task-create" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i> Add Cleaning Task</button>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Task Code</th>
+                                        <th>Task Description</th>
+                                        <th>Area / Room</th>
+                                        <th>Assigned Staff</th>
+                                        <th>Frequency</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Inspected By</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="taskTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: MAINTENANCE TICKETS -->
+                <section id="view-maintenance" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" id="mntViewTitle">Maintenance Complaint Registration & Equipment Repair</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Lodge repair tickets for Electrical, Plumbing, HVAC, Elevators, Furniture.</p>
+                            </div>
+                            <button class="btn btn-primary rbac-complaint-create" onclick="openModal('complaintModal')"><i class="fa-solid fa-triangle-exclamation"></i> Lodge Maintenance Ticket</button>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ticket #</th>
+                                        <th>Issue Summary</th>
+                                        <th>Category</th>
+                                        <th>Location</th>
+                                        <th>Reported By</th>
+                                        <th>Technician</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Resolution Details</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="complaintTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: INVENTORY STOCK -->
+                <section id="view-inventory" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title">Chemicals & Sanitation Material Inventory</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Track floor cleaning chemicals, microfibers, auto-scrubber parts, and reorder levels.</p>
+                            </div>
+                            <button class="btn btn-primary rbac-inventory-create" onclick="openModal('inventoryModal')"><i class="fa-solid fa-box"></i> Add Inventory Item</button>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>Category</th>
+                                        <th>Stock Qty</th>
+                                        <th>Unit Cost</th>
+                                        <th>Status</th>
+                                        <th>Supplier</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 6: REPORTS -->
+                <section id="view-reports" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title">Operations Audit & Management Analytics Reports</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">Download compliance audit summaries, SLA performance, and staff metrics.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Report ID</th>
+                                        <th>Report Title</th>
+                                        <th>Type</th>
+                                        <th>Generated Date</th>
+                                        <th>Tasks Done</th>
+                                        <th>Tickets Resolved</th>
+                                        <th>Attendance Rate</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 7: USERS MANAGEMENT (ADMIN) -->
+                <section id="view-users" class="page-view">
+                    <div class="card-box">
+                        <div class="box-header">
+                            <div>
+                                <h2 class="box-title" style="color: var(--gold-primary);"><i class="fa-solid fa-user-lock"></i> User Access & Authentication Directory</h2>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">System credentials database, roles, and authorization keys.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="margin-top: 1rem;">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Full Name</th>
+                                        <th>Username</th>
+                                        <th>System Role</th>
+                                        <th>Email Address</th>
+                                        <th>Contact Phone</th>
+                                        <th>Access Level</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- MODAL: LOGIN -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-container" style="max-width: 440px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> Admin JWT Secure Login</h3>
+                <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Enter username (e.g. admin)" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter password (e.g. admin123)" required>
+                </div>
+                <div id="loginError" style="color: var(--danger); font-size: 0.85rem; margin-bottom: 1rem; display: none;"></div>
+
+                <div style="background: rgba(18, 24, 38, 0.8); border: 1px solid var(--border-color); padding: 0.75rem; border-radius: 8px; margin-bottom: 1.25rem;">
+                    <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase;">SELECT PORTAL ROLE DEMO:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <button type="button" class="btn btn-gold btn-sm" onclick="setDemoCredentials('admin', 'admin123')"><i class="fa-solid fa-user-shield"></i> Company Admin</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="setDemoCredentials('manager', 'mgmt123')"><i class="fa-solid fa-user-tie"></i> Facility Client</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
+                    <button type="submit" class="btn btn-gold"><i class="fa-solid fa-key"></i> Authenticate & Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SWITCH ROLE -->
+    <div id="switchRoleModal" class="modal-overlay">
+        <div class="modal-container" style="max-width: 460px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Switch Active Portal Access Mode</h3>
+                <button class="close-modal" onclick="closeModal('switchRoleModal')">&times;</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+                <button class="btn btn-secondary" style="justify-content: space-between; padding: 0.85rem 1rem;" onclick="switchRoleDemo('ADMIN')">
+                    <span><i class="fa-solid fa-user-shield" style="color: var(--gold-primary); margin-right: 0.5rem;"></i> Company Administrator</span>
+                    <span class="badge badge-gold">Full Admin Control</span>
+                </button>
+                <button class="btn btn-secondary" style="justify-content: space-between; padding: 0.85rem 1rem;" onclick="switchRoleDemo('MANAGEMENT')">
+                    <span><i class="fa-solid fa-user-tie" style="color: #60A5FA; margin-right: 0.5rem;"></i> Client & Facility Customer</span>
+                    <span class="badge badge-info">Client Portal View</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER EMPLOYEE -->
+    <div id="empModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Register New Employee (Revati Enterprises)</h3>
+                <button class="close-modal" onclick="closeModal('empModal')">&times;</button>
+            </div>
+            <form id="empForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Employee Name *</label>
+                        <input type="text" id="empName" class="form-control" placeholder="Enter Employee Name" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select id="empDept" class="form-control">
+                            <option value="Housekeeping">Housekeeping</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" id="empDesignation" class="form-control" placeholder="e.g. Housekeeper / Technician">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="text" id="empContact" class="form-control" placeholder="+91 9769930626">
+                    </div>
+                    <div class="form-group">
+                        <label>Joining Date</label>
+                        <input type="date" id="empJoining" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Shift Schedule</label>
+                        <select id="empShift" class="form-control">
+                            <option value="Morning (07:00 - 15:30)">Morning (07:00 - 15:30)</option>
+                            <option value="Evening (15:00 - 23:30)">Evening (15:00 - 23:30)</option>
+                            <option value="General (09:00 - 17:30)">General (09:00 - 17:30)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('empModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEmployeeForm(event)"><i class="fa-solid fa-floppy-disk"></i> Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD TASK -->
+    <div id="taskModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Create & Assign Cleaning Task</h3>
+                <button class="close-modal" onclick="closeModal('taskModal')">&times;</button>
+            </div>
+            <form id="taskForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Task Title / Work Description</label>
+                        <input type="text" id="taskTitle" class="form-control" placeholder="e.g. Lobby Marble Polishing" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location / Area</label>
+                        <input type="text" id="taskArea" class="form-control" placeholder="e.g. 2nd Floor West Wing" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Worker Name (Type Name)</label>
+                        <input type="text" id="taskAssignee" class="form-control" placeholder="Enter worker name..." value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Frequency</label>
+                        <select id="taskFreq" class="form-control">
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority Level</label>
+                        <select id="taskPriority" class="form-control">
+                            <option value="High">High Priority</option>
+                            <option value="Medium">Medium Priority</option>
+                            <option value="Low">Low Priority</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Special Instructions / Notes</label>
+                        <textarea id="taskNotes" class="form-control" rows="2" placeholder="e.g. Use pH-neutral floor sanitizers"></textarea>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('taskModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Dispatch Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: LODGE COMPLAINT / MAINTENANCE TICKET -->
+    <div id="complaintModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Lodge Maintenance Ticket</h3>
+                <button class="close-modal" onclick="closeModal('complaintModal')">&times;</button>
+            </div>
+            <form id="complaintForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Issue Title</label>
+                        <input type="text" id="cmpTitle" class="form-control" placeholder="e.g. AHU Fan Blower Noise" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="cmpCat" class="form-control">
+                            <option value="HVAC">HVAC & Air Conditioning</option>
+                            <option value="Plumbing">Plumbing & Water Supply</option>
+                            <option value="Electrical">Electrical & DB Boxes</option>
+                            <option value="Elevators">Elevator & Escalator</option>
+                            <option value="Carpentry">Carpentry & Hardware</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location / Room</label>
+                        <input type="text" id="cmpLoc" class="form-control" placeholder="e.g. Server Room 3B" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Assign Technician / Worker Name</label>
+                        <input type="text" id="cmpTech" class="form-control" placeholder="Enter worker name..." value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency Level</label>
+                        <select id="cmpPriority" class="form-control">
+                            <option value="Urgent">Urgent Breakdown</option>
+                            <option value="High">High Priority</option>
+                            <option value="Medium">Standard Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Detailed Description</label>
+                        <textarea id="cmpDesc" class="form-control" rows="2" placeholder="Describe defect or breakdown symptoms..."></textarea>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('complaintModal')">Cancel</button>
+                    <button type="submit" class="btn btn-warning" style="color: #000;">Lodge Ticket</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD INVENTORY ITEM -->
+    <div id="inventoryModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Stock Inventory Item</h3>
+                <button class="close-modal" onclick="closeModal('inventoryModal')">&times;</button>
+            </div>
+            <form id="invForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Item Name</label>
+                        <input type="text" id="invName" class="form-control" placeholder="e.g. Hospital Disinfectant 5L" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="invCat" class="form-control">
+                            <option value="Chemicals">Chemicals</option>
+                            <option value="Supplies">Supplies</option>
+                            <option value="Equipment Parts">Equipment Parts</option>
+                            <option value="Disposables">Disposables</option>
+                            <option value="Hygiene">Hygiene</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" id="invQty" class="form-control" placeholder="e.g. 50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit (e.g. Cans, Packs, Rolls)</label>
+                        <input type="text" id="invUnit" class="form-control" placeholder="e.g. Packs" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Cost (₹)</label>
+                        <input type="number" id="invCost" class="form-control" placeholder="e.g. 350" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Reorder Threshold Qty</label>
+                        <input type="number" id="invReorder" class="form-control" placeholder="e.g. 10" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Supplier Name</label>
+                        <input type="text" id="invSupplier" class="form-control" placeholder="e.g. CleanChem Supplies">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('inventoryModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: MARK ATTENDANCE -->
+    <div id="attendanceModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Mark Employee Attendance</h3>
+                <button class="close-modal" onclick="closeModal('attendanceModal')">&times;</button>
+            </div>
+            <form id="attForm">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Select Employee</label>
+                        <select id="attEmpSelect" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Clock-In Time</label>
+                        <input type="text" id="attClockIn" class="form-control" value="08:30 AM" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Clock-Out Time</label>
+                        <input type="text" id="attClockOut" class="form-control" value="05:30 PM">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Status</label>
+                        <select id="attStatus" class="form-control">
+                            <option value="Present">Present</option>
+                            <option value="Late">Late</option>
+                            <option value="On Leave">On Leave</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('attendanceModal')">Cancel</button>
+                    <button type="submit" class="btn btn-success">Record Attendance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD / EDIT ORG MEMBER -->
+    <div id="orgMemberModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="orgModalTitle">Add Leadership / Management Member</h3>
+                <button class="close-modal" onclick="closeModal('orgMemberModal')">&times;</button>
+            </div>
+            <form id="orgMemberForm" onsubmit="saveOrgMemberForm(event)">
+                <input type="hidden" id="orgMemberId" value="">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="orgMemberName" class="form-control" placeholder="e.g. Mihir R. Kadam" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Designation / Role Title *</label>
+                        <input type="text" id="orgMemberRole" class="form-control" placeholder="e.g. Owner / Managing Director" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" id="orgMemberDept" class="form-control" placeholder="e.g. Executive Board">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="orgMemberEmail" class="form-control" placeholder="e.g. director@revatienterprises.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Phone</label>
+                        <input type="text" id="orgMemberPhone" class="form-control" placeholder="e.g. +91 9769930626">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('orgMemberModal')">Cancel</button>
+                    <button type="submit" class="btn btn-gold"><i class="fa-solid fa-floppy-disk"></i> Save Executive Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MANDATORY ADMIN SECURITY ACCESS LOCK OVERLAY -->
+    <div id="securityAuthOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 7, 12, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 1.5rem; perspective: 1200px;">
+        <img src="images/logo.png" alt="Security Lock Watermark" class="security-lock-watermark">
+        <div class="card-3d modal-3d" style="padding: 2.5rem; max-width: 460px; width: 100%; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 70px; height: 70px; background: rgba(212, 175, 55, 0.15); border: 2px solid var(--gold-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 2rem; color: var(--gold-primary);">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 0.35rem; font-family: var(--font-heading);">ADMIN PORTAL SECURITY LOCK</h2>
+            <p style="color: var(--text-muted); font-size: 0.86rem; margin-bottom: 1.5rem;">REVATI ENTERPRISES ENTERPRISE COMMAND CENTER<br><span style="color: var(--gold-primary); font-weight: 600;">Enter Security Password Key to Unlock</span></p>
+
+            <form id="securityAuthForm">
+                <div class="form-group" style="text-align: left; margin-bottom: 1.25rem; position: relative;">
+                    <label style="font-size: 0.8rem; font-weight: 700; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 0.5px;">SECURITY ACCESS PASSWORD</label>
+                    <div style="position: relative; margin-top: 0.35rem;">
+                        <input type="password" id="adminSecretKeyInput" class="form-control" placeholder="Enter Security Password..." style="padding-right: 45px; background: rgba(255,255,255,0.06); border: 1px solid var(--gold-primary); color: #fff; font-size: 1.05rem;" required autofocus>
+                        <button type="button" onclick="togglePassVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem;">
+                            <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="secAuthError" style="display: none; color: #EF4444; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 0.6rem 0.85rem; border-radius: 6px; font-size: 0.82rem; margin-bottom: 1.25rem; text-align: left;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Incorrect Security Password! Access Denied.
+                </div>
+                <button type="submit" class="btn btn-gold" style="width: 100%; padding: 0.85rem; font-size: 1.05rem; font-weight: 700; justify-content: center;">
+                    <i class="fa-solid fa-lock-open"></i> UNLOCK ADMIN PORTAL
+                </button>
+            </form>
+            <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.82rem; display: inline-block; margin-top: 1.5rem;">
+                <i class="fa-solid fa-arrow-left"></i> Return to Revati Main Website
+            </a>
+        </div>
+    </div>
+
+    <!-- FIREBASE CONFIGURATION MODAL -->
+    <div id="firebaseConfigModal" class="modal-overlay">
+        <div class="modal-container" style="max-width: 580px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-cloud" style="color: #F59E0B;"></i> Firebase Cloud Firestore Configuration</h3>
+                <button class="close-modal" onclick="closeModal('firebaseConfigModal')">&times;</button>
+            </div>
+            <form id="firebaseConfigForm" onsubmit="saveFirebaseConfig(event)">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    Enter your Google Firebase Web App credentials to connect Cloud Firestore for real-time database sync across devices.
+                </p>
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>API Key *</label>
+                        <input type="text" id="fbApiKey" class="form-control" placeholder="e.g. AIzaSy..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Project ID *</label>
+                        <input type="text" id="fbProjectId" class="form-control" placeholder="e.g. revati-enterprises-db" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Auth Domain *</label>
+                        <input type="text" id="fbAuthDomain" class="form-control" placeholder="e.g. revati-enterprises-db.firebaseapp.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Storage Bucket</label>
+                        <input type="text" id="fbStorageBucket" class="form-control" placeholder="e.g. revati-enterprises-db.firebasestorage.app">
+                    </div>
+                    <div class="form-group">
+                        <label>App ID</label>
+                        <input type="text" id="fbAppId" class="form-control" placeholder="e.g. 1:123456789:web:abcdef">
+                    </div>
+                </div>
+                <div id="fbConfigStatus" style="display: none; padding: 0.75rem; border-radius: 8px; font-size: 0.85rem; margin-top: 1rem;"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="clearFirebaseConfig()">
+                        <i class="fa-solid fa-trash"></i> Reset (Use Fallback)
+                    </button>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('firebaseConfigModal')">Cancel</button>
+                        <button type="submit" class="btn btn-gold"><i class="fa-solid fa-plug"></i> Connect Firebase</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) caches.delete(name);
+            });
+        }
+    </script>
+    <script src="js/mockData.js?v=999"></script>
+    <!-- Firebase SDK v10 Scripts (Compat Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-service.js?v=999"></script>
+    <script src="js/api.js?v=999"></script>
+    <script src="js/excelExporter.js?v=999"></script>
+    <script src="js/app.js?v=999"></script>
+    <script src="js/scroll3d.js"></script>
+</body>
+</html>

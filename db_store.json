@@ -1,0 +1,96 @@
+{
+  "employees": [
+    {
+      "id": 88752,
+      "empCode": "REV-001",
+      "name": "YASH.SAWANT",
+      "department": "Maintenance",
+      "designation": "TECH",
+      "contact": "9087865242",
+      "joiningDate": "2026-08-13",
+      "shift": "Morning (07:00 - 15:30)",
+      "status": "Active",
+      "efficiency": 98
+    }
+  ],
+  "attendance": [
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "11:44 PM",
+      "timeOut": "11:45 PM",
+      "location": "Client Site GPS",
+      "status": "Completed",
+      "id": 1413,
+      "date": "2026-08-15"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "11:44 PM",
+      "timeOut": "Active Shift",
+      "location": "Client Site GPS",
+      "status": "Present",
+      "id": 96875,
+      "date": "2026-08-15"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "03:22 PM",
+      "timeOut": "03:23 PM",
+      "location": "Client Site GPS",
+      "status": "Completed",
+      "id": 81683,
+      "date": "2026-08-13"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "03:22 PM",
+      "timeOut": "Active Shift",
+      "location": "Client Site GPS",
+      "status": "Present",
+      "id": 77024,
+      "date": "2026-08-13"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "01:38 AM",
+      "timeOut": "01:38 AM",
+      "location": "Client Site GPS",
+      "status": "Completed",
+      "id": 34077,
+      "date": "2026-08-11"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "01:38 AM",
+      "timeOut": "Active Shift",
+      "location": "Client Site GPS",
+      "status": "Present",
+      "id": 16365,
+      "date": "2026-08-11"
+    }
+  ],
+  "tasks": [
+    {
+      "title": "TULIP'S",
+      "area": "1ST",
+      "assignedTo": "YASH",
+      "frequency": "Weekly",
+      "priority": "High",
+      "notes": "FHFJNFYXJ",
+      "id": 58757,
+      "taskCode": "REV-HK101",
+      "status": "Completed",
+      "date": "2026-08-15",
+      "inspectedBy": "Revati Administrator"
+    }
+  ],
+  "complaints": [],
+  "inventory": [],
+  "leaves": []
+}

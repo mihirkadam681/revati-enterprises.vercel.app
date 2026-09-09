@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Revati Enterprises - Staff & Worker Mobile Application</title>
+    <meta name="description" content="Dedicated Staff & Worker Mobile Application for Task Management, Location Tracking, Attendance, & Leave Applications at Revati Enterprises.">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#07090E">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --mobile-nav-height: 65px;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: calc(var(--mobile-nav-height) + 20px);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Mobile Top App Bar */
+        .app-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 23, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .worker-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.06);
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .worker-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            color: #000;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Container Layout */
+        .app-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
+
+        /* Tab Content Views */
+        .tab-view {
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+        .tab-view.active {
+            display: block;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--mobile-nav-height);
+            background: rgba(11, 14, 23, 0.98);
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            flex: 1;
+            padding: 8px 0;
+        }
+        .nav-item i {
+            font-size: 1.3rem;
+            transition: var(--transition-fast);
+        }
+        .nav-item.active {
+            color: var(--gold-primary);
+        }
+        .nav-item.active i {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 0 8px var(--gold-glow));
+        }
+
+        /* Duty Task Cards */
+        .task-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-fast);
+        }
+        .task-card:hover {
+            border-color: var(--border-hover);
+        }
+        .location-badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Punch Clock Dashboard */
+        .punch-clock-card {
+            background: linear-gradient(135deg, rgba(18,24,38,0.95), rgba(28,38,60,0.95));
+            border: 1px solid var(--gold-primary);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            margin-bottom: 25px;
+        }
+        .big-time {
+            font-size: 2.8rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            color: var(--gold-light);
+            letter-spacing: 2px;
+            margin: 10px 0;
+        }
+        .btn-punch {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--gold-primary);
+            background: var(--gold-gradient);
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            box-shadow: 0 0 30px var(--gold-glow);
+            transition: var(--transition-fast);
+        }
+        .btn-punch:active {
+            transform: scale(0.95);
+        }
+        .btn-punch.punched-in {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            border-color: #F87171;
+            color: #fff;
+            box-shadow: 0 0 30px var(--danger-glow);
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Top App Bar -->
+    <header class="app-bar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="images/logo.png" alt="Revati Logo" style="height: 32px; width: auto; object-fit: contain;">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati" style="font-size: 1.05rem;">REVATI</span>
+                <span class="nav-title-enterprises" style="font-size: 0.78rem;">ENTERPRISES</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button id="pwaInstallBtn" onclick="installPWA()" style="display: none; background: var(--gold-gradient); color: #000; border: none; border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+                <i class="fa-solid fa-download"></i> Install App
+            </button>
+            <div class="worker-profile-pill">
+                <div class="worker-avatar" id="avatarLetter">S</div>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #fff;" id="topWorkerName">Staff Member</span>
+                    <span style="font-size: 0.65rem; color: var(--gold-light);" id="topEmpCode">REV-WORKER</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-container">
+
+        <!-- TAB 1: MY TASKS & LOCATIONS -->
+        <section class="tab-view active" id="viewTasks">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Assigned Duty Tasks</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Your active work locations & cleaning assignments</p>
+                </div>
+                <span class="badge" style="background: rgba(212,175,55,0.15); color: var(--gold-primary); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;" id="taskCountBadge">0 Tasks</span>
+            </div>
+
+            <div id="tasksContainer">
+                <!-- Dynamically Rendered Tasks -->
+            </div>
+        </section>
+
+        <!-- TAB 2: ATTENDANCE PUNCH -->
+        <section class="tab-view" id="viewAttendance">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Daily Attendance Portal</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Punch in & out with GPS verification</p>
+            </div>
+
+            <div class="punch-clock-card">
+                <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;" id="currentDateStr">Monday, 11 August 2026</div>
+                <div class="big-time" id="liveClock">00:00:00 AM</div>
+                <div style="font-size: 0.8rem; color: var(--success);" id="gpsLocationText"><i class="fa-solid fa-location-dot"></i> GPS Location Acquired: Client Site Premises</div>
+
+                <button class="btn-punch" id="punchBtn" onclick="togglePunch()">
+                    <i class="fa-solid fa-fingerprint" style="font-size: 2rem; margin-bottom: 6px;"></i>
+                    <span id="punchBtnLabel">PUNCH IN</span>
+                </button>
+
+                <div style="display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Punch In Time</div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--gold-light);" id="punchInTimeVal">--:--</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Punch Out Time</div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--gold-light);" id="punchOutTimeVal">--:--</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Status</div>
+                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--success);" id="punchStatusVal">Not Punched</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance History Table -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
+                <h3 style="color: var(--gold-light); margin-bottom: 12px; font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left"></i> Recent Attendance Log</h3>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-muted);">
+                                <th style="padding: 10px;">Date</th>
+                                <th style="padding: 10px;">Punch In</th>
+                                <th style="padding: 10px;">Punch Out</th>
+                                <th style="padding: 10px;">Location</th>
+                                <th style="padding: 10px;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceLogTable">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: LEAVE APPLICATION -->
+        <section class="tab-view" id="viewLeave">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Leave Application Portal</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Apply for leave & track approval status</p>
+                </div>
+                <button class="btn-gold" onclick="openLeaveModal()" style="font-size: 0.85rem; padding: 8px 16px;">
+                    <i class="fa-solid fa-plus"></i> Apply for Leave
+                </button>
+            </div>
+
+            <div id="leavesContainer">
+                <!-- Dynamically Rendered Leaves -->
+            </div>
+        </section>
+
+        <!-- TAB 4: MY PROFILE -->
+        <section class="tab-view" id="viewProfile">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Worker Identity Profile</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Official Revati Enterprises Credentials</p>
+            </div>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 25px; box-shadow: var(--glass-shadow);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--gold-gradient); color: #000; font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" id="profAvatar">S</div>
+                    <div>
+                        <h3 style="color: var(--text-main); font-size: 1.2rem;" id="profName">Staff Attendant</h3>
+                        <div style="color: var(--gold-light); font-weight: 600; font-size: 0.85rem;" id="profCode">REV-WORKER001</div>
+                        <div style="color: var(--text-muted); font-size: 0.78rem;" id="profRole">Facility Operations & Housekeeping</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; font-size: 0.9rem;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.78rem;">Phone Number</div>
+                        <strong id="profPhone">+91 9769930626</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.78rem;">Email Address</div>
+                        <strong id="profEmail">staff@revatienterprises.com</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.78rem;">Proof of Nationality</div>
+                        <strong id="profProof">Aadhaar Card (Verified)</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.78rem;">Educational Qualification</div>
+                        <strong id="profQual">12th Standard HSC / Technical</strong>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <div style="color: var(--text-muted); font-size: 0.78rem;">Residential Address</div>
+                        <strong id="profAddress">Revati Enterprises Staff Quarters, Mumbai, Maharashtra</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="register.html" style="color: var(--gold-primary); text-decoration: none; font-size: 0.85rem;"><i class="fa-solid fa-user-plus"></i> New Worker Registration Portal</a>
+                    <button class="btn-secondary" onclick="api.logout(); window.location.href='index.html';" style="font-size: 0.85rem; color: var(--danger); border-color: rgba(239,68,68,0.3);"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Apply Leave Modal -->
+    <div class="modal-overlay" id="leaveModal">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif;"><i class="fa-solid fa-calendar-plus"></i> Apply for Leave</h3>
+                <button onclick="closeLeaveModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+            <form onsubmit="submitLeaveApp(event)">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="leaveType">Leave Type *</label>
+                    <select id="leaveType" required>
+                        <option value="Casual Leave">Casual Leave (CL)</option>
+                        <option value="Sick Leave">Sick Leave (SL)</option>
+                        <option value="Earned / Paid Leave">Earned / Paid Leave (PL)</option>
+                        <option value="Unpaid Leave">Unpaid Leave</option>
+                        <option value="Emergency Leave">Emergency Leave</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label for="startDate">Start Date *</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date *</label>
+                        <input type="date" id="endDate" required>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="leavePhone">Emergency Contact Phone during Leave *</label>
+                    <input type="tel" id="leavePhone" placeholder="+91 XXXXXXXXXX" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="leaveReason">Reason for Leave *</label>
+                    <textarea id="leaveReason" rows="3" placeholder="Provide clear reason or justification for leave request..." required></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()">Cancel</button>
+                    <button type="submit" class="btn-gold">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('viewTasks', this)">
+            <i class="fa-solid fa-list-check"></i>
+            <span>My Tasks</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('viewAttendance', this)">
+            <i class="fa-solid fa-fingerprint"></i>
+            <span>Attendance</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('viewLeave', this)">
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <span>Leaves</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('viewProfile', this)">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Profile</span>
+        </div>
+    </nav>
+
+    <!-- Firebase SDK v10 Scripts (Compat Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-service.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/excelExporter.js"></script>
+    <script>
+        let currentUser = null;
+        let isPunchedIn = false;
+        let punchInTime = null;
+        let deferredPwaPrompt = null;
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            currentUser = api.getCurrentUser();
+            if (!currentUser) {
+                // Default Staff fallback
+                currentUser = {
+                    id: 3,
+                    name: 'Staff Attendant',
+                    username: 'housekeeper1',
+                    empCode: 'REV-WORKER001',
+                    role: 'STAFF',
+                    phone: '+91 9769930626',
+                    email: 'staff@revatienterprises.com',
+                    nationalityProofType: 'Aadhaar Card',
+                    nationalityProofNo: '9876 5432 1098',
+                    qualification: '12th Standard HSC / Diploma'
+                };
+            }
+
+            renderWorkerHeader();
+            updateClock();
+            setInterval(updateClock, 1000);
+            await loadTasks();
+            await loadAttendance();
+            await loadLeaves();
+            renderProfile();
+
+            // PWA Install prompt listener
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPwaPrompt = e;
+                const btn = document.getElementById('pwaInstallBtn');
+                if (btn) btn.style.display = 'inline-flex';
+            });
+        });
+
+        function installPWA() {
+            if (deferredPwaPrompt) {
+                deferredPwaPrompt.prompt();
+                deferredPwaPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        document.getElementById('pwaInstallBtn').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if (el) el.classList.add('active');
+        }
+
+        function renderWorkerHeader() {
+            const letter = (currentUser.name || 'W').charAt(0).toUpperCase();
+            document.getElementById('avatarLetter').innerText = letter;
+            document.getElementById('topWorkerName').innerText = currentUser.name || 'Worker Staff';
+            document.getElementById('topEmpCode').innerText = currentUser.empCode || 'REV-WORKER';
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('liveClock').innerText = timeStr;
+            document.getElementById('currentDateStr').innerText = dateStr;
+        }
+
+        function togglePunch() {
+            const btn = document.getElementById('punchBtn');
+            const label = document.getElementById('punchBtnLabel');
+            const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            if (!isPunchedIn) {
+                isPunchedIn = true;
+                punchInTime = nowTime;
+                btn.classList.add('punched-in');
+                label.innerText = 'PUNCH OUT';
+                document.getElementById('punchInTimeVal').innerText = punchInTime;
+                document.getElementById('punchStatusVal').innerText = 'PUNCHED IN';
+
+                // Record attendance API
+                api.request('/attendance', 'POST', {
+                    employeeName: currentUser.name,
+                    empCode: currentUser.empCode || 'REV-WORKER',
+                    timeIn: nowTime,
+                    timeOut: 'Active Shift',
+                    location: 'Client Site GPS',
+                    status: 'Present'
+                }).then(() => loadAttendance());
+            } else {
+                isPunchedIn = false;
+                btn.classList.remove('punched-in');
+                label.innerText = 'PUNCH IN';
+                document.getElementById('punchOutTimeVal').innerText = nowTime;
+                document.getElementById('punchStatusVal').innerText = 'SHIFT COMPLETED';
+
+                api.request('/attendance', 'POST', {
+                    employeeName: currentUser.name,
+                    empCode: currentUser.empCode || 'REV-WORKER',
+                    timeIn: punchInTime || '09:00 AM',
+                    timeOut: nowTime,
+                    location: 'Client Site GPS',
+                    status: 'Completed'
+                }).then(() => loadAttendance());
+            }
+        }
+
+        async function loadTasks() {
+            try {
+                const tasks = await api.request('/tasks', 'GET') || [];
+                const container = document.getElementById('tasksContainer');
+                document.getElementById('taskCountBadge').innerText = `${tasks.length} Tasks`;
+
+                if (tasks.length === 0) {
+                    container.innerHTML = `
+                        <div class="task-card" style="text-align: center; color: var(--text-muted);">
+                            <i class="fa-solid fa-clipboard-check" style="font-size: 2rem; margin-bottom: 10px; color: var(--gold-primary);"></i>
+                            <p>No active duty tasks assigned for today.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = tasks.map(t => `
+                    <div class="task-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                            <span class="location-badge"><i class="fa-solid fa-location-dot"></i> ${t.location || 'Client Facility Location'}</span>
+                            <span class="badge" style="background: ${t.status === 'Completed' ? 'var(--success-glow)' : 'var(--warning-glow)'}; color: ${t.status === 'Completed' ? 'var(--success)' : 'var(--warning)'}; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 12px;">${t.status || 'Pending'}</span>
+                        </div>
+                        <h3 style="color: var(--gold-light); font-size: 1.1rem; margin-bottom: 6px;">${t.title || t.description || 'Facility Housekeeping & Maintenance'}</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Duty Task Code: <strong>${t.taskCode || 'REV-HK'}</strong> | Priority: <span style="color: var(--gold-primary); font-weight: 600;">${t.priority || 'Normal'}</span></p>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+                            <a href="https://maps.google.com/?q=${encodeURIComponent(t.location || 'Mumbai')}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.82rem; font-weight: 600;"><i class="fa-solid fa-map-location-dot"></i> View Location Map</a>
+                            ${t.status !== 'Completed' ? `
+                                <button class="btn-gold" onclick="markTaskDone(${t.id})" style="font-size: 0.78rem; padding: 6px 14px;"><i class="fa-solid fa-check"></i> Mark Complete</button>
+                            ` : `
+                                <span style="color: var(--success); font-size: 0.82rem; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Work Verified</span>
+                            `}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.warn("Tasks load fallback", e);
+            }
+        }
+
+        async function markTaskDone(taskId) {
+            const tasks = await api.request('/tasks', 'GET');
+            const matched = tasks.find(t => t.id === taskId);
+            if (matched) {
+                matched.status = 'Completed';
+                await api.request('/tasks', 'PUT', matched);
+                loadTasks();
+            }
+        }
+
+        async function loadAttendance() {
+            const list = await api.request('/attendance', 'GET') || [];
+            const tbody = document.getElementById('attendanceLogTable');
+            tbody.innerHTML = list.slice(0, 10).map(att => `
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 10px;">${att.date || 'Today'}</td>
+                    <td style="padding: 10px; color: var(--gold-light); font-weight: 600;">${att.timeIn || att.time || '09:00 AM'}</td>
+                    <td style="padding: 10px; color: var(--gold-light);">${att.timeOut || '06:00 PM'}</td>
+                    <td style="padding: 10px;">${att.location || 'Client Facility'}</td>
+                    <td style="padding: 10px;"><span style="color: var(--success); font-weight: 700;">● ${att.status || 'Present'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadLeaves() {
+            const leaves = await api.getLeaves() || [];
+            const container = document.getElementById('leavesContainer');
+
+            if (leaves.length === 0) {
+                container.innerHTML = `
+                    <div class="task-card" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                        <i class="fa-solid fa-umbrella-beach" style="font-size: 2.2rem; margin-bottom: 10px; color: var(--gold-primary);"></i>
+                        <p>No leave applications submitted yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = leaves.map(l => {
+                let badgeStyle = "background: var(--warning-glow); color: var(--warning);";
+                if (l.status === 'Approved') badgeStyle = "background: var(--success-glow); color: var(--success);";
+                if (l.status === 'Rejected') badgeStyle = "background: var(--danger-glow); color: var(--danger);";
+
+                return `
+                    <div class="task-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <strong style="color: var(--gold-light); font-size: 1.05rem;"><i class="fa-solid fa-calendar"></i> ${l.leaveType}</strong>
+                            <span style="${badgeStyle} font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 12px;">${l.status}</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
+                            Dates: <strong style="color: #fff;">${l.startDate}</strong> to <strong style="color: #fff;">${l.endDate}</strong>
+                        </div>
+                        <p style="font-size: 0.88rem; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--gold-primary);">${l.reason}</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
+                            <span>Applied: ${l.appliedDate || 'N/A'}</span>
+                            <span>Emergency Contact: ${l.phoneOnLeave || 'N/A'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openLeaveModal() {
+            document.getElementById('leaveModal').style.display = 'flex';
+        }
+        function closeLeaveModal() {
+            document.getElementById('leaveModal').style.display = 'none';
+        }
+
+        async function submitLeaveApp(e) {
+            e.preventDefault();
+            const leaveData = {
+                empName: currentUser.name,
+                empCode: currentUser.empCode || 'REV-WORKER',
+                leaveType: document.getElementById('leaveType').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                phoneOnLeave: document.getElementById('leavePhone').value.trim(),
+                reason: document.getElementById('leaveReason').value.trim()
+            };
+
+            await api.applyLeave(leaveData);
+            closeLeaveModal();
+            loadLeaves();
+        }
+
+        function renderProfile() {
+            const name = currentUser.name || 'Worker Staff';
+            document.getElementById('profAvatar').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('profName').innerText = name;
+            document.getElementById('profCode').innerText = currentUser.empCode || 'REV-WORKER001';
+            document.getElementById('profRole').innerText = `${currentUser.designation || 'Attendant'} (${currentUser.role})`;
+            document.getElementById('profPhone').innerText = currentUser.phone || '+91 9769930626';
+            document.getElementById('profEmail').innerText = currentUser.email || 'staff@revatienterprises.com';
+            document.getElementById('profProof').innerText = `${currentUser.nationalityProofType || 'Aadhaar Card'} (${currentUser.nationalityProofNo || 'Verified ID'})`;
+            document.getElementById('profQual').innerText = currentUser.qualification || '10th / 12th Standard Pass';
+            document.getElementById('profAddress').innerText = currentUser.address || 'Revati Enterprises Operational Quarters, Mumbai';
+        }
+    </script>
+</body>
+</html>

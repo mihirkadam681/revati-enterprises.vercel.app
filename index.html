@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | REVATI ENTERPRISES - Facility Management</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA & Native Phone App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Revati App">
+    <link rel="apple-touch-icon" href="images/logo.png">
+</head>
+<body>
+    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+    <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- TOP ANNOUNCEMENT & CONTACT BAR -->
+    <div class="top-bar" id="topAnchor">
+        <div class="top-info">
+            <span><i class="fa-solid fa-phone"></i> Helpline: +91 9769930626 / +91 9930023185</span>
+            <span><i class="fa-solid fa-envelope"></i> Email: info@revatienterprises.com</span>
+            <span><i class="fa-solid fa-location-dot"></i> Corporate H.Q: Mumbai / Pune / PAN India</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" onclick="installPhoneApp()"><i class="fa-solid fa-mobile-screen-button" style="color: var(--gold-primary);"></i> Install Phone App</button>
+            <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
+            <span style="color: var(--gold-primary); font-weight: 600;">24/7 Facility Response</span>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="images/logo.png" alt="REVATI ENTERPRISES Logo" class="nav-logo-img">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati">REVATI</span>
+                <span class="nav-title-enterprises">ENTERPRISES</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="welcome.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="index.html" class="nav-link active" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
+            <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
+            <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
+            <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+        </ul>
+    </nav>
+
+
+
+    <!-- HOME PAGE DEDICATED HERO (PART 1) -->
+    <header class="hero-section page-part-3d">
+        <span class="part-badge-3d"><i class="fa-solid fa-crown"></i> CORPORATE FACILITY MANAGEMENT</span>
+        <div>
+            <div class="hero-tag">
+                <i class="fa-solid fa-crown"></i> INDIA'S PREMIER FACILITY MANAGEMENT COMPANY
+            </div>
+            <h1 class="hero-title">
+                Commercial Housekeeping & <span class="font-gold-title">Smart Facility Services</span>
+            </h1>
+            <p class="hero-desc">
+                Revati Enterprises delivers elite housekeeping, deep cleaning, glass facade maintenance, MEP engineering, and verified manpower deployment for corporate offices, commercial towers, malls, hospitals, and residential complexes across India.
+            </p>
+            <div class="hero-actions">
+                <a href="services.html" class="btn btn-gold" style="text-decoration: none;"><i class="fa-solid fa-layer-group"></i> Explore Facility Services Page</a>
+                <a href="estimator.html" class="btn btn-outline-gold" style="text-decoration: none;"><i class="fa-solid fa-calculator"></i> Go to Cost Estimator Page</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-num">500+</div>
+                    <div class="stat-text">Corporate Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">1,200+</div>
+                    <div class="stat-text">Trained Manpower</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">99.8%</div>
+                    <div class="stat-text">Hygiene SLA Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">24/7</div>
+                    <div class="stat-text">Rapid Maintenance</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- EXECUTIVE COMPANY CAPABILITIES OVERVIEW -->
+    <section class="section-wrapper page-part-3d">
+        <div class="section-header">
+            <div class="section-subtitle">ENTERPRISE EXCELLENCE</div>
+            <h2 class="section-title">Integrated Facility <span class="font-gold-title">Management Partner</span></h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-building-circle-check"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">Single-Source Facility Partner</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Eliminate vendor multi-handling with single-source management across housekeeping, high-rise cleaning, plumbing, electrical, and security.</p>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-users-gear"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">Verified & Compliant Staff</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">100% police-verified staff with Provident Fund (PF), ESIC insurance, and continuous safety training compliance.</p>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-chart-line"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">Digital Operations Oversight</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Real-time attendance logging, chemical inventory management, and maintenance ticket resolution through our Admin Portal.</p>
+        </div>
+    </section>
+
+    <!-- CLEAN PAGE NAVIGATION BAR -->
+    <div class="page-nav-controls-3d">
+        <a href="welcome.html" class="btn-nav-3d">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>Previous: Welcome</span>
+        </a>
+        <div class="page-indicator-3d" title="5-Part Site Navigation">
+            <a href="welcome.html" class="dot" title="Page 1: Welcome"></a>
+            <a href="index.html" class="dot active" title="Page 2: Home Overview"></a>
+            <a href="services.html" class="dot" title="Page 3: Facility Services"></a>
+            <a href="estimator.html" class="dot" title="Page 4: Cost Estimator"></a>
+            <a href="about.html" class="dot" title="Page 5: About Us"></a>
+        </div>
+        <a href="services.html" class="btn-nav-3d btn-nav-next">
+            <span>Next: Facility Services</span>
+            <i class="fa-solid fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <footer class="page-part-3d" style="background: #040508; border-top: 1px solid var(--border-color); padding: 3rem 1.5rem 1.5rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div>
+                <img src="images/logo.png" alt="Revati Enterprises Logo" style="max-width: 180px; margin-bottom: 1rem;">
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Revati Enterprises is India's trusted partner for commercial housekeeping, high-rise glass facade maintenance, and facility engineering.</p>
+            </div>
+            <div>
+                <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Contact Info</h4>
+                <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone" style="color: var(--gold-primary);"></i> Helpline: +91 9769930626 / +91 9930023185</p>
+                <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-envelope" style="color: var(--gold-primary);"></i> Email: info@revatienterprises.com</p>
+                <p style="font-size: 0.88rem; color: var(--text-main);"><i class="fa-solid fa-location-dot" style="color: var(--gold-primary);"></i> Location: Mumbai / Pune / PAN India</p>
+            </div>
+            <div>
+                <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Quality & Operations</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> ISO 9001:2015 Certified Quality</p>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i class="fa-solid fa-clock" style="color: var(--gold-primary);"></i> 24/7 Facility Operations & Response</p>
+                <p style="font-size: 0.88rem; color: var(--text-muted);"><i class="fa-solid fa-building-circle-check" style="color: var(--gold-primary);"></i> Serving 500+ Corporate Towers</p>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+            © 2026 REVATI ENTERPRISES. All Rights Reserved. ISO 9001:2015 Certified Facility Management Company.
+        </div>
+    </footer>
+
+    <!-- STUNNING 3D PARALLAX & INTERACTIVE TILT SCRIPT -->
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+        function closeMobileNav() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tiltCards = document.querySelectorAll('.stat-item');
+            tiltCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - (rect.width / 2);
+                    const y = e.clientY - rect.top - (rect.height / 2);
+                    card.style.transform = `perspective(1000px) rotateX(${(-y / (rect.height / 2)) * 8}deg) rotateY(${(x / (rect.width / 2)) * 8}deg) translateZ(12px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+                });
+            });
+        });
+
+        // SERVICE WORKER & PHONE APP INSTALL SCRIPT
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Reg Error:', err));
+            });
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'inline-flex';
+        });
+
+        function installPhoneApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted Revati Phone App install');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("To install Revati Phone App on your Mobile Phone:\n\n• Android: Tap browser menu (⋮) > 'Install app' or 'Add to Home screen'\n• iPhone / iOS: Tap Share button (⎋) > 'Add to Home Screen'");
+            }
+        }
+    </script>
+    <script src="js/scroll3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Vercel & IDE Exclusions
+.vscode/
+target/
+*.class
+*.zip
+.DS_Store
+node_modules/
+.vercel

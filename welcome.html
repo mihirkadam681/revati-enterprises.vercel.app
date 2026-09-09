@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | REVATI ENTERPRISES - Facility Management</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+</head>
+<body>
+    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+    <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- TOP ANNOUNCEMENT & CONTACT BAR -->
+    <div class="top-bar" id="topAnchor">
+        <div class="top-info">
+            <span><i class="fa-solid fa-phone"></i> Helpline: +91 9769930626 / +91 9930023185</span>
+            <span><i class="fa-solid fa-envelope"></i> Email: info@revatienterprises.com</span>
+            <span><i class="fa-solid fa-location-dot"></i> Corporate H.Q: Mumbai / Pune / PAN India</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
+            <span style="color: var(--gold-primary); font-weight: 600;">24/7 Facility Response</span>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="images/logo.png" alt="REVATI ENTERPRISES Logo" class="nav-logo-img">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati">REVATI</span>
+                <span class="nav-title-enterprises">ENTERPRISES</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="welcome.html" class="nav-link active" onclick="closeMobileNav()"><i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="index.html" class="nav-link" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
+            <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
+            <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
+            <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN WELCOME CONTENT CONTAINER -->
+    <main style="max-width: 1250px; margin: 0 auto; padding: 2rem 1.5rem;">
+
+        <!-- 3D EXECUTIVE WELCOME BANNER SLIDER -->
+        <section class="welcome-slider-container scroll-3d-element">
+            <button class="slider-nav-btn slider-nav-prev" id="sliderPrevBtn" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slider-nav-btn slider-nav-next" id="sliderNextBtn" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div style="overflow: hidden; border-radius: 24px;">
+                <div class="welcome-slider-track" id="welcomeSliderTrack">
+                    
+                    <!-- SLIDE 1: ABOUT COMPANY -->
+                    <div class="welcome-slide">
+                        <div>
+                            <div class="welcome-slide-badge">
+                                <i class="fa-solid fa-building"></i> ABOUT REVATI ENTERPRISES
+                            </div>
+                            <h1 class="welcome-slide-title">
+                                Premier Integrated <span>Facility Management</span>
+                            </h1>
+                            <p class="welcome-slide-desc">
+                                Revati Enterprises is an ISO 9001:2015 certified leader in commercial housekeeping, high-rise glass facade maintenance, and MEP technical operations across India.
+                            </p>
+                            <div class="welcome-slide-actions">
+                                <a href="services.html" class="btn btn-gold"><i class="fa-solid fa-layer-group"></i> Our Services Overview</a>
+                                <a href="contact.html" class="btn btn-outline-gold"><i class="fa-solid fa-phone"></i> Contact Operations HQ</a>
+                            </div>
+                        </div>
+                        <div class="welcome-slide-visual">
+                            <div class="welcome-slide-card-3d">
+                                <i class="fa-solid fa-award" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">ISO 9001:2015 Certified</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Delivering benchmark hygiene & technical SLA excellence for IT parks, commercial towers, and retail malls.</p>
+                                <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
+                                    <span class="badge badge-gold">500+ Clients</span>
+                                    <span class="badge badge-info">PAN India</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: HOUSEKEEPING & FACADE CLEANING -->
+                    <div class="welcome-slide">
+                        <div>
+                            <div class="welcome-slide-badge">
+                                <i class="fa-solid fa-broom"></i> COMMERCIAL HOUSEKEEPING & FACADE CARE
+                            </div>
+                            <h1 class="welcome-slide-title">
+                                Deep Cleaning & <span>Facade Operations</span>
+                            </h1>
+                            <p class="welcome-slide-desc">
+                                Specialized mechanized floor scrubbing, hospital-grade sanitization, and high-rise rope access spider glass facade cleaning with hydrophobic protection.
+                            </p>
+                            <div class="welcome-slide-actions">
+                                <a href="services.html" class="btn btn-gold"><i class="fa-solid fa-spray-can-sparkles"></i> Housekeeping Details</a>
+                                <a href="estimator.html" class="btn btn-outline-gold"><i class="fa-solid fa-calculator"></i> Calculate Cost Estimate</a>
+                            </div>
+                        </div>
+                        <div class="welcome-slide-visual">
+                            <div class="welcome-slide-card-3d">
+                                <i class="fa-solid fa-building-user" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">99.8% Hygiene SLA</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Mechanized janitorial care and safety-certified rope access glass cleaning technicians.</p>
+                                <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
+                                    <span class="badge badge-gold">Certified Safety</span>
+                                    <span class="badge badge-present">Zero Accidents</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3: MEP & TECHNICAL SERVICES -->
+                    <div class="welcome-slide">
+                        <div>
+                            <div class="welcome-slide-badge">
+                                <i class="fa-solid fa-gears"></i> TECHNICAL MEP & ENGINEERING
+                            </div>
+                            <h1 class="welcome-slide-title">
+                                MEP Engineering & <span>Building Maintenance</span>
+                            </h1>
+                            <p class="welcome-slide-desc">
+                                24/7 technical operations including electrical substation auditing, HVAC chiller servicing, plumbing network maintenance, and rapid breakdown response.
+                            </p>
+                            <div class="welcome-slide-actions">
+                                <a href="estimator.html" class="btn btn-gold"><i class="fa-solid fa-calculator"></i> Get Free Quote</a>
+                                <a href="about.html" class="btn btn-outline-gold"><i class="fa-solid fa-circle-info"></i> About Company</a>
+                            </div>
+                        </div>
+                        <div class="welcome-slide-visual">
+                            <div class="welcome-slide-card-3d">
+                                <i class="fa-solid fa-screwdriver-wrench" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">24/7 Technical Response</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Certified engineers maintaining uninterrupted electrical and HVAC performance in corporate facilities.</p>
+                                <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
+                                    <span class="badge badge-gold">24/7 Helpline</span>
+                                    <span class="badge badge-info">Certified MEP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dots Indicator -->
+            <div class="slider-dots">
+                <div class="slider-dot active" data-index="0"></div>
+                <div class="slider-dot" data-index="1"></div>
+                <div class="slider-dot" data-index="2"></div>
+            </div>
+        </section>
+
+        <!-- BRIEF COMPANY OVERVIEW SECTION -->
+        <section class="section-wrapper scroll-3d-element" style="margin-top: 3.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; box-shadow: var(--glass-shadow);">
+            <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <div style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    COMPANY BRIEF
+                </div>
+                <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin-bottom: 1rem;">
+                    About <span style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Revati Enterprises</span>
+                </h2>
+                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                    Headquartered in Mumbai with operations across Pune and major Indian hubs, <strong>Revati Enterprises</strong> provides comprehensive, single-window integrated facility management services. We specialize in maintaining commercial office spaces, high-rise corporate towers, shopping malls, hospitals, and luxury residential complexes with rigorous ISO 9001:2015 quality standards.
+                </p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">500+</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted);">Corporate Clients</div>
+                    </div>
+                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">1,200+</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted);">Trained Workforce</div>
+                    </div>
+                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">99.8%</div>
+                        <div style="font-size: 0.82rem; color: var(--text-muted);">Hygiene SLA Perfection</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT WE DO (OUR WORK & SPECIALIZATIONS) -->
+        <section class="section-wrapper scroll-3d-element" style="margin-top: 4rem;">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <div style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem;">OUR CORE SERVICES</div>
+                <h2 style="font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin-top: 0.5rem;">
+                    The Work We <span style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Deliver Daily</span>
+                </h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                
+                <!-- WORK ITEM 1 -->
+                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
+                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-broom"></i>
+                    </div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Commercial Housekeeping</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Daily janitorial maintenance, floor scrubbing, washroom hygiene control, and cafeteria sanitization for IT parks and office towers.</p>
+                </div>
+
+                <!-- WORK ITEM 2 -->
+                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
+                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-building-user"></i>
+                    </div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Glass Facade Cleaning</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">High-rise exterior glass facade cleaning using spider rope access technicians, BMU cradles, and hydrophobic sealant application.</p>
+                </div>
+
+                <!-- WORK ITEM 3 -->
+                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
+                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">MEP & Electrical Operations</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">24/7 electrical substation audits, HVAC chiller servicing, DG set monitoring, and plumbing infrastructure maintenance.</p>
+                </div>
+
+                <!-- WORK ITEM 4 -->
+                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
+                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Corporate Manpower Deployment</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Trained, police-verified, and uniform-ready janitors, facility supervisors, office attendants, and pantry staff.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EXPLORE MORE CALL TO ACTION -->
+        <section class="section-wrapper scroll-3d-element" style="margin-top: 4rem; background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(18,24,38,0.9) 100%); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 3rem; text-align: center;">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin-bottom: 1rem;">
+                Need Corporate Facility Management Services?
+            </h2>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.6;">
+                Explore our detailed service offerings or calculate a customized monthly housekeeping estimate for your commercial office.
+            </p>
+
+            <div style="display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap;">
+                <a href="services.html" class="btn btn-gold" style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i class="fa-solid fa-layer-group"></i> Explore Detailed Services</a>
+                <a href="estimator.html" class="btn btn-outline-gold" style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i class="fa-solid fa-calculator"></i> Calculate Service Cost</a>
+            </div>
+        </section>
+
+        <!-- CLEAN PAGE NAVIGATION BAR -->
+        <div class="page-nav-controls-3d">
+            <a href="contact.html" class="btn-nav-3d">
+                <i class="fa-solid fa-chevron-left"></i>
+                <span>Contact Operations</span>
+            </a>
+            <div class="page-indicator-3d" title="5-Part Site Navigation">
+                <a href="welcome.html" class="dot active" title="Page 1: Welcome"></a>
+                <a href="index.html" class="dot" title="Page 2: Home Overview"></a>
+                <a href="services.html" class="dot" title="Page 3: Facility Services"></a>
+                <a href="estimator.html" class="dot" title="Page 4: Cost Estimator"></a>
+                <a href="about.html" class="dot" title="Page 5: About Us"></a>
+            </div>
+            <a href="index.html" class="btn-nav-3d btn-nav-next">
+                <span>Next: Home & Overview</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="border-top: 1px solid var(--border-color); padding: 3rem 1.5rem; text-align: center; margin-top: 4rem; background: #05070A;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="images/logo.png" alt="Logo" style="height: 38px;">
+                <span style="font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 900; color: var(--gold-primary); font-size: 1.2rem; letter-spacing: 2px;">REVATI ENTERPRISES</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 600px;">
+                ISO 9001:2015 Certified Commercial Housekeeping, Facade Cleaning, MEP Engineering & Facility Solutions. Mumbai • Pune • PAN India
+            </p>
+            <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
+                &copy; 2026 REVATI ENTERPRISES. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- 3D Scroll & Slider Engine -->
+    <script src="js/scroll3d.js"></script>
+    <script>
+        function toggleMobileNav() {
+            const nav = document.getElementById('navLinks');
+            if (nav) nav.classList.toggle('active');
+        }
+        function closeMobileNav() {
+            const nav = document.getElementById('navLinks');
+            if (nav) nav.classList.remove('active');
+        }
+    </script>
+</body>
+</html>

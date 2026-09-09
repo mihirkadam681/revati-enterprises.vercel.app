@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facility Service Cost Estimator | REVATI ENTERPRISES</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local Instant Offline jsPDF Library (0ms Latency) -->
+    <script src="js/jspdf.umd.min.js"></script>
+    <script>window.jspdf || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>')</script>
+    <!-- PWA & Native Phone App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Revati App">
+    <link rel="apple-touch-icon" href="images/logo.png">
+</head>
+
+<body>
+    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+    <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- TOP ANNOUNCEMENT & CONTACT BAR -->
+    <div class="top-bar" id="topAnchor">
+        <div class="top-info">
+            <span><i class="fa-solid fa-phone"></i> Contact & Helpline: +91 9769930626 / +91 9930023185</span>
+            <span><i class="fa-solid fa-envelope"></i> Email: info@revatienterprises.com</span>
+            <span><i class="fa-solid fa-location-dot"></i> Corporate H.Q: Mumbai / Pune / PAN India</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" onclick="installPhoneApp()"><i
+                    class="fa-solid fa-mobile-screen-button" style="color: var(--gold-primary);"></i> Install Phone
+                App</button>
+            <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
+            <span style="color: var(--gold-primary); font-weight: 600;">24/7 Facility Response</span>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="images/logo.png" alt="REVATI ENTERPRISES Logo" class="nav-logo-img">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati">REVATI</span>
+                <span class="nav-title-enterprises">ENTERPRISES</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="welcome.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-star"
+                        style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="index.html" class="nav-link" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
+            <li><a href="estimator.html" class="nav-link active" onclick="closeMobileNav()">Cost Estimator</a></li>
+            <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
+            <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- ESTIMATOR PAGE CONTAINER (PART 3) -->
+    <section class="section-wrapper page-part-3d" style="margin-top: 2rem;">
+        <span class="part-badge-3d"><i class="fa-solid fa-calculator"></i> MONTHLY COST ESTIMATOR</span>
+        <div class="section-header">
+            <div class="section-subtitle">INSTANT TRANSPARENT PRICING</div>
+            <h1 class="section-title">Facility Service <span class="font-gold-title">Cost Estimator</span></h1>
+        </div>
+
+        <div class="estimator-container">
+            <div class="estimator-form">
+                <h3
+                    style="margin-bottom: 1.25rem; font-size: 1.15rem; color: #FFF; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                    Configure Your Facility Requirements</h3>
+
+                <!-- CLIENT & FACILITY SITE ADDRESS SECTION -->
+                <div
+                    style="background: rgba(18, 24, 38, 0.65); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.25rem;">
+                    <div
+                        style="color: var(--gold-primary); font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.4rem;">
+                        <i class="fa-solid fa-location-dot" style="margin-right: 0.4rem;"></i> Client & Facility Location Details
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label style="font-size: 0.82rem;"><i class="fa-solid fa-building-user" style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Client / Enterprise Name (Optional)</label>
+                        <input type="text" id="estClientName" class="form-control" placeholder="e.g. Apex Tech Towers Pvt. Ltd." oninput="calculateEstimate()">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 0.75rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.82rem;"><i class="fa-solid fa-city" style="color: var(--gold-primary); margin-right: 0.3rem;"></i> City / Region</label>
+                            <select id="estCity" class="form-control" onchange="calculateEstimate()">
+                                <option value="Mumbai" selected>Mumbai (MMR)</option>
+                                <option value="Pune">Pune & Pimpri</option>
+                                <option value="Thane">Thane</option>
+                                <option value="Navi Mumbai">Navi Mumbai</option>
+                                <option value="Delhi NCR">Delhi NCR</option>
+                                <option value="Bengaluru">Bengaluru</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="PAN India">PAN India / Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.82rem;"><i class="fa-solid fa-map-location-dot" style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Facility Site Address</label>
+                            <input type="text" id="estAddress" class="form-control" placeholder="e.g. Plot C-20, BKC, Bandra East, Mumbai" oninput="calculateEstimate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Facility Category</label>
+                    <select id="estType" class="form-control" onchange="autoCalculateStaff(); calculateEstimate();">
+                        <option value="corporate">Corporate Office / IT Park (₹ 10 / Sq. Ft.)</option>
+                        <option value="commercial">Retail Mall / Showroom (₹ 12 / Sq. Ft.)</option>
+                        <option value="hospital">Hospital & Healthcare Facility (₹ 15 / Sq. Ft.)</option>
+                        <option value="residential">Residential Complex / Gated Society (₹ 8 / Sq. Ft.)</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-building" style="color: var(--gold-primary);"></i> Number of
+                            Floors</label>
+                        <select id="estFloors" class="form-control" onchange="calculateEstimate()">
+                            <option value="1">1 Floor (+₹0 Base Level)</option>
+                            <option value="2">2 Floors (+₹500 / mo Floor Charge)</option>
+                            <option value="3">3 Floors (+₹1,000 / mo Floor Charge)</option>
+                            <option value="4">4 Floors (+₹1,500 / mo Floor Charge)</option>
+                            <option value="5">5 Floors (+₹2,000 / mo Floor Charge)</option>
+                            <option value="10">10 Floors (+₹4,500 / mo Floor Charge)</option>
+                            <option value="15">15 Floors (+₹7,000 / mo Floor Charge)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-sitemap" style="color: var(--gold-primary);"></i> Building Wings /
+                            Blocks</label>
+                        <select id="estWings" class="form-control" onchange="calculateEstimate()">
+                            <option value="1" selected>1 Wing / Block (Single Building)</option>
+                            <option value="2">2 Wings / Blocks (+₹1,500 / mo)</option>
+                            <option value="3">3 Wings / Blocks (+₹3,000 / mo)</option>
+                            <option value="4">4 Wings / Blocks (+₹4,500 / mo)</option>
+                            <option value="5">5+ Wings / Campus (+₹6,000 / mo)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Facility Area Size (in Sq. Ft.)</label>
+                    <input type="number" id="estSqft" class="form-control" value="0" min="0" step="100"
+                        placeholder="Enter Area in Sq. Ft. (e.g. 5000)" oninput="calculateEstimate();">
+                    <small id="estRateBadge"
+                        style="color: var(--gold-primary); font-weight: 600; display: block; margin-top: 0.35rem;"><i
+                            class="fa-solid fa-tag"></i> Rate: ₹ 10 Rupees per Sq. Ft.</small>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-door-open" style="color: var(--gold-primary);"></i> Number of Rooms /
+                        Cabins / Washrooms</label>
+                    <input type="number" id="estRooms" class="form-control" value="0" min="0" max="500"
+                        oninput="calculateEstimate()" placeholder="Enter Rooms (e.g. 5)">
+                </div>
+
+                <!-- STAFF DUTY SHIFT / BUDGET ADJUSTER -->
+                <div class="form-group">
+                    <label style="color: var(--gold-primary); font-weight: 700;"><i class="fa-solid fa-clock"
+                            style="margin-right: 0.4rem;"></i> Staff Shift & Duty Schedule (Budget Adjuster)</label>
+                    <select id="estShift" class="form-control" onchange="calculateEstimate()">
+                        <option value="parttime">Part-Time (1-2 Hours Daily) — Economical & Budget Friendly</option>
+                        <option value="halfday">Half-Day (4-6 Hours Daily) — Standard Facility Coverage</option>
+                        <option value="fulltime" selected>Full-Time Dedicated (8-12 Hours Daily) — Complete On-Site
+                            Presence</option>
+                    </select>
+                </div>
+
+                <!-- SEPARATE MANPOWER STAFFING ALLOCATION GRID WITH DYNAMIC PRICE LIST -->
+                <div
+                    style="background: rgba(18, 24, 38, 0.65); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin: 1.25rem 0;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        <span style="color: var(--gold-primary); font-size: 0.9rem; font-weight: 700;"><i
+                                class="fa-solid fa-users-gear" style="margin-right: 0.4rem;"></i> Manpower Staffing &
+                            Role Price List</span>
+                        <span id="totalStaffBadge" class="badge badge-gold" style="font-size: 0.75rem;">0
+                            Personnel</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.78rem; color: #FFF; font-weight: 600;">
+                                <i class="fa-solid fa-broom" style="color: #60A5FA;"></i> Cleaners
+                                <span id="labelCleanerRate" style="color: var(--gold-primary); font-weight: 700;">(₹
+                                    15,000 / mo)</span>
+                            </label>
+                            <input type="number" id="staffCleaners" class="form-control" value="0" min="0" max="100"
+                                oninput="calculateEstimate()"
+                                style="padding: 0.4rem 0.6rem; font-size: 0.88rem; background: #0A0E16; border-color: var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.78rem; color: #FFF; font-weight: 600;">
+                                <i class="fa-solid fa-bolt" style="color: #F59E0B;"></i> Electricians
+                                <span id="labelElecRate" style="color: var(--gold-primary); font-weight: 700;">(₹ 10,000
+                                    / mo)</span>
+                            </label>
+                            <input type="number" id="staffElectricians" class="form-control" value="0" min="0" max="50"
+                                oninput="calculateEstimate()"
+                                style="padding: 0.4rem 0.6rem; font-size: 0.88rem; background: #0A0E16; border-color: var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.78rem; color: #FFF; font-weight: 600;">
+                                <i class="fa-solid fa-faucet" style="color: #06B6D4;"></i> Plumbers
+                                <span id="labelPlumbRate" style="color: var(--gold-primary); font-weight: 700;">(₹
+                                    10,000 / mo)</span>
+                            </label>
+                            <input type="number" id="staffPlumbers" class="form-control" value="0" min="0" max="50"
+                                oninput="calculateEstimate()"
+                                style="padding: 0.4rem 0.6rem; font-size: 0.88rem; background: #0A0E16; border-color: var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="font-size: 0.78rem; color: #FFF; font-weight: 600;">
+                                <i class="fa-solid fa-user-shield" style="color: #10B981;"></i> Security Watchmen
+                                <span id="labelWatchRate" style="color: var(--gold-primary); font-weight: 700;">(₹
+                                    16,000 / mo)</span>
+                            </label>
+                            <input type="number" id="staffWatchmen" class="form-control" value="0" min="0" max="50"
+                                oninput="calculateEstimate()"
+                                style="padding: 0.4rem 0.6rem; font-size: 0.88rem; background: #0A0E16; border-color: var(--border-color);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHEMICAL AND WASHING SUPPLIES PACKAGE SELECTION -->
+                <div class="form-group">
+                    <label style="color: var(--gold-primary); font-weight: 700;"><i class="fa-solid fa-bottle-droplet"
+                            style="margin-right: 0.4rem;"></i> Eco-Chemicals & Washing Consumables Package</label>
+                    <select id="estChemicals" class="form-control" onchange="calculateEstimate()">
+                        <option value="3000">Basic Washroom & Sanitization Chemical Package (₹ 3,000 / mo)</option>
+                        <option value="5000">Standard Eco-Friendly Bio-Degradable Chemicals & Washing Supplies (₹ 5,000
+                            / mo)</option>
+                        <option value="8000">Premium Heavy-Duty Industrial Chemical & Floor Scrubbing Consumables (₹
+                            8,000 / mo)</option>
+                        <option value="0" selected>No Chemical Supplies (Client Provides All Chemicals) (₹ 0 / mo)
+                        </option>
+                    </select>
+                </div>
+
+                <!-- COMPANY FACILITIES TIER & SERVICE MARGIN SELECTION -->
+                <div class="form-group">
+                    <label style="color: var(--gold-primary); font-weight: 700;"><i class="fa-solid fa-building-user"
+                            style="margin-right: 0.4rem;"></i> Company Facilities</label>
+                    <select id="estCompanyCut" class="form-control" onchange="calculateEstimate()">
+                        <option value="0.10" selected>Economy 10%</option>
+                        <option value="0.15">Premium 15%</option>
+                        <option value="0.20">Standard 20%</option>
+                        <option value="0.25">Extra Charges (25% Specialized Supervision & Compliance)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="color: var(--gold-primary); font-weight: 700;"><i class="fa-solid fa-calendar-check" style="margin-right: 0.4rem;"></i> Service Frequency Contract (Automatic Price Calculation)</label>
+                    <select id="estFreq" class="form-control" onchange="calculateEstimate()">
+                        <option value="daily" selected>Daily Dedicated Housekeeping (Monthly 30-Day Contract — 1.0x Full Rate)</option>
+                        <option value="alternatedays">Alternate Days Housekeeping (15 Days/Month — 0.65x Rate / 35% Off)</option>
+                        <option value="weekly">Weekly Deep Cleaning & Sanitization (4 Visits/Month — 0.40x Rate / 60% Off)</option>
+                        <option value="biweekly">Bi-Weekly Deep Cleaning (2 Visits/Month — 0.28x Rate / 72% Off)</option>
+                        <option value="onetime">One-Time Intensive Deep Cleaning (Single Visit — 0.25x One-Time Rate)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Add MEP Maintenance Support (Electrical & Plumbing)</label>
+                    <select id="estMep" class="form-control" onchange="calculateEstimate()">
+                        <option value="yes">Yes - Include 24/7 Resident Technician</option>
+                        <option value="no" selected>No - Housekeeping Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="estimator-output-box">
+                <div>
+                    <div id="estCategoryHeader"
+                        style="font-size: 0.8rem; color: var(--gold-primary); font-weight: 700; text-transform: uppercase;">
+                        ESTIMATED MONTHLY CONTRACT</div>
+                    <div id="estPriceDisplay" class="estimate-price">₹ 62,000</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Includes trained staff, eco-chemicals,
+                        cleaning machinery & insurance compliance.</div>
+                </div>
+
+                <!-- FACILITY LOCATION & ADDRESS BREAKDOWN -->
+                <div
+                    style="margin-top: 1rem; padding: 0.85rem 1rem; background: rgba(18, 24, 38, 0.85); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div
+                        style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 0.35rem;">
+                        FACILITY LOCATION & ADDRESS</div>
+                    <div style="font-size: 0.85rem; color: #FFF; font-weight: 600; line-height: 1.4; display: flex; align-items: flex-start; gap: 0.5rem;">
+                        <i class="fa-solid fa-location-dot" style="color: var(--gold-primary); margin-top: 0.25rem;"></i>
+                        <div>
+                            <div id="outClientNameDisplay" style="color: var(--gold-primary); font-weight: 700;">Valued Client</div>
+                            <div id="outAddressDisplay" style="color: #CBD5E1; font-size: 0.8rem;">Mumbai (Full Address Not Specified)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLOOR OPTION BREAKDOWN -->
+                <div
+                    style="margin-top: 1rem; padding: 0.85rem 1rem; background: rgba(18, 24, 38, 0.85); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div
+                        style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 0.35rem;">
+                        BUILDING FLOOR LEVEL COVERAGE</div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 0.88rem; color: #FFF; font-weight: 600;"><i class="fa-solid fa-building"
+                                style="color: var(--gold-primary); margin-right: 0.5rem;"></i> Active Floor
+                            Multiplier:</span>
+                        <span id="estFloorsOutput" class="badge badge-gold" style="font-size: 0.82rem;">1 Floor (1x
+                            Cost)</span>
+                    </div>
+                </div>
+
+                <!-- MANPOWER STAFF ALLOCATION & FINANCIAL BREAKDOWN IN OUTPUT BOX -->
+                <div
+                    style="margin-top: 1rem; padding: 0.85rem 1rem; background: rgba(18, 24, 38, 0.85); border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div
+                        style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span>DEPLOYED STAFF & AREA BREAKDOWN</span>
+                        <span id="outStaffTotalBadge" class="badge badge-gold" style="font-size: 0.75rem;">1 Total
+                            Staff</span>
+                    </div>
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.82rem; color: #FFF; font-weight: 600;">
+                        <div><i class="fa-solid fa-broom" style="color: #60A5FA; width: 16px;"></i> Cleaners: <span
+                                id="outCleaners" style="color: var(--gold-primary); font-weight: 700;">1 (₹18k)</span>
+                        </div>
+                        <div><i class="fa-solid fa-bolt" style="color: #F59E0B; width: 16px;"></i> Electricians: <span
+                                id="outElectricians" style="color: var(--gold-primary); font-weight: 700;">0
+                                (₹0k)</span></div>
+                        <div><i class="fa-solid fa-faucet" style="color: #06B6D4; width: 16px;"></i> Plumbers: <span
+                                id="outPlumbers" style="color: var(--gold-primary); font-weight: 700;">0 (₹0k)</span>
+                        </div>
+                        <div><i class="fa-solid fa-user-shield" style="color: #10B981; width: 16px;"></i> Watchmen:
+                            <span id="outWatchmen" style="color: var(--gold-primary); font-weight: 700;">0 (₹0k)</span>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.65rem; padding-top: 0.5rem; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-ruler-combined"
+                                style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Base Area Charge (<span
+                                id="outSqftLabel">5,000 Sq. Ft.</span>):</span>
+                        <strong id="outSqftAmount" style="color: var(--gold-primary);">+₹ 50,000 / mo</strong>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.4rem; font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-sitemap"
+                                style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Building Wings /
+                            Blocks:</span>
+                        <strong id="outWingsLabel" style="color: var(--gold-primary);">1 Wing (+₹ 0 / mo)</strong>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.4rem; font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-door-open"
+                                style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Rooms / Cabins /
+                            Washrooms:</span>
+                        <strong id="outRoomsLabel" style="color: #FFF;">0 Rooms</strong>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.4rem; font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between;">
+                        <span><i class="fa-solid fa-bottle-droplet"
+                                style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Chemicals &
+                            Washing:</span>
+                        <strong id="outChemicalsAmount" style="color: var(--gold-primary);">+₹ 0 / mo</strong>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.4rem; font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between;">
+                        <span>Company Facilities (<span id="outCompanyCutPercent">Economy 10%</span>):</span>
+                        <strong id="outCompanyCutAmount" style="color: #FCF6BA;">+₹ 0</strong>
+                    </div>
+
+                    <div
+                        style="margin-top: 0.4rem; font-size: 0.78rem; color: #CBD5E1; display: flex; justify-content: space-between; border-top: 1px dashed rgba(212,175,55,0.3); padding-top: 0.4rem;">
+                        <span><i class="fa-solid fa-calendar-check" style="color: var(--gold-primary); margin-right: 0.3rem;"></i> Contract Frequency Rate:</span>
+                        <strong id="outFreqLabel" style="color: var(--gold-primary);">Daily Dedicated (1.0x)</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.25rem;">
+                    <button class="btn btn-gold" id="btnDownloadPdf" style="width: 100%; justify-content: center;"
+                        onclick="generateQuotePDF()"><i class="fa-solid fa-file-pdf"></i> Download Official Quote
+                        PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLEAN PAGE NAVIGATION BAR -->
+        <div class="page-nav-controls-3d">
+            <a href="services.html" class="btn-nav-3d">
+                <i class="fa-solid fa-chevron-left"></i>
+                <span>Previous: Facility Services</span>
+            </a>
+            <div class="page-indicator-3d" title="5-Part Site Navigation">
+                <a href="welcome.html" class="dot" title="Page 1: Welcome"></a>
+                <a href="index.html" class="dot" title="Page 2: Home Overview"></a>
+                <a href="services.html" class="dot" title="Page 3: Facility Services"></a>
+                <a href="estimator.html" class="dot active" title="Page 4: Cost Estimator"></a>
+                <a href="about.html" class="dot" title="Page 5: About Us"></a>
+            </div>
+            <a href="about.html" class="btn-nav-3d btn-nav-next">
+                <span>Next: About Us</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+
+        <!-- FOOTER SECTION -->
+        <footer class="page-part-3d"
+            style="background: #040508; border-top: 1px solid var(--border-color); padding: 3rem 1.5rem 1.5rem;">
+            <div
+                style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <img src="images/logo.png" alt="Revati Enterprises Logo"
+                        style="max-width: 180px; margin-bottom: 1rem;">
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Revati Enterprises is India's trusted
+                        partner for commercial housekeeping, high-rise glass facade maintenance, and facility
+                        engineering.</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Contact Info</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i
+                            class="fa-solid fa-phone" style="color: var(--gold-primary);"></i> Helpline: +91 9769930626
+                        / +91 9930023185</p>
+                    <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i
+                            class="fa-solid fa-envelope" style="color: var(--gold-primary);"></i> Email:
+                        info@revatienterprises.com</p>
+                    <p style="font-size: 0.88rem; color: var(--text-main);"><i class="fa-solid fa-location-dot"
+                            style="color: var(--gold-primary);"></i> Location: Mumbai / Pune / PAN India</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Quality & Operations
+                    </h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i
+                            class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> ISO 9001:2015
+                        Certified Quality</p>
+                    <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i
+                            class="fa-solid fa-clock" style="color: var(--gold-primary);"></i> 24/7 Facility Operations
+                        & Response</p>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);"><i
+                            class="fa-solid fa-building-circle-check" style="color: var(--gold-primary);"></i> Serving
+                        500+ Corporate Towers</p>
+                </div>
+            </div>
+            <div
+                style="text-align: center; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+                © 2026 REVATI ENTERPRISES. All Rights Reserved. ISO 9001:2015 Certified Facility Management Company.
+            </div>
+        </footer>
+
+        <!-- ESTIMATOR SCRIPT & PDF GENERATOR -->
+        <script>
+            function toggleMobileNav() {
+                document.getElementById('navLinks').classList.toggle('active');
+            }
+            function closeMobileNav() {
+                document.getElementById('navLinks').classList.remove('active');
+            }
+
+            function autoCalculateStaff() {
+                const sqftInput = document.getElementById('estSqft');
+                const sqft = parseInt(sqftInput?.value) || 0;
+                if (sqft === 0) {
+                    if (document.getElementById('staffCleaners')) document.getElementById('staffCleaners').value = 0;
+                    if (document.getElementById('staffElectricians')) document.getElementById('staffElectricians').value = 0;
+                    if (document.getElementById('staffPlumbers')) document.getElementById('staffPlumbers').value = 0;
+                    if (document.getElementById('staffWatchmen')) document.getElementById('staffWatchmen').value = 0;
+                    return;
+                }
+                const cleaners = Math.max(1, Math.round(sqft / 2500));
+                const electricians = sqft >= 4000 ? 1 : 0;
+                const plumbers = sqft >= 4000 ? 1 : 0;
+                const watchmen = sqft >= 3000 ? 2 : 1;
+
+                if (document.getElementById('staffCleaners')) document.getElementById('staffCleaners').value = cleaners;
+                if (document.getElementById('staffElectricians')) document.getElementById('staffElectricians').value = electricians;
+                if (document.getElementById('staffPlumbers')) document.getElementById('staffPlumbers').value = plumbers;
+                if (document.getElementById('staffWatchmen')) document.getElementById('staffWatchmen').value = watchmen;
+            }
+
+            function calculateEstimate() {
+                const typeSelect = document.getElementById('estType');
+                const type = typeSelect.value;
+                const sqft = parseInt(document.getElementById('estSqft').value) || 0;
+                const floorsSelect = document.getElementById('estFloors');
+                const floors = parseInt(floorsSelect?.value) || 1;
+                const freq = document.getElementById('estFreq').value;
+                const mep = document.getElementById('estMep').value;
+
+                // Sq. Ft. Category Rates
+                let sqftRate = 10;
+                if (type === 'corporate') sqftRate = 10;
+                if (type === 'commercial') sqftRate = 12;
+                if (type === 'hospital' || type === 'hospitality') sqftRate = 15;
+                if (type === 'residential') sqftRate = 8;
+
+                const areaBaseCost = sqft * sqftRate;
+
+                // Shift Rates Matrix (Cleaners: ₹15,000 base pay + ₹3,000 company management fee)
+                const shiftSelect = document.getElementById('estShift');
+                const shiftType = shiftSelect?.value || 'fulltime';
+
+                let roleRates = { cleaner: 15000, electrician: 10000, plumber: 10000, watchman: 16000 };
+                if (shiftType === 'parttime') {
+                    roleRates = { cleaner: 4000, electrician: 3000, plumber: 3000, watchman: 7000 };
+                } else if (shiftType === 'halfday') {
+                    roleRates = { cleaner: 8000, electrician: 6000, plumber: 6000, watchman: 10500 };
+                }
+
+                // Update UI Labels for role rates
+                if (document.getElementById('labelCleanerRate')) document.getElementById('labelCleanerRate').textContent = `(₹ ${roleRates.cleaner.toLocaleString('en-IN')} / mo)`;
+                if (document.getElementById('labelElecRate')) document.getElementById('labelElecRate').textContent = `(₹ ${roleRates.electrician.toLocaleString('en-IN')} / mo)`;
+                if (document.getElementById('labelPlumbRate')) document.getElementById('labelPlumbRate').textContent = `(₹ ${roleRates.plumber.toLocaleString('en-IN')} / mo)`;
+                if (document.getElementById('labelWatchRate')) document.getElementById('labelWatchRate').textContent = `(₹ ${roleRates.watchman.toLocaleString('en-IN')} / mo)`;
+
+                const cleaners = parseInt(document.getElementById('staffCleaners')?.value) || 0;
+                const electricians = parseInt(document.getElementById('staffElectricians')?.value) || 0;
+                const plumbers = parseInt(document.getElementById('staffPlumbers')?.value) || 0;
+                const watchmen = parseInt(document.getElementById('staffWatchmen')?.value) || 0;
+
+                const totalStaff = cleaners + electricians + plumbers + watchmen;
+
+                const cleanersCost = cleaners * roleRates.cleaner;
+                const electriciansCost = electricians * roleRates.electrician;
+                const plumbersCost = plumbers * roleRates.plumber;
+                const watchmenCost = watchmen * roleRates.watchman;
+                const totalManpowerCost = cleanersCost + electriciansCost + plumbersCost + watchmenCost;
+
+                const chemSelect = document.getElementById('estChemicals');
+                const chemicalCost = parseInt(chemSelect?.value) || 0;
+
+                let mepCost = (mep === 'yes') ? 12000 : 0;
+
+                const wingsSelect = document.getElementById('estWings');
+                const wings = parseInt(wingsSelect?.value) || 1;
+                const wingExtraCost = Math.max(0, wings - 1) * 1500;
+
+                // Floor Charge (Flat +₹500 per additional floor above 1)
+                const floorExtraCost = Math.max(0, floors - 1) * 500;
+
+                // Operational Base Subtotal (Full Manpower + Area + Floors + Wings + Chemicals + MEP)
+                const totalOperationalSubtotal = areaBaseCost + floorExtraCost + wingExtraCost + totalManpowerCost + chemicalCost + mepCost;
+
+                // Company Facilities Fee Tier (Economy 10%, Premium 15%, Standard 20%, Extra Charges 25%)
+                const companyCutSelect = document.getElementById('estCompanyCut');
+                const companyCutRate = parseFloat(companyCutSelect?.value || '0.10');
+                const companyCutLabel = companyCutSelect ? companyCutSelect.options[companyCutSelect.selectedIndex].text : 'Economy 10%';
+                const cleanerCompanyAllocation = cleaners * 3000;
+                const companyCutAmount = (totalOperationalSubtotal * companyCutRate) + cleanerCompanyAllocation;
+
+                // Service Contract Frequency Multiplier
+                let freqMultiplier = 1.0;
+                let freqText = 'Daily Dedicated (1.0x Full Rate)';
+
+                if (freq === 'weekly') {
+                    freqMultiplier = 0.40;
+                    freqText = 'Weekly 4 Visits/Mo (0.40x / 60% Off)';
+                } else if (freq === 'onetime') {
+                    freqMultiplier = 0.25;
+                    freqText = 'One-Time Intensive (0.25x Rate)';
+                } else if (freq === 'biweekly') {
+                    freqMultiplier = 0.28;
+                    freqText = 'Bi-Weekly 2 Visits/Mo (0.28x / 72% Off)';
+                } else if (freq === 'alternatedays') {
+                    freqMultiplier = 0.65;
+                    freqText = 'Alternate Days 15 Days/Mo (0.65x / 35% Off)';
+                }
+
+                // Final Contract Price (Scaled dynamically by Service Frequency)
+                const baseFullContractPrice = totalOperationalSubtotal + companyCutAmount;
+                const totalContractPrice = Math.round(baseFullContractPrice * freqMultiplier);
+
+                const rooms = parseInt(document.getElementById('estRooms')?.value) || 0;
+                if (document.getElementById('outRoomsLabel')) document.getElementById('outRoomsLabel').textContent = `${rooms} Rooms / Cabins`;
+                if (document.getElementById('outWingsLabel')) {
+                    const wingText = wings > 1 ? `${wings} Wings (+₹ ${wingExtraCost.toLocaleString('en-IN')} / mo)` : '1 Wing (Single Block)';
+                    document.getElementById('outWingsLabel').textContent = wingText;
+                }
+
+                if (document.getElementById('outSqftLabel')) document.getElementById('outSqftLabel').textContent = `${sqft.toLocaleString('en-IN')} Sq. Ft. (@ ₹${sqftRate}/sq.ft)`;
+                if (document.getElementById('outSqftAmount')) document.getElementById('outSqftAmount').textContent = `+₹ ${Math.round(areaBaseCost).toLocaleString('en-IN')} / mo`;
+
+                if (document.getElementById('totalStaffBadge')) document.getElementById('totalStaffBadge').textContent = `${totalStaff} Personnel (Manpower: ₹${totalManpowerCost.toLocaleString('en-IN')}/mo)`;
+                if (document.getElementById('outStaffTotalBadge')) document.getElementById('outStaffTotalBadge').textContent = `${totalStaff} Total Staff`;
+                if (document.getElementById('outCleaners')) document.getElementById('outCleaners').textContent = `${cleaners} (₹${(cleanersCost / 1000).toFixed(1)}k)`;
+                if (document.getElementById('outElectricians')) document.getElementById('outElectricians').textContent = `${electricians} (₹${(electriciansCost / 1000).toFixed(1)}k)`;
+                if (document.getElementById('outPlumbers')) document.getElementById('outPlumbers').textContent = `${plumbers} (₹${(plumbersCost / 1000).toFixed(1)}k)`;
+                if (document.getElementById('outWatchmen')) document.getElementById('outWatchmen').textContent = `${watchmen} (₹${(watchmenCost / 1000).toFixed(1)}k)`;
+
+                if (document.getElementById('outChemicalsAmount')) document.getElementById('outChemicalsAmount').textContent = `+₹ ${chemicalCost.toLocaleString('en-IN')} / mo`;
+
+                if (document.getElementById('outCompanyCutPercent')) document.getElementById('outCompanyCutPercent').textContent = companyCutLabel;
+                if (document.getElementById('outCompanyCutAmount')) document.getElementById('outCompanyCutAmount').textContent = `+₹ ${Math.round(companyCutAmount).toLocaleString('en-IN')}`;
+                if (document.getElementById('outFreqLabel')) document.getElementById('outFreqLabel').textContent = freqText;
+
+                const rateBadge = document.getElementById('estRateBadge');
+                if (rateBadge) rateBadge.innerHTML = `<i class="fa-solid fa-tags"></i> Area Rate: Rs.${sqftRate}/sq.ft | Cleaners: Rs.${(roleRates.cleaner / 1000).toFixed(1)}k | Watchmen: Rs.${(roleRates.watchman / 1000).toFixed(1)}k | Elec/Plumb: Rs.${(roleRates.electrician / 1000).toFixed(1)}k`;
+
+                if (floorsSelect && document.getElementById('estFloorsOutput')) {
+                    const floorChargeText = floors > 1 ? `${floors} Floors (+₹${floorExtraCost.toLocaleString('en-IN')} / mo)` : '1 Floor (Base Level)';
+                    document.getElementById('estFloorsOutput').textContent = floorChargeText;
+                }
+
+                // Update Client Name & Facility Address in live summary output
+                const clientNameInput = document.getElementById('estClientName')?.value.trim();
+                const citySelect = document.getElementById('estCity')?.value || 'Mumbai';
+                const addressInput = document.getElementById('estAddress')?.value.trim();
+
+                if (document.getElementById('outClientNameDisplay')) {
+                    document.getElementById('outClientNameDisplay').textContent = clientNameInput || 'Valued Client';
+                }
+                if (document.getElementById('outAddressDisplay')) {
+                    const fullAddrText = addressInput ? `${addressInput}, ${citySelect}` : `${citySelect} (Full Address Not Specified)`;
+                    document.getElementById('outAddressDisplay').textContent = fullAddrText;
+                }
+
+                document.getElementById('estPriceDisplay').textContent = '₹ ' + Math.round(totalContractPrice).toLocaleString('en-IN');
+            }
+
+            function generateQuotePDF() {
+                const btn = document.getElementById('btnDownloadPdf');
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating PDF Quote...';
+                }
+                setTimeout(() => {
+                    try {
+                        createVectorPdf();
+                    } catch (err) {
+                        console.error("PDF execution error:", err);
+                    } finally {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> Download Official Quote PDF';
+                        }
+                    }
+                }, 20);
+            }
+
+            function createVectorPdf() {
+                const typeSelect = document.getElementById('estType');
+
+                const cleanPdfStr = (str) => {
+                    if (!str) return '';
+                    return str.replace(/₹/g, 'Rs. ').replace(/\s+/g, ' ').trim();
+                };
+
+                const categoryText = cleanPdfStr(typeSelect.options[typeSelect.selectedIndex].text);
+                const sqft = document.getElementById('estSqft').value || '5000';
+                const floorsSelect = document.getElementById('estFloors');
+                const floorsText = floorsSelect ? cleanPdfStr(floorsSelect.options[floorsSelect.selectedIndex].text) : '1 Floor';
+                const wingsSelect = document.getElementById('estWings');
+                const wingsText = wingsSelect ? cleanPdfStr(wingsSelect.options[wingsSelect.selectedIndex].text) : '1 Wing / Block';
+                const shiftSelect = document.getElementById('estShift');
+                const shiftText = shiftSelect ? cleanPdfStr(shiftSelect.options[shiftSelect.selectedIndex].text) : 'Full-Time Dedicated';
+                const chemSelect = document.getElementById('estChemicals');
+                const chemText = chemSelect ? cleanPdfStr(chemSelect.options[chemSelect.selectedIndex].text) : 'Standard Eco-Chemicals';
+                const totalPrice = cleanPdfStr(document.getElementById('estPriceDisplay').textContent);
+
+                const roomsEl = document.getElementById('estRooms');
+                const roomsCount = roomsEl && roomsEl.value !== '' ? parseInt(roomsEl.value) : 5;
+
+                const cleanersEl = document.getElementById('staffCleaners');
+                const cleaners = cleanersEl && cleanersEl.value !== '' ? Math.max(0, parseInt(cleanersEl.value)) : 1;
+                const elecEl = document.getElementById('staffElectricians');
+                const electricians = elecEl && elecEl.value !== '' ? Math.max(0, parseInt(elecEl.value)) : 0;
+                const plumbEl = document.getElementById('staffPlumbers');
+                const plumbers = plumbEl && plumbEl.value !== '' ? Math.max(0, parseInt(plumbEl.value)) : 0;
+                const watchEl = document.getElementById('staffWatchmen');
+                const watchmen = watchEl && watchEl.value !== '' ? Math.max(0, parseInt(watchEl.value)) : 0;
+
+                const totalStaff = cleaners + electricians + plumbers + watchmen;
+                const companyCutRate = parseFloat(document.getElementById('estCompanyCut')?.value || '0.10');
+
+                const refNo = 'REV-QT-2026-' + Math.floor(1000 + Math.random() * 9000);
+                const currentDate = new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+
+                const jsPDFConstructor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF || (typeof jsPDF === 'function' ? jsPDF : null);
+
+                if (!jsPDFConstructor) {
+                    console.warn("jsPDF constructor not ready, triggering native print window.");
+                    window.print();
+                    return;
+                }
+
+                const doc = new jsPDFConstructor({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+                doc.setDrawColor(212, 175, 55);
+                doc.setLineWidth(1);
+                doc.line(15, 15, 195, 15);
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(20);
+                doc.setTextColor(11, 14, 23);
+                doc.text("REVATI ENTERPRISES", 15, 26);
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(8.5);
+                doc.setTextColor(212, 175, 55);
+                doc.text("COMMERCIAL HOUSEKEEPING & FACILITY MANAGEMENT SERVICES", 15, 32);
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text("ISO 9001:2015 Certified Company | PAN India Operations", 15, 37);
+
+                doc.setFillColor(212, 175, 55);
+                doc.roundedRect(142, 19, 53, 8, 2, 2, 'F');
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(8.5);
+                doc.setTextColor(255, 255, 255);
+                doc.text("OFFICIAL QUOTATION", 145, 24.5);
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(8);
+                doc.setTextColor(71, 85, 105);
+                doc.text(`Ref #: ${refNo}`, 142, 33);
+                doc.text(`Date: ${currentDate}`, 142, 38);
+
+                doc.setDrawColor(212, 175, 55);
+                doc.line(15, 42, 195, 42);
+
+                // 1. TOP REQUIREMENT & MANPOWER ALLOCATION BOX
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.roundedRect(15, 46, 180, 86, 3, 3, 'FD');
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(9.5);
+                doc.setTextColor(15, 23, 42);
+                doc.text("1. FACILITY REQUIREMENTS & MANPOWER ALLOCATION", 20, 52);
+                doc.setDrawColor(203, 213, 225);
+                doc.setLineWidth(0.3);
+                doc.line(20, 55, 190, 55);
+
+                const clientNameInput = cleanPdfStr(document.getElementById('estClientName')?.value.trim()) || 'Valued Client';
+                const citySelect = document.getElementById('estCity')?.value || 'Mumbai';
+                const addressInput = cleanPdfStr(document.getElementById('estAddress')?.value.trim());
+                const pdfFullAddr = addressInput ? `${addressInput}, ${citySelect}` : `${citySelect} Region`;
+
+                const companyCutSelect = document.getElementById('estCompanyCut');
+                const companyCutLabel = companyCutSelect ? companyCutSelect.options[companyCutSelect.selectedIndex].text : 'Economy 10%';
+
+                const freqSelect = document.getElementById('estFreq');
+                const freqText = freqSelect ? freqSelect.options[freqSelect.selectedIndex].text : 'Daily Dedicated (1.0x Full Rate)';
+
+                const tableItems = [
+                    ["Client / Enterprise:", clientNameInput],
+                    ["Facility Site Address:", pdfFullAddr],
+                    ["Facility Category:", categoryText],
+                    ["Facility Area Size:", `${parseInt(sqft).toLocaleString('en-IN')} Sq. Ft. (${floorsText})`],
+                    ["Building Wings / Blocks:", wingsText],
+                    ["Rooms & Washrooms:", `${roomsCount} Rooms / Cabins Covered`],
+                    ["Contract Frequency Rate:", freqText],
+                    ["Staff Duty Schedule:", shiftText],
+                    ["Deployed Manpower Staff:", `${cleaners} Cleaners | ${electricians} Elec | ${plumbers} Plumb | ${watchmen} Watchmen (${totalStaff} Total)`],
+                    ["Chemicals & Consumables:", chemText],
+                    ["Company Facilities:", `${companyCutLabel} Fee Included`]
+                ];
+
+                let y = 60;
+                tableItems.forEach(([label, val]) => {
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text(label, 20, y);
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(15, 23, 42);
+
+                    const splitLines = doc.splitTextToSize(val, 118);
+                    doc.text(splitLines, 72, y);
+                    y += (splitLines.length > 1 ? 4.2 * splitLines.length : 5.4);
+                });
+
+                // 2. MIDDLE ESTIMATED CONTRACT VALUE BOX (PERFECTLY ALIGNED & SPACED)
+                doc.setFillColor(7, 9, 14);
+                doc.setDrawColor(212, 175, 55);
+                doc.setLineWidth(0.8);
+                doc.roundedRect(15, 138, 180, 32, 3, 3, 'FD');
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(8.8);
+                doc.setTextColor(212, 175, 55);
+                doc.text("ESTIMATED MONTHLY CONTRACT VALUE", 105, 145, { align: "center" });
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(19);
+                doc.setTextColor(252, 246, 186);
+                doc.text(totalPrice, 105, 156, { align: "center" });
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(7.2);
+                doc.setTextColor(148, 163, 184);
+                doc.text("Includes trained uniformed staff, eco-chemicals, cleaning machinery & insurance compliance.", 105, 164, { align: "center" });
+
+                // 3. TERMS & STATUTORY COMPLIANCE GUARANTEE BOX
+                doc.setFillColor(248, 250, 252);
+                doc.setDrawColor(226, 232, 240);
+                doc.setLineWidth(0.3);
+                doc.roundedRect(15, 176, 180, 68, 3, 3, 'FD');
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(9);
+                doc.setTextColor(15, 23, 42);
+                doc.text("2. STATUTORY COMPLIANCE & SERVICE GUARANTEE", 20, 182);
+                doc.line(20, 185, 190, 185);
+
+                const terms = [
+                    ["• Statutory Insurance:", "100% PF, ESIC, Minimum Wages Act & Workmen Compensation Insurance included."],
+                    ["• Mechanized Supplies:", "ISO-certified eco-friendly bio-degradable chemical packages & floor scrubbing gear."],
+                    ["• Operational Supervision:", "Dedicated site supervisor & real-time GPS mobile attendance logging app."],
+                    ["• Replacement SLA:", "24/7 helpline with instant same-day worker replacement guarantee."],
+                    ["• Payment Credit Terms:", "Monthly invoice cycle with standard 15-day commercial credit terms."]
+                ];
+
+                let termY = 191;
+                terms.forEach(([tTitle, tDesc]) => {
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(7.4);
+                    doc.setTextColor(15, 23, 42);
+                    doc.text(tTitle, 20, termY);
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(7.4);
+                    doc.setTextColor(71, 85, 105);
+                    doc.text(tDesc, 58, termY);
+                    termY += 5.2;
+                });
+
+                // 4. PERMANENT FIXED PAGE FOOTER
+                doc.setDrawColor(226, 232, 240);
+                doc.setLineWidth(0.4);
+                doc.line(15, 252, 195, 252);
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(9);
+                doc.setTextColor(15, 23, 42);
+                doc.text("Revati Enterprises Corporate Office", 15, 260);
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(7.8);
+                doc.setTextColor(100, 116, 139);
+                doc.text("Helpline: +91 9769930626 / +91 9930023185", 15, 266);
+                doc.text("Email: info@revatienterprises.com | Web: www.revatienterprises.com", 15, 271);
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(9);
+                doc.setTextColor(212, 175, 55);
+                doc.text("Revati Sales Team", 167.5, 259, { align: "center" });
+
+                doc.setDrawColor(212, 175, 55);
+                doc.setLineWidth(0.8);
+                doc.line(140, 263, 195, 263);
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(8);
+                doc.setTextColor(15, 23, 42);
+                doc.text("Authorized Signatory Stamp", 167.5, 270, { align: "center" });
+
+                const pdfFileName = `Revati_Enterprises_Facility_Quote_${refNo}.pdf`;
+
+                // 1-CLICK INSTANT BLOB DOWNLOAD TRIGGER
+                try {
+                    const pdfBlob = doc.output('blob');
+                    const blobUrl = URL.createObjectURL(pdfBlob);
+                    const link = document.createElement('a');
+                    link.style.display = 'none';
+                    link.href = blobUrl;
+                    link.download = pdfFileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
+                } catch (blobErr) {
+                    console.warn("Direct blob link download fallback:", blobErr);
+                    try {
+                        doc.save(pdfFileName);
+                    } catch (saveErr) {
+                        console.error("Direct doc.save error:", saveErr);
+                        window.print();
+                    }
+                }
+            }
+
+            window.addEventListener('DOMContentLoaded', calculateEstimate);
+
+            // SERVICE WORKER & PHONE APP INSTALL SCRIPT
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Reg Error:', err));
+                });
+            }
+
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                const btn = document.getElementById('pwaInstallBtn');
+                if (btn) btn.style.display = 'inline-flex';
+            });
+
+            function installPhoneApp() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted Revati Phone App install');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    alert("To install Revati Phone App on your Mobile Phone:\n\n• Android: Tap browser menu (⋮) > 'Install app' or 'Add to Home screen'\n• iPhone / iOS: Tap Share button (⎋) > 'Add to Home Screen'");
+                }
+            }
+        </script>
+        <script src="js/scroll3d.js"></script>
+</body>
+
+</html>

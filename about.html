@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us & Why Choose Revati | REVATI ENTERPRISES</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PWA & Native Phone App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Revati App">
+    <link rel="apple-touch-icon" href="images/logo.png">
+</head>
+<body>
+    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+    <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- TOP ANNOUNCEMENT & CONTACT BAR -->
+    <div class="top-bar" id="topAnchor">
+        <div class="top-info">
+            <span><i class="fa-solid fa-phone"></i> Contact & Helpline: +91 9769930626 / +91 9930023185</span>
+            <span><i class="fa-solid fa-envelope"></i> Email: info@revatienterprises.com</span>
+            <span><i class="fa-solid fa-location-dot"></i> Corporate H.Q: Mumbai / Pune / PAN India</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" onclick="installPhoneApp()"><i class="fa-solid fa-mobile-screen-button" style="color: var(--gold-primary);"></i> Install Phone App</button>
+            <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
+            <span style="color: var(--gold-primary); font-weight: 600;">24/7 Facility Response</span>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="images/logo.png" alt="REVATI ENTERPRISES Logo" class="nav-logo-img">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati">REVATI</span>
+                <span class="nav-title-enterprises">ENTERPRISES</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="welcome.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="index.html" class="nav-link" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
+            <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
+            <li><a href="about.html" class="nav-link active" onclick="closeMobileNav()">About Us</a></li>
+            <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- ABOUT PAGE HERO (PART 4) -->
+    <header class="section-wrapper page-part-3d" style="text-align: center; padding: 4rem 2rem;">
+        <span class="part-badge-3d"><i class="fa-solid fa-award"></i> WHY CHOOSE REVATI ENTERPRISES</span>
+        <div class="section-subtitle">EXCELLENCE IN FACILITY OPERATIONS</div>
+        <h1 class="hero-title">Why Industry Leaders Choose <span class="font-gold-title">Revati Enterprises</span></h1>
+        <p class="hero-desc" style="margin: 0 auto 2rem; max-width: 800px;">
+            Founded with a commitment to zero-defect facility operations, Revati Enterprises manages premier commercial towers, IT parks, retail malls, and hospitals across Mumbai, Pune, and major Indian metros.
+        </p>
+    </header>
+
+    <!-- QUALITY & COMPLIANCE CARDS -->
+    <section class="section-wrapper page-part-3d">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-award"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">ISO 9001:2015 Certified SOPs</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Strict adherence to standardized sanitization checklists, safety protocols, and monthly operational SLA reviews with site managers.</p>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-user-shield"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">100% Police-Verified & Insured Staff</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Complete background verification, Provident Fund (PF), ESIC insurance compliance, and continuous safety training for every deployed team member.</p>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 2rem; border-radius: var(--radius-md);">
+                <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-laptop-file"></i></div>
+                <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">Proprietary Digital Operations Software</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLEAN PAGE NAVIGATION BAR -->
+    <div class="page-nav-controls-3d">
+        <a href="estimator.html" class="btn-nav-3d">
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>Previous: Cost Estimator</span>
+        </a>
+        <div class="page-indicator-3d" title="5-Part Site Navigation">
+            <a href="welcome.html" class="dot" title="Page 1: Welcome"></a>
+            <a href="index.html" class="dot" title="Page 2: Home Overview"></a>
+            <a href="services.html" class="dot" title="Page 3: Facility Services"></a>
+            <a href="estimator.html" class="dot" title="Page 4: Cost Estimator"></a>
+            <a href="about.html" class="dot active" title="Page 5: About Us"></a>
+        </div>
+        <a href="contact.html" class="btn-nav-3d btn-nav-next">
+            <span>Next: Contact Us</span>
+            <i class="fa-solid fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <!-- FOOTER SECTION -->
+    <footer class="page-part-3d" style="background: #040508; border-top: 1px solid var(--border-color); padding: 3rem 1.5rem 1.5rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div>
+                <img src="images/logo.png" alt="Revati Enterprises Logo" style="max-width: 180px; margin-bottom: 1rem;">
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Revati Enterprises is India's trusted partner for commercial housekeeping, high-rise glass facade maintenance, and facility engineering.</p>
+            </div>
+            <div>
+                <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Contact Info</h4>
+                <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-phone" style="color: var(--gold-primary);"></i> Helpline: +91 9769930626 / +91 9930023185</p>
+                <p style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem;"><i class="fa-solid fa-envelope" style="color: var(--gold-primary);"></i> Email: info@revatienterprises.com</p>
+                <p style="font-size: 0.88rem; color: var(--text-main);"><i class="fa-solid fa-location-dot" style="color: var(--gold-primary);"></i> Location: Mumbai / Pune / PAN India</p>
+            </div>
+            <div>
+                <h4 style="color: var(--gold-primary); font-size: 1rem; margin-bottom: 1rem;">Quality & Operations</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> ISO 9001:2015 Certified Quality</p>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.5rem;"><i class="fa-solid fa-clock" style="color: var(--gold-primary);"></i> 24/7 Facility Operations & Response</p>
+                <p style="font-size: 0.88rem; color: var(--text-muted);"><i class="fa-solid fa-building-circle-check" style="color: var(--gold-primary);"></i> Serving 500+ Corporate Towers</p>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+            © 2026 REVATI ENTERPRISES. All Rights Reserved. ISO 9001:2015 Certified Facility Management Company.
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+        function closeMobileNav() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // SERVICE WORKER & PHONE APP INSTALL SCRIPT
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Reg Error:', err));
+            });
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'inline-flex';
+        });
+
+        function installPhoneApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted Revati Phone App install');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert("To install Revati Phone App on your Mobile Phone:\n\n• Android: Tap browser menu (⋮) > 'Install app' or 'Add to Home screen'\n• iPhone / iOS: Tap Share button (⎋) > 'Add to Home Screen'");
+            }
+        }
+    </script>
+    <script src="js/scroll3d.js"></script>
+</body>
+</html>

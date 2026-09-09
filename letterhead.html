@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Letterhead Studio & Generator | REVATI ENTERPRISES</title>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PWA & Native App Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+    <!-- html2pdf.js for Direct PDF Downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        /* ==========================================
+           LETTERHEAD STUDIO & GENERATOR CUSTOM STYLES
+           ========================================== */
+        
+        .studio-container {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .studio-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Editor Control Panel */
+        .editor-card {
+            background: rgba(15, 21, 35, 0.92);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--glass-shadow);
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            position: sticky;
+            top: 90px;
+        }
+
+        .editor-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .editor-card::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+        }
+
+        .editor-section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 1.25rem 0 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .editor-section-title:first-child {
+            margin-top: 0;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-preset {
+            background: #121826;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            padding: 0.6rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn-preset:hover, .btn-preset.active {
+            border-color: var(--gold-primary);
+            color: #FFF;
+            background: rgba(212, 175, 55, 0.12);
+        }
+
+        .form-group-compact {
+            margin-bottom: 0.85rem;
+        }
+        .form-group-compact label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .form-group-compact input,
+        .form-group-compact select,
+        .form-group-compact textarea {
+            width: 100%;
+            background: #0B0E17;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #FFF;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: var(--transition-fast);
+        }
+        .form-group-compact input:focus,
+        .form-group-compact select:focus,
+        .form-group-compact textarea:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+        .form-group-compact textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0B0E17;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 0.5rem;
+        }
+        .toggle-row label {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            cursor: pointer;
+            margin: 0;
+        }
+
+        /* Letterhead A4 Paper Workspace */
+        .preview-workspace {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .paper-toolbar {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(18, 24, 38, 0.95);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* REAL A4 SHEET DIMENSIONS IN DISPLAY AND PRINT */
+        .a4-sheet {
+            width: 210mm;
+            min-height: 297mm;
+            background: #FFFFFF !important;
+            color: #1A202C !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            position: relative;
+            box-sizing: border-box;
+            padding: 18mm 20mm 20mm 20mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            margin: 0 auto;
+            transform-origin: top center;
+            transition: transform 0.2s ease;
+        }
+
+        .a4-sheet p,
+        .a4-sheet div,
+        .a4-sheet span,
+        .a4-sheet li,
+        .a4-sheet td,
+        .a4-sheet th {
+            color: #2D3748;
+        }
+
+        .a4-sheet strong,
+        .a4-sheet b {
+            color: #0A0E17;
+        }
+
+        /* Printable Letterhead Header Templates */
+        
+        /* TEMPLATE 1: EXECUTIVE GOLD & ROYAL NAVY */
+        .a4-sheet.tpl-executive-gold {
+            border-top: 6px solid #D4AF37;
+        }
+        .tpl-executive-gold .lh-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #D4AF37;
+            margin-bottom: 22px;
+        }
+        .tpl-executive-gold .lh-brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18pt;
+            font-weight: 800;
+            color: #0A0E17;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+        }
+        .tpl-executive-gold .lh-brand-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: #D4AF37;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 2px;
+        }
+        .tpl-executive-gold .lh-header-badges {
+            font-size: 7.5pt;
+            color: #4A5568;
+            margin-top: 4px;
+        }
+
+        /* TEMPLATE 2: MODERN CORPORATE MINIMAL */
+        .a4-sheet.tpl-modern-minimal {
+            border-left: 8px solid #D4AF37;
+        }
+        .tpl-modern-minimal .lh-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #E2E8F0;
+            margin-bottom: 24px;
+        }
+        .tpl-modern-minimal .lh-brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20pt;
+            font-weight: 800;
+            color: #0F172A;
+            letter-spacing: -0.01em;
+        }
+        .tpl-modern-minimal .lh-brand-subtitle {
+            font-size: 8pt;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+        }
+
+        /* TEMPLATE 3: ISO CERTIFIED FORMAL BANNER */
+        .a4-sheet.tpl-iso-formal {
+            padding-top: 14mm;
+        }
+        .tpl-iso-formal .lh-top-banner {
+            background: linear-gradient(135deg, #0A0E17 0%, #1A2338 100%);
+            color: #FFF;
+            margin: -14mm -20mm 20px -20mm;
+            padding: 16px 20mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid #D4AF37;
+        }
+        .tpl-iso-formal .lh-top-banner .lh-brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 17pt;
+            color: #FCF6BA;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .tpl-iso-formal .lh-top-banner .lh-brand-subtitle {
+            font-size: 8pt;
+            color: #D4AF37;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        /* TEMPLATE 4: GEOMETRIC FOIL ACCENT */
+        .a4-sheet.tpl-geometric-foil {
+            position: relative;
+        }
+        .tpl-geometric-foil .lh-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 12px;
+            border-bottom: 3px double #D4AF37;
+            margin-bottom: 20px;
+        }
+
+        /* TEMPLATE 5: TRADITIONAL BLUEPRINT */
+        .a4-sheet.tpl-traditional-blueprint .lh-header {
+            text-align: center;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #0A0E17;
+            margin-bottom: 24px;
+        }
+        .tpl-traditional-blueprint .lh-brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 21pt;
+            font-weight: 800;
+            color: #0A0E17;
+            letter-spacing: 0.08em;
+        }
+
+        /* Shared Letterhead Components inside paper */
+        .lh-logo-img {
+            max-height: 52px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .lh-contact-meta {
+            text-align: right;
+            font-size: 8pt;
+            color: #4A5568;
+            line-height: 1.4;
+        }
+        .lh-contact-meta strong {
+            color: #1A202C;
+        }
+
+        .lh-meta-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 9.5pt;
+        }
+
+        .lh-recipient-box {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .lh-recipient-name {
+            font-weight: 700;
+            color: #0F172A;
+            font-size: 11pt;
+        }
+        .lh-recipient-org {
+            font-weight: 600;
+            color: #334155;
+        }
+        .lh-recipient-address {
+            color: #475569;
+        }
+
+        .lh-subject-bar {
+            background: rgba(212, 175, 55, 0.08);
+            border-left: 4px solid #D4AF37;
+            padding: 8px 12px;
+            margin-bottom: 22px;
+            font-weight: 700;
+            color: #0A0E17;
+            font-size: 10.5pt;
+        }
+        .lh-subject-label {
+            color: #D4AF37;
+            text-transform: uppercase;
+            font-size: 8.5pt;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .lh-salutation {
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #1E293B;
+        }
+
+        .lh-body-content {
+            flex: 1;
+            color: #2D3748;
+            text-align: justify;
+            min-height: 240px;
+        }
+        .lh-body-content p {
+            margin-bottom: 14px;
+            line-height: 1.65;
+        }
+
+        .lh-signatory-block {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            page-break-inside: avoid;
+        }
+        .lh-sign-salutation {
+            font-size: 9.5pt;
+            color: #475569;
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+        .lh-sign-org-badge {
+            margin-bottom: 6px;
+        }
+        .lh-sign-for {
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: #D4AF37;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            display: block;
+        }
+        .lh-sign-brand-name {
+            font-family: 'Cinzel', serif;
+            font-size: 11pt;
+            font-weight: 800;
+            color: #0A0E17;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            line-height: 1.25;
+        }
+        .lh-sign-gold-line {
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, #D4AF37 0%, rgba(212, 175, 55, 0.25) 100%);
+            margin-top: 4px;
+        }
+        .lh-signature-space {
+            height: 55px;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .lh-signature-img {
+            max-height: 50px;
+            opacity: 0.9;
+        }
+        .lh-signee-name {
+            font-weight: 700;
+            color: #0F172A;
+            font-size: 11pt;
+        }
+        .lh-signee-title {
+            font-size: 9pt;
+            color: #D4AF37;
+            font-weight: 600;
+        }
+        .lh-signee-co {
+            font-size: 8.5pt;
+            color: #64748B;
+        }
+
+        /* Official Seal / Rubber Stamp */
+        .lh-rubber-stamp {
+            border: 3px double #1E3A8A;
+            color: #1E3A8A;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 8pt;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transform: rotate(-4deg);
+            background: rgba(30, 58, 138, 0.03);
+            box-shadow: 0 0 0 1px rgba(30, 58, 138, 0.2);
+            line-height: 1.25;
+            user-select: none;
+        }
+
+        /* Letterhead Bottom Footer */
+        .lh-footer {
+            border-top: 1.5px solid #D4AF37;
+            padding-top: 10px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 7.5pt;
+            color: #64748B;
+            line-height: 1.4;
+        }
+        .lh-footer-hq {
+            max-width: 60%;
+        }
+        .lh-footer-contacts {
+            text-align: right;
+        }
+
+        .lh-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            opacity: 0.04;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* ==========================================
+           PRINT CSS SPECIFICATIONS (@media print)
+           ========================================== */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0mm;
+            }
+
+            html, body {
+                width: 210mm !important;
+                height: 297mm !important;
+                background: #FFFFFF !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+            }
+
+            /* Hide all web UI chrome and surrounding page elements */
+            .top-bar, .navbar, .page-header-banner, .editor-card, .paper-toolbar, footer, .bg-3d-orb, .mobile-menu-btn, .part-badge-3d {
+                display: none !important;
+            }
+
+            .studio-container {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .preview-workspace {
+                display: block !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            #paperSheet {
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                margin: 0 auto !important;
+                padding: 14mm 18mm 16mm 18mm !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                border: none !important;
+                transform: none !important;
+                background: #FFFFFF !important;
+                color: #1A202C !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            #paperSheet * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            [contenteditable="true"] {
+                outline: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D AMBIENT BACKGROUND ORBS -->
+    <div class="bg-3d-orb bg-orb-gold-1"></div>
+    <div class="bg-3d-orb bg-orb-gold-2"></div>
+
+    <!-- TOP ANNOUNCEMENT & CONTACT BAR -->
+    <div class="top-bar" id="topAnchor">
+        <div class="top-info">
+            <span><i class="fa-solid fa-phone"></i> Helpline: +91 9769930626 / +91 9930023185</span>
+            <span><i class="fa-solid fa-envelope"></i> info@revatienterprises.com</span>
+            <span><i class="fa-solid fa-location-dot"></i> Corporate HQ: Mumbai | PAN India</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
+            <span style="color: var(--gold-primary); font-weight: 600;"><i class="fa-solid fa-file-signature"></i> Official Document Portal</span>
+        </div>
+    </div>
+
+    <!-- MAIN BRAND NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="images/logo.png" alt="REVATI ENTERPRISES Logo" class="nav-logo-img">
+            <div class="nav-brand-text">
+                <span class="nav-title-revati">REVATI</span>
+                <span class="nav-title-enterprises">ENTERPRISES</span>
+            </div>
+        </a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="welcome.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="index.html" class="nav-link" onclick="closeMobileNav()">Home</a></li>
+            <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
+            <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
+            <li><a href="letterhead.html" class="nav-link active" onclick="closeMobileNav()"><i class="fa-solid fa-file-contract" style="color: var(--gold-primary);"></i> Letterhead Studio</a></li>
+            <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
+            <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+            <li><a href="admin.html" class="btn btn-gold"><i class="fa-solid fa-user-tie"></i> Admin Portal</a></li>
+        </ul>
+    </nav>
+
+    <!-- STUDIO HEADER BANNER -->
+    <header class="section-wrapper page-part-3d page-header-banner" style="text-align: center; padding: 2.5rem 1.5rem 1rem;">
+        <span class="part-badge-3d"><i class="fa-solid fa-print"></i> OFFICIAL DOCUMENTATION SUITE</span>
+        <div class="section-subtitle">INTERACTIVE LETTERHEAD GENERATOR</div>
+        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">
+            Revati Enterprises <span class="font-gold-title">Letterhead Studio</span>
+        </h1>
+        <p class="hero-desc" style="margin: 0 auto; max-width: 750px; font-size: 0.95rem;">
+            Create, edit, custom-brand, and print authentic ISO 9001:2015 certified company letterhead proposals, clearance certificates, SLA agreements, and official stationery.
+        </p>
+    </header>
+
+    <!-- MAIN INTERACTIVE STUDIO CONTAINER -->
+    <main class="studio-container">
+        
+        <!-- LEFT PANEL: CONTROLS & EDITOR -->
+        <aside class="editor-card">
+            
+            <div class="editor-section-title">
+                <i class="fa-solid fa-building"></i> 1. Company Info & Header Details
+            </div>
+            <div class="form-group-compact">
+                <label>Company Name</label>
+                <input type="text" id="inputCompName" value="REVATI ENTERPRISES" oninput="syncLetterhead()">
+            </div>
+            <div class="form-group-compact">
+                <label>Tagline / Subtitle</label>
+                <input type="text" id="inputCompTagline" value="Commercial Housekeeping & Facility Management" oninput="syncLetterhead()">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="form-group-compact">
+                    <label>Helpline / Phone</label>
+                    <input type="text" id="inputHelpline" value="+91 9769930626 / +91 9930023185" oninput="syncLetterhead()">
+                </div>
+                <div class="form-group-compact">
+                    <label>Email</label>
+                    <input type="text" id="inputEmail" value="info@revatienterprises.com" oninput="syncLetterhead()">
+                </div>
+            </div>
+            <div class="form-group-compact">
+                <label>Corporate HQ Address</label>
+                <input type="text" id="inputHqAddr" value="MIDC Industrial Area, Andheri East, Mumbai - 400093" oninput="syncLetterhead()">
+            </div>
+
+            <div class="editor-section-title">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> 2. Choose Layout Template
+            </div>
+            <div class="preset-grid">
+                <button class="btn-preset active" onclick="changeTemplate('tpl-executive-gold', this)">
+                    <i class="fa-solid fa-crown" style="color: #D4AF37;"></i> Executive Gold
+                </button>
+                <button class="btn-preset" onclick="changeTemplate('tpl-modern-minimal', this)">
+                    <i class="fa-solid fa-layer-group" style="color: #3B82F6;"></i> Modern Minimal
+                </button>
+                <button class="btn-preset" onclick="changeTemplate('tpl-iso-formal', this)">
+                    <i class="fa-solid fa-award" style="color: #10B981;"></i> ISO Formal Banner
+                </button>
+                <button class="btn-preset" onclick="changeTemplate('tpl-geometric-foil', this)">
+                    <i class="fa-solid fa-shapes" style="color: #F59E0B;"></i> Geometric Foil
+                </button>
+                <button class="btn-preset" onclick="changeTemplate('tpl-traditional-blueprint', this)" style="grid-column: span 2;">
+                    <i class="fa-solid fa-monument" style="color: #8B5CF6;"></i> Classic Traditional Blueprint
+                </button>
+            </div>
+
+            <div class="editor-section-title">
+                <i class="fa-solid fa-file-lines"></i> 3. Preset Document Loader
+            </div>
+            <div class="form-group-compact">
+                <select id="presetSelector" onchange="loadPresetDocument(this.value)">
+                    <option value="quotation">📜 Commercial Housekeeping Quotation Proposal</option>
+                    <option value="offer">👔 Official Employment Offer Letter</option>
+                    <option value="leave">🏖️ Employee Leave Approval & Sanction Notice</option>
+                    <option value="holidays">📅 Official Corporate & Public Holidays Calendar</option>
+                    <option value="sla">🏆 SLA Quality & Compliance Certificate</option>
+                    <option value="clearance">🧹 Deep Sanitation & Maintenance Clearance</option>
+                    <option value="contract">💼 Annual Facility Contract Award</option>
+                    <option value="general">📝 Official Corporate Notice / Letter</option>
+                    <option value="blank">📄 Blank Letterhead Paper (For Printing)</option>
+                </select>
+            </div>
+
+            <div class="editor-section-title">
+                <i class="fa-solid fa-pen-to-square"></i> 4. Document Details
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="form-group-compact">
+                    <label>Reference No.</label>
+                    <input type="text" id="inputRefNo" value="REF: RE/2026/QS-9482" oninput="syncLetterhead()">
+                </div>
+                <div class="form-group-compact">
+                    <label>Date</label>
+                    <input type="text" id="inputDate" value="10th August 2026" oninput="syncLetterhead()">
+                </div>
+            </div>
+
+            <div class="form-group-compact">
+                <label>Recipient Name & Title</label>
+                <input type="text" id="inputRecipName" value="Mr. Vikramaditya Sharma" oninput="syncLetterhead()">
+            </div>
+            <div class="form-group-compact">
+                <label>Recipient Organization</label>
+                <input type="text" id="inputRecipOrg" value="Vice President - Corporate Real Estate & Procurement" oninput="syncLetterhead()">
+            </div>
+            <div class="form-group-compact">
+                <label>Recipient Address / Location</label>
+                <input type="text" id="inputRecipAddr" value="Apex Tech Towers Pvt. Ltd., BKC Complex, Bandra East, Mumbai - 400051" oninput="syncLetterhead()">
+            </div>
+
+            <div class="form-group-compact">
+                <label>Subject Line</label>
+                <input type="text" id="inputSubject" value="PROPOSAL FOR COMPREHENSIVE COMMERCIAL HOUSEKEEPING & FACILITY MANAGEMENT SERVICES (FY 2026-27)" oninput="syncLetterhead()">
+            </div>
+
+            <div class="form-group-compact">
+                <label>Salutation</label>
+                <input type="text" id="inputSalutation" value="Dear Mr. Sharma," oninput="syncLetterhead()">
+            </div>
+
+            <div class="form-group-compact">
+                <label>Letter Content Paragraphs (Supports HTML / linebreaks)</label>
+                <textarea id="inputBody" rows="7" oninput="syncLetterhead()"></textarea>
+            </div>
+
+            <div class="editor-section-title">
+                <i class="fa-solid fa-signature"></i> 5. Digital Signature & Signatory
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                <div class="form-group-compact">
+                    <label>Signatory Name</label>
+                    <input type="text" id="inputSigneeName" value="MR. MIHIR R. KADAM" oninput="syncLetterhead()">
+                </div>
+                <div class="form-group-compact">
+                    <label>Signatory Designation</label>
+                    <input type="text" id="inputSigneeTitle" value="Founder & Managing Director" oninput="syncLetterhead()">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                <div class="form-group-compact">
+                    <label>Closing Salutation</label>
+                    <input type="text" id="inputClosing" value="Yours Sincerely," oninput="syncLetterhead()">
+                </div>
+                <div class="form-group-compact">
+                    <label>Corporate Entity Line</label>
+                    <input type="text" id="inputSignoffOrg" value="REVATI ENTERPRISES" oninput="syncLetterhead()">
+                </div>
+            </div>
+
+            <!-- Digital Signature Mode Selector -->
+            <div class="form-group-compact" style="margin-top: 0.5rem;">
+                <label><i class="fa-solid fa-pen-nib" style="color: var(--gold-primary);"></i> Digital Signature Mode</label>
+                <select id="sigTypeSelector" onchange="switchSignatureType(this.value)">
+                    <option value="script">✍️ Royal Blue Script ("MR. MIHIR R. KADAM")</option>
+                    <option value="draw">🎨 Draw Signature on Pad / Canvas</option>
+                    <option value="upload">🖼️ Upload Signature Image File</option>
+                    <option value="none">🚫 No Signature Graphic</option>
+                </select>
+            </div>
+
+            <!-- Digital Canvas Draw Pad -->
+            <div id="sigDrawContainer" style="display: none; background: #0B0E17; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                    <span style="font-size: 0.75rem; color: var(--gold-primary); font-weight: 700;">DRAW SIGNATURE BELOW</span>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="clearSignatureCanvas()" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+                </div>
+                <canvas id="signatureCanvas" width="340" height="90" style="width: 100%; height: 90px; background: #FFFFFF; border-radius: 6px; cursor: crosshair; touch-action: none; border: 1px solid #CBD5E1;"></canvas>
+                <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.35rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span>Draw with mouse or touch</span>
+                    <button type="button" class="btn btn-sm btn-gold" onclick="applyDrawnSignature()" style="font-size: 0.7rem; padding: 0.2rem 0.6rem;"><i class="fa-solid fa-check"></i> Apply to Paper</button>
+                </div>
+            </div>
+
+            <!-- Digital Signature Image Upload -->
+            <div id="sigUploadContainer" style="display: none; margin-bottom: 0.85rem;">
+                <div class="form-group-compact">
+                    <label>Upload Custom Signature (.PNG / .JPG / .SVG)</label>
+                    <input type="file" id="sigFileInput" accept="image/*" onchange="handleSignatureFileUpload(event)">
+                </div>
+            </div>
+
+            <div class="editor-section-title">
+                <i class="fa-solid fa-sliders"></i> 6. Branding & Toggles
+            </div>
+
+            <div class="toggle-row">
+                <label for="toggleWatermark"><i class="fa-solid fa-droplet" style="color: var(--gold-primary);"></i> Show Logo Watermark</label>
+                <input type="checkbox" id="toggleWatermark" checked onchange="toggleWatermark(this.checked)">
+            </div>
+            
+            <div class="toggle-row">
+                <label for="toggleStamp"><i class="fa-solid fa-stamp" style="color: #3B82F6;"></i> Show Official Rubber Seal Stamp</label>
+                <input type="checkbox" id="toggleStamp" checked onchange="toggleStamp(this.checked)">
+            </div>
+
+            <div class="toggle-row">
+                <label for="toggleISO"><i class="fa-solid fa-shield-halved" style="color: #10B981;"></i> Show ISO 9001 Header Tag</label>
+                <input type="checkbox" id="toggleISO" checked onchange="toggleISO(this.checked)">
+            </div>
+
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-direction: column;">
+                <button class="btn btn-gold" onclick="downloadPDF()" style="width: 100%; justify-content: center; font-size: 0.95rem; font-weight: 700;">
+                    <i class="fa-solid fa-download"></i> Download PDF Document (.pdf)
+                </button>
+                <button class="btn btn-secondary" onclick="triggerPrintLetterhead()" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+                    <i class="fa-solid fa-print"></i> Print / Save via Browser Print
+                </button>
+                <button class="btn btn-secondary" onclick="downloadWord()" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+                    <i class="fa-solid fa-file-word"></i> Export as Word Document (.doc)
+                </button>
+                <button class="btn btn-secondary" onclick="copyLetterText()" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+                    <i class="fa-solid fa-copy"></i> Copy Text to Clipboard
+                </button>
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: LIVE A4 PRINTABLE LETTERHEAD SHEET -->
+        <section class="preview-workspace">
+            
+            <!-- TOOLBAR ABOVE PAPER -->
+            <div class="paper-toolbar">
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <span class="badge badge-gold"><i class="fa-solid fa-eye"></i> Live A4 Sheet Preview</span>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-i-cursor"></i> Click anywhere on paper to edit details!</span>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-sm btn-secondary" onclick="zoomPaper(1)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="btn btn-sm btn-secondary" onclick="zoomPaper(-1)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <button class="btn btn-sm btn-gold" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
+                </div>
+            </div>
+
+            <!-- A4 PAPER CANVAS -->
+            <div id="paperSheet" class="a4-sheet tpl-executive-gold">
+                
+                <!-- BACKGROUND WATERMARK LOGO -->
+                <img src="images/logo.png" id="lhWatermark" class="lh-watermark" alt="Revati Watermark">
+
+                <!-- TOP HEADER CONTAINER -->
+                <div>
+                    <div id="lhHeaderContainer" class="lh-header">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="images/logo.png" alt="REVATI ENTERPRISES" class="lh-logo-img">
+                            <div>
+                                <div class="lh-brand-title" id="paperCompName" contenteditable="true">REVATI ENTERPRISES</div>
+                                <div class="lh-brand-subtitle" id="paperCompTagline" contenteditable="true">Commercial Housekeeping &amp; Facility Management</div>
+                                <div id="lhIsoBadge" class="lh-header-badges" contenteditable="true">
+                                    <i class="fa-solid fa-shield-halved" style="color: #D4AF37;"></i> ISO 9001:2015 Certified Firm &bull; Govt. Registered MSME
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lh-contact-meta">
+                            <div><strong>Corporate H.Q:</strong> <span id="paperHqAddrShort" contenteditable="true">MIDC Ind. Zone, Mumbai - 400093</span></div>
+                            <div><strong>Operations Helpline:</strong> <span id="paperHelplineShort" contenteditable="true">+91 9769930626 / +91 9930023185</span></div>
+                            <div><strong>Email:</strong> <span id="paperEmailShort" contenteditable="true">info@revatienterprises.com</span></div>
+                            <div><strong>Web:</strong> <span id="paperWebShort" contenteditable="true">www.revatienterprises.com</span></div>
+                            <div style="margin-top: 3px; font-size: 7pt; color: #718096;" id="paperGstinCin" contenteditable="true">GSTIN: 27AAAAR1234F1Z9 &bull; CIN: U74999MH2018PTC312345</div>
+                        </div>
+                    </div>
+
+                    <!-- REF & DATE ROW -->
+                    <div class="lh-meta-row">
+                        <div><strong style="color: #D4AF37;">Ref No:</strong> <span id="paperRefNo" contenteditable="true">REF: RE/2026/QS-9482</span></div>
+                        <div><strong>Date:</strong> <span id="paperDate" contenteditable="true">10th August 2026</span></div>
+                    </div>
+
+                    <!-- RECIPIENT ADDRESS -->
+                    <div class="lh-recipient-box" id="paperRecipBox">
+                        <div class="lh-recipient-name" id="paperRecipName" contenteditable="true">Mr. Vikramaditya Sharma</div>
+                        <div class="lh-recipient-org" id="paperRecipOrg" contenteditable="true">Vice President - Corporate Real Estate & Procurement</div>
+                        <div class="lh-recipient-address" id="paperRecipAddr" contenteditable="true">Apex Tech Towers Pvt. Ltd., BKC Complex, Bandra East, Mumbai - 400051</div>
+                    </div>
+
+                    <!-- SUBJECT LINE -->
+                    <div class="lh-subject-bar" id="paperSubjectBar">
+                        <span class="lh-subject-label">Subject:</span>
+                        <span id="paperSubject" contenteditable="true">PROPOSAL FOR COMPREHENSIVE COMMERCIAL HOUSEKEEPING & FACILITY MANAGEMENT SERVICES (FY 2026-27)</span>
+                    </div>
+
+                    <!-- SALUTATION -->
+                    <div class="lh-salutation" id="paperSalutation" contenteditable="true">
+                        Dear Mr. Sharma,
+                    </div>
+
+                    <!-- LETTER BODY CONTENT -->
+                    <div class="lh-body-content" id="paperBody" contenteditable="true">
+                        <p>We express our sincere gratitude for inviting <strong>REVATI ENTERPRISES</strong> to submit our formal commercial proposal for facility management and housekeeping operations across your IT Park campus in Mumbai.</p>
+                        <p>As an <strong>ISO 9001:2015 Certified</strong> industry leader with over a decade of operational excellence, Revati Enterprises delivers end-to-end commercial sanitation, mechanized floor scrubbing, high-rise facade cleaning, waste management, and trained supervisory manpower.</p>
+                        <p><strong>Key Highlights of Our Operational Commitment:</strong></p>
+                        <ul>
+                          <li><strong>Deployable Staff:</strong> 18 Trained Housekeeping Executives &amp; 2 Certified Facility Supervisors.</li>
+                          <li><strong>Mechanized Equipment:</strong> Industrial Auto-Scrubber Dryers, High-Pressure Washers &amp; HEPA Vacuum Units.</li>
+                          <li><strong>Eco-Friendly Chemical Standards:</strong> 100% EcoLab &amp; Diversey Green-certified bio-degradable solutions.</li>
+                          <li><strong>Statutory Compliance:</strong> Complete ESIC, PF, Minimum Wages Act, and Workmen Compensation adherence.</li>
+                        </ul>
+                        <p>Attached herewith is our itemized monthly financial estimate. We welcome the opportunity to present our site deployment plan in person at your office.</p>
+                    </div>
+                </div>
+
+                <!-- SIGNATORY BLOCK & FOOTER -->
+                <div>
+                    <div class="lh-signatory-block">
+                        <div>
+                            <div class="lh-sign-salutation" id="paperClosing" contenteditable="true">Yours Sincerely,</div>
+                            <div class="lh-sign-org-badge">
+                                <span class="lh-sign-for">FOR &amp; ON BEHALF OF</span>
+                                <div class="lh-sign-brand-name" id="paperSignoffOrg" contenteditable="true">REVATI ENTERPRISES</div>
+                                <div class="lh-sign-gold-line"></div>
+                            </div>
+                            
+                            <div class="lh-signature-space">
+                                <div id="paperScriptSignature" style="font-family: 'Playfair Display', 'Cinzel', serif; font-style: italic; font-size: 16pt; color: #1E3A8A; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
+                                    MR. MIHIR R. KADAM
+                                </div>
+                                <img id="paperDrawnSignatureImg" style="display: none; max-height: 55px; width: auto; object-fit: contain;" alt="Digital Signature">
+                            </div>
+                            
+                            <div class="lh-signee-name" id="paperSigneeName" contenteditable="true">MR. MIHIR R. KADAM</div>
+                            <div class="lh-signee-title" id="paperSigneeTitle" contenteditable="true">Founder & Managing Director</div>
+                            <div class="lh-signee-co">Revati Enterprises Corporate Division</div>
+                        </div>
+
+                        <!-- OFFICIAL RUBBER STAMP -->
+                        <div id="paperStamp" class="lh-rubber-stamp">
+                            <i class="fa-solid fa-certificate"></i><br>
+                            REVATI ENTERPRISES<br>
+                            <span style="font-size: 6.5pt; font-weight: 600; color: #1E3A8A;">VERIFIED &amp; AUTHORIZED</span><br>
+                            <span style="font-size: 6pt; color: #4B5563;" id="stampDateDisplay">10-AUG-2026</span>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="lh-footer">
+                        <div class="lh-footer-hq">
+                            <strong>REVATI ENTERPRISES &bull; Facility Management Services</strong><br>
+                            Plot No. 42, Commercial Zone, MIDC Industrial Area, Andheri East, Mumbai, Maharashtra - 400093<br>
+                            <span style="color: #A0AEC0;">Regional Hubs: Mumbai (HQ) | Pune | Thane | Navi Mumbai | Delhi NCR</span>
+                        </div>
+                        <div class="lh-footer-contacts">
+                            <strong>Direct Helpline:</strong> +91 9769930626 / 9930023185<br>
+                            <strong>Web:</strong> www.revatienterprises.com<br>
+                            <span style="color: #D4AF37; font-weight: 600;">ISO 9001:2015 CERTIFIED</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" style="margin-top: 4rem; border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+        <p>&copy; 2026 REVATI ENTERPRISES &bull; Official Facility Management & Documentation Portal.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script src="js/letterhead.js"></script>
+    <script>
+        function toggleMobileNav() {
+            const navLinks = document.getElementById('navLinks');
+            if(navLinks) navLinks.classList.toggle('active');
+        }
+        function closeMobileNav() {
+            const navLinks = document.getElementById('navLinks');
+            if(navLinks) navLinks.classList.remove('active');
+        }
+    </script>
+    <script src="js/scroll3d.js"></script>
+</body>
+</html>
