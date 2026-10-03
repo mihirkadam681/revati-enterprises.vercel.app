@@ -17,6 +17,26 @@
     {
       "employeeName": "Revati Administrator",
       "empCode": "REV-WORKER",
+      "timeIn": "02:02 PM",
+      "timeOut": "02:02 PM",
+      "location": "Client Site GPS",
+      "status": "Completed",
+      "id": 61094,
+      "date": "2026-10-03"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
+      "timeIn": "02:02 PM",
+      "timeOut": "Active Shift",
+      "location": "Client Site GPS",
+      "status": "Present",
+      "id": 54130,
+      "date": "2026-10-03"
+    },
+    {
+      "employeeName": "Revati Administrator",
+      "empCode": "REV-WORKER",
       "timeIn": "11:44 PM",
       "timeOut": "11:45 PM",
       "location": "Client Site GPS",

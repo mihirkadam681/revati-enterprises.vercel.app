@@ -1,0 +1,425 @@
+/* ==========================================================================
+   REVATI ENTERPRISES - High-End 4K Cinematic Video Intro Player System
+   ========================================================================== */
+
+.video-intro-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 1.5rem 0 2.5rem;
+    border-radius: 20px;
+    background: #05070c;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15);
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+}
+
+.video-player-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 400px;
+    max-height: 560px;
+    background: #000;
+    overflow: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Background Scene Image with Ken Burns animation */
+.video-scene-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.03);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 7s ease-out;
+    z-index: 1;
+}
+
+.video-scene-bg.active {
+    opacity: 1;
+    transform: scale(1.12) translate(-1%, -0.5%);
+}
+
+/* Canvas Overlay for Particle Sweeps & Lens Flares */
+.video-canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Cinematic Scanlines & Film Vignette Overlay */
+.video-vignette-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.85) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.65) 0%, transparent 20%, transparent 75%, rgba(0,0,0,0.92) 100%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.08) 0px, rgba(0,0,0,0.08) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* HUD Camera Tech Corner Crosshairs */
+.video-hud-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(212, 175, 55, 0.6);
+    pointer-events: none;
+    z-index: 5;
+}
+.video-hud-tl { top: 16px; left: 16px; border-right: none; border-bottom: none; }
+.video-hud-tr { top: 16px; right: 16px; border-left: none; border-bottom: none; }
+.video-hud-bl { bottom: 85px; left: 16px; border-right: none; border-top: none; }
+.video-hud-br { bottom: 85px; right: 16px; border-left: none; border-top: none; }
+
+/* Video Top HUD Bar */
+.video-top-hud {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(180deg, rgba(5,7,12,0.85) 0%, transparent 100%);
+}
+
+.video-rec-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(239, 68, 68, 0.18);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ef4444;
+    letter-spacing: 1px;
+}
+
+.video-rec-dot {
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    animation: videoRecBlink 1.2s infinite ease-in-out;
+}
+
+@keyframes videoRecBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(0.7); }
+}
+
+.video-quality-tag {
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid var(--border-color);
+    color: var(--gold-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.video-timecode {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Equalizer Bars */
+.video-eq-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 16px;
+}
+.video-eq-bar {
+    width: 3px;
+    background: var(--gold-primary);
+    border-radius: 2px;
+    animation: eqBounce 0.8s infinite ease-in-out alternate;
+}
+.video-eq-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.video-eq-bar:nth-child(2) { height: 90%; animation-delay: 0.3s; }
+.video-eq-bar:nth-child(3) { height: 60%; animation-delay: 0.2s; }
+.video-eq-bar:nth-child(4) { height: 100%; animation-delay: 0.4s; }
+.video-eq-bar:nth-child(5) { height: 50%; animation-delay: 0.15s; }
+
+@keyframes eqBounce {
+    0% { height: 20%; }
+    100% { height: 100%; }
+}
+
+/* Center Play Button Overlay */
+.video-center-overlay {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: center;
+    pointer-events: auto;
+    transition: opacity 0.3s ease;
+}
+
+.video-center-overlay.playing {
+    opacity: 0.15;
+}
+
+.video-center-overlay.playing:hover {
+    opacity: 1;
+}
+
+.video-play-btn-large {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(18, 24, 38, 0.85);
+    border: 2px solid var(--gold-primary);
+    color: var(--gold-primary);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.4), inset 0 0 15px rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.video-play-btn-large:hover {
+    transform: scale(1.12);
+    background: var(--gold-primary);
+    color: #000;
+    box-shadow: 0 0 50px rgba(212, 175, 55, 0.8);
+}
+
+.video-play-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #FFF;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    letter-spacing: 1px;
+}
+
+.video-play-subtitle {
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    max-width: 480px;
+    line-height: 1.4;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+}
+
+/* Bottom Video HUD Controls */
+.video-bottom-hud {
+    position: relative;
+    z-index: 6;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(0deg, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 70%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Timeline Progress Scrub Bar */
+.video-progress-wrapper {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 3px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.video-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--gold-gradient);
+    box-shadow: 0 0 12px var(--gold-glow);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+/* Subtitle Container */
+.video-caption-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(10, 14, 23, 0.85);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: #F8FAFC;
+    backdrop-filter: blur(10px);
+}
+
+.video-caption-icon {
+    color: var(--gold-primary);
+    font-size: 1rem;
+}
+
+.video-caption-text {
+    flex: 1;
+    font-weight: 500;
+    min-height: 1.2em;
+}
+
+/* Control Buttons Row */
+.video-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.video-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.video-ctrl-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #FFF;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s ease;
+}
+
+.video-ctrl-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold-primary);
+    color: var(--gold-light);
+}
+
+.video-scene-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.video-pill {
+    background: rgba(18, 24, 38, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-muted);
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.video-pill:hover, .video-pill.active {
+    background: var(--gold-gradient);
+    color: #000;
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+/* FULLSCREEN THEATER MODAL */
+.video-theater-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.video-theater-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.video-theater-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    z-index: 100000;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid var(--gold-primary);
+    color: var(--gold-light);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.video-theater-close:hover {
+    background: var(--gold-primary);
+    color: #000;
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+    .video-player-container {
+        aspect-ratio: 4 / 3;
+        min-height: 380px;
+    }
+    .video-timecode, .video-eq-container {
+        display: none;
+    }
+    .video-play-title {
+        font-size: 1.05rem;
+    }
+    .video-play-subtitle {
+        display: none;
+    }
+    .video-controls-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .video-scene-pills {
+        justify-content: center;
+    }
+}

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome | REVATI ENTERPRISES - Facility Management</title>
-    <!-- CSS Styles -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/video-intro.css">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- PWA Support -->
@@ -53,6 +53,9 @@
 
     <!-- MAIN WELCOME CONTENT CONTAINER -->
     <main style="max-width: 1250px; margin: 0 auto; padding: 2rem 1.5rem;">
+
+        <!-- 4K CINEMATIC VIDEO INTRO SHOWCASE -->
+        <div id="videoIntroMount"></div>
 
         <!-- 3D EXECUTIVE WELCOME BANNER SLIDER -->
         <section class="welcome-slider-container scroll-3d-element">
@@ -295,6 +298,7 @@
     </footer>
 
     <!-- 3D Scroll & Slider Engine -->
+    <script src="js/video-intro.js"></script>
     <script src="js/scroll3d.js"></script>
     <script>
         function toggleMobileNav() {

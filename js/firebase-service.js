@@ -1,11 +1,23 @@
 // REVATI ENTERPRISES - Firebase Cloud Firestore & Authentication Service
 // Seamless Real-Time Cloud Synchronization & Offline Fallback Layer
 
+// Default Firebase Project Configuration for Revati Enterprises
+const DEFAULT_FIREBASE_CONFIG = {
+    apiKey: "AIzaSyAOZJf89jiisnUX5kTNVbZaZZ2YSPHVZCE",
+    authDomain: "revati-enterprises-178f1.firebaseapp.com",
+    projectId: "revati-enterprises-178f1",
+    storageBucket: "revati-enterprises-178f1.firebasestorage.app",
+    messagingSenderId: "71519014879",
+    appId: "1:71519014879:web:c6273a981300784f7ffe6a",
+    measurementId: "G-M2W9L56X7T"
+};
+
 class FirebaseService {
     constructor() {
         this.app = null;
         this.db = null;
         this.auth = null;
+        this.analytics = null;
         this.isReady = false;
         this.listeners = {};
         this.statusListeners = [];
@@ -16,18 +28,37 @@ class FirebaseService {
         
         // Auto-initialize if config exists
         if (this.config && this.config.projectId && this.config.apiKey) {
-            this.initFirebase(this.config);
+            if (typeof firebase !== 'undefined') {
+                this.initFirebase(this.config);
+            } else {
+                // If scripts load asynchronously or before DOM ready
+                window.addEventListener('DOMContentLoaded', () => {
+                    if (typeof firebase !== 'undefined' && !this.isReady) {
+                        this.initFirebase(this.config);
+                    }
+                });
+            }
         }
     }
 
     loadConfig() {
         try {
             const saved = localStorage.getItem('revati_firebase_config');
-            if (saved) return JSON.parse(saved);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed && parsed.apiKey && parsed.projectId === DEFAULT_FIREBASE_CONFIG.projectId) {
+                    return parsed;
+                }
+            }
         } catch (e) {
             console.warn('Failed to parse saved Firebase config', e);
         }
-        return null;
+        
+        // Save and return project default credentials
+        try {
+            localStorage.setItem('revati_firebase_config', JSON.stringify(DEFAULT_FIREBASE_CONFIG));
+        } catch (e) {}
+        return { ...DEFAULT_FIREBASE_CONFIG };
     }
 
     saveConfig(config) {
@@ -75,6 +106,15 @@ class FirebaseService {
 
             this.db = firebase.firestore();
             this.auth = firebase.auth();
+
+            // Initialize Analytics if supported
+            if (typeof firebase.analytics === 'function' && config.measurementId) {
+                try {
+                    this.analytics = firebase.analytics();
+                } catch (e) {
+                    console.warn('[FirebaseService] Analytics notice:', e);
+                }
+            }
 
             // Enable offline persistence if available
             try {

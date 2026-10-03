@@ -1294,11 +1294,20 @@ function clearFirebaseConfig() {
 }
 
 let isSyncingRealtime = false;
-function setupRealtimeFirebaseSync() {
+async function setupRealtimeFirebaseSync() {
     if (isSyncingRealtime || typeof firebaseService === 'undefined' || !firebaseService.isInitialized()) return;
     isSyncingRealtime = true;
 
-    const collections = ['tasks', 'complaints', 'employees', 'attendance', 'leaves', 'inventory'];
+    // Seed initial admin accounts & blank schema to Cloud Firestore if empty
+    if (typeof INITIAL_DATA !== 'undefined' && firebaseService && firebaseService.isInitialized()) {
+        try {
+            await firebaseService.seedInitialDataIfEmpty(INITIAL_DATA);
+        } catch (e) {
+            console.warn('[FirebaseSync] Auto seed notice:', e);
+        }
+    }
+
+    const collections = ['tasks', 'complaints', 'employees', 'attendance', 'leaves', 'inventory', 'users'];
     collections.forEach(coll => {
         firebaseService.subscribeCollection(coll, (items) => {
             if (items && items.length > 0) {
