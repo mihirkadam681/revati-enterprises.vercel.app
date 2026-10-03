@@ -403,8 +403,9 @@
 
 @media (max-width: 768px) {
     .video-player-container {
-        aspect-ratio: 4 / 3;
-        min-height: 380px;
+        aspect-ratio: 16 / 9;
+        min-height: 220px;
+        max-height: 55vh;
     }
     .video-timecode, .video-eq-container {
         display: none;
@@ -421,5 +422,29 @@
     }
     .video-scene-pills {
         justify-content: center;
+        flex-wrap: wrap;
     }
 }
+
+@media (max-width: 480px) {
+    .video-player-container {
+        aspect-ratio: 16 / 9;
+        min-height: 180px;
+        max-height: 45vh;
+        border-radius: 14px;
+    }
+    .video-play-title {
+        font-size: 0.92rem;
+    }
+    .video-scene-pills {
+        gap: 4px;
+    }
+    .video-scene-pill {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+    .video-hud-overlay {
+        padding: 8px 10px;
+    }
+}
+

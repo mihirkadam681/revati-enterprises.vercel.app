@@ -204,9 +204,22 @@
             border-radius: 8px;
         }
         @media (max-width: 600px) {
-            .register-container { margin: 15px auto; }
-            .form-card { padding: 20px; }
+            .register-container { margin: 15px auto; padding: 0 12px; }
+            .form-card { padding: 20px 16px; }
             .step-label { font-size: 0.7rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .header-container { flex-wrap: wrap; gap: 12px; justify-content: center; }
+        }
+        @media (max-width: 420px) {
+            .register-container { margin: 10px auto; padding: 0 8px; }
+            .form-card { padding: 16px 12px; }
+            .step-circle { width: 34px; height: 34px; font-size: 0.8rem; margin-bottom: 4px; }
+            .step-progress::before, .step-progress-bar { top: 17px; }
+            .step-label { font-size: 0.62rem; }
+            .btn-row { flex-direction: column-reverse; gap: 10px; }
+            .btn-row button, .btn-row a { width: 100%; justify-content: center; }
+            .btn-gold, .btn-secondary { padding: 10px 16px; font-size: 0.88rem; }
+            .nav-brand-text { flex-direction: column; align-items: flex-start; gap: 0; }
         }
     </style>
 </head>
