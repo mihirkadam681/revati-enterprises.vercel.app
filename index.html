@@ -192,6 +192,7 @@
                 <div style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 1rem;"><i class="fa-solid fa-chart-line"></i></div>
                 <h3 style="font-size: 1.15rem; color: #FFF; margin-bottom: 0.5rem;">Digital Operations Oversight</h3>
                 <p style="font-size: 0.9rem; color: var(--text-muted);">Real-time attendance logging, chemical inventory management, and maintenance ticket resolution through our Admin Portal.</p>
+            </div>
         </div>
     </section>
 
@@ -251,10 +252,10 @@
     </footer>
 
     <!-- CLIENT / CUSTOMER AUTHENTICATION MODAL -->
-    <div id="customerAuthModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 4, 7, 0.85); backdrop-filter: blur(12px); z-index: 99999; justify-content: center; align-items: center; padding: 1.5rem;">
-        <div class="modal-container" style="background: linear-gradient(145deg, #0e111a, #07090e); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 22px; max-width: 460px; width: 100%; padding: 2.2rem 2rem; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(212, 175, 55, 0.15); position: relative; animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div id="customerAuthModal" class="modal-overlay">
+        <div class="modal-container">
             
-            <button onclick="closeCustomerAuthModal()" style="position: absolute; top: 1.25rem; right: 1.25rem; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; transition: color 0.2s;" onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='var(--text-muted)'">&times;</button>
+            <button type="button" onclick="closeCustomerAuthModal()" style="position: absolute; top: 1.25rem; right: 1.25rem; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; transition: color 0.2s;" onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='var(--text-muted)'">&times;</button>
             
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <img src="images/logo.png" alt="Revati Logo" style="height: 44px; margin-bottom: 0.75rem; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));">
@@ -369,17 +370,43 @@
 
         // --- CLIENT / CUSTOMER AUTH MODAL CONTROLLERS ---
         function openCustomerAuthModal() {
+            if (typeof closeMobileNav === 'function') closeMobileNav();
             const modal = document.getElementById('customerAuthModal');
             if (modal) {
+                modal.classList.add('active');
                 modal.style.display = 'flex';
+                modal.style.opacity = '1';
+                modal.style.visibility = 'visible';
                 clearCustomerAuthStatus();
+                document.body.style.overflow = 'hidden';
             }
         }
 
         function closeCustomerAuthModal() {
             const modal = document.getElementById('customerAuthModal');
-            if (modal) modal.style.display = 'none';
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+                modal.style.opacity = '0';
+                modal.style.visibility = 'hidden';
+                document.body.style.overflow = '';
+            }
         }
+
+        // Close on click outside modal container
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('customerAuthModal');
+            if (modal && e.target === modal) {
+                closeCustomerAuthModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeCustomerAuthModal();
+            }
+        });
 
         function switchCustomerAuthTab(tab) {
             const signInForm = document.getElementById('customerSignInForm');
@@ -449,8 +476,8 @@
         async function handleGoogleSignIn() {
             try {
                 showCustomerAuthStatus('Connecting to Google...', 'loading');
-                if (typeof firebaseService === 'undefined' || !firebaseService.isInitialized()) {
-                    throw new Error("Cloud Auth is initializing, please click again in a moment.");
+                if (typeof firebaseService === 'undefined') {
+                    throw new Error("Authentication service is initializing, please try again.");
                 }
                 const user = await firebaseService.signInWithGoogle();
                 showCustomerAuthStatus(`Welcome, ${user.displayName || user.email}!`, 'success');
@@ -459,7 +486,15 @@
                     updateCustomerNavbar(user);
                 }, 1000);
             } catch (err) {
-                showCustomerAuthStatus(err.message || 'Google sign-in was cancelled or failed.');
+                let msg = err.message || 'Google sign-in was cancelled or failed.';
+                if (err.code === 'auth/popup-blocked') {
+                    msg = 'Sign-in popup was blocked by your browser. Please allow popups for localhost:8080 and try again.';
+                } else if (err.code === 'auth/popup-closed-by-user') {
+                    msg = 'Google sign-in window was closed before completing.';
+                } else if (err.code === 'auth/unauthorized-domain') {
+                    msg = 'Domain not authorized. Please add this domain to Firebase Console > Authentication > Settings > Authorized domains.';
+                }
+                showCustomerAuthStatus(msg);
             }
         }
 
@@ -551,6 +586,9 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '#login' || window.location.search.includes('login')) {
+                setTimeout(openCustomerAuthModal, 300);
+            }
             if (typeof firebaseService !== 'undefined') {
                 firebaseService.onAuthStateChanged(user => {
                     updateCustomerNavbar(user);

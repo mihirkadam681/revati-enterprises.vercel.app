@@ -89,6 +89,19 @@ class FirebaseService {
         }
     }
 
+    getAuth() {
+        if (this.auth) return this.auth;
+        if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
+            try {
+                this.auth = firebase.auth();
+                return this.auth;
+            } catch (e) {
+                console.warn('[FirebaseService] getAuth fallback notice:', e);
+            }
+        }
+        return null;
+    }
+
     async initFirebase(config) {
         this.updateStatus('connecting');
         try {
@@ -106,6 +119,9 @@ class FirebaseService {
 
             this.db = firebase.firestore();
             this.auth = firebase.auth();
+            this.isReady = true;
+            this.updateStatus('connected');
+            console.log('[FirebaseService] Successfully initialized Firebase Cloud Firestore & Auth');
 
             // Initialize Analytics if supported
             if (typeof firebase.analytics === 'function' && config.measurementId) {
@@ -116,23 +132,19 @@ class FirebaseService {
                 }
             }
 
-            // Enable offline persistence if available
-            try {
-                await this.db.enablePersistence({ synchronizeTabs: true });
-            } catch (err) {
-                if (err.code === 'failed-precondition') {
-                    console.warn('[FirebaseService] Firestore persistence failed: Multiple tabs open');
-                } else if (err.code === 'unimplemented') {
-                    console.warn('[FirebaseService] Firestore persistence not supported by browser');
-                }
+            // Enable offline persistence in background (non-blocking)
+            if (this.db && typeof this.db.enablePersistence === 'function') {
+                this.db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+                    console.warn('[FirebaseService] Firestore persistence notice:', err.message || err.code);
+                });
             }
 
-            this.isReady = true;
-            this.updateStatus('connected');
-            console.log('[FirebaseService] Successfully initialized Firebase Cloud Firestore & Auth');
             return true;
         } catch (err) {
             console.error('[FirebaseService] Initialization Error:', err);
+            if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
+                try { this.auth = firebase.auth(); } catch (e) {}
+            }
             this.isReady = false;
             this.updateStatus('error', err.message);
             return false;
@@ -140,23 +152,29 @@ class FirebaseService {
     }
 
     isInitialized() {
-        return this.isReady && this.db !== null;
+        return (this.isReady && this.db !== null) || (this.auth !== null);
     }
 
     // --- CUSTOMER & CLIENT AUTHENTICATION (EMAIL/PASSWORD + GOOGLE) ---
 
     async signInWithEmail(email, password) {
-        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
-        const cred = await this.auth.signInWithEmailAndPassword(email, password);
+        const auth = this.getAuth();
+        if (!auth) throw new Error("Firebase Auth is connecting, please click again in a moment.");
+        const cred = await auth.signInWithEmailAndPassword(email, password);
         return cred.user;
     }
 
     async signUpWithEmail(email, password, displayName = '', phone = '') {
-        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
-        const cred = await this.auth.createUserWithEmailAndPassword(email, password);
+        const auth = this.getAuth();
+        if (!auth) throw new Error("Firebase Auth is connecting, please click again in a moment.");
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
         const user = cred.user;
-        if (displayName && user) {
-            await user.updateProfile({ displayName: displayName });
+        if (displayName && user && typeof user.updateProfile === 'function') {
+            try {
+                await user.updateProfile({ displayName: displayName });
+            } catch (e) {
+                console.warn('[FirebaseService] updateProfile notice:', e);
+            }
         }
         try {
             await this.setDocument('customers', {
@@ -176,10 +194,11 @@ class FirebaseService {
     }
 
     async signInWithGoogle() {
-        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
+        const auth = this.getAuth();
+        if (!auth) throw new Error("Firebase Auth is connecting, please click again in a moment.");
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
-        const result = await this.auth.signInWithPopup(provider);
+        const result = await auth.signInWithPopup(provider);
         const user = result.user;
         if (user) {
             try {
@@ -201,33 +220,38 @@ class FirebaseService {
     }
 
     async sendPasswordReset(email) {
-        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again.");
-        await this.auth.sendPasswordResetEmail(email);
+        const auth = this.getAuth();
+        if (!auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
+        await auth.sendPasswordResetEmail(email);
         return true;
     }
 
     async signOut() {
-        if (this.auth) {
-            await this.auth.signOut();
+        const auth = this.getAuth();
+        if (auth) {
+            await auth.signOut();
             localStorage.removeItem('revati_customer_session');
         }
     }
 
     onAuthStateChanged(callback) {
-        if (this.auth) {
-            return this.auth.onAuthStateChanged(callback);
+        const auth = this.getAuth();
+        if (auth) {
+            return auth.onAuthStateChanged(callback);
         } else {
             const checkInterval = setInterval(() => {
-                if (this.auth) {
+                const a = this.getAuth();
+                if (a) {
                     clearInterval(checkInterval);
-                    return this.auth.onAuthStateChanged(callback);
+                    return a.onAuthStateChanged(callback);
                 }
             }, 100);
         }
     }
 
     getCurrentUser() {
-        return this.auth ? this.auth.currentUser : null;
+        const auth = this.getAuth();
+        return auth ? auth.currentUser : null;
     }
 
     // --- FIRESTORE CRUD OPERATIONS ---
