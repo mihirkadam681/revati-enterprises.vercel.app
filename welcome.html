@@ -49,13 +49,8 @@
             <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
             <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
             <li>
-                <a href="admin.html" class="btn btn-gold btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
-                    <i class="fa-solid fa-shield-halved"></i> Admin Portal
-                </a>
-            </li>
-            <li>
-                <a href="staff.html" class="btn btn-secondary btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 0.95rem; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.45); color: #FFF; display: inline-flex; align-items: center; gap: 0.45rem;">
-                    <i class="fa-solid fa-user-tie" style="color: var(--gold-primary);"></i> Staff Login
+                <a href="index.html" class="btn btn-gold btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                    <i class="fa-solid fa-user-circle"></i> Client Portal
                 </a>
             </li>
         </ul>
@@ -301,8 +296,16 @@
             <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 600px;">
                 ISO 9001:2015 Certified Commercial Housekeeping, Facade Cleaning, MEP Engineering & Facility Solutions. Mumbai • Pune • PAN India
             </p>
-            <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
-                &copy; 2026 REVATI ENTERPRISES. All Rights Reserved.
+            <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+                <div>&copy; 2026 REVATI ENTERPRISES. All Rights Reserved.</div>
+                <div style="display: flex; gap: 0.85rem; align-items: center; font-size: 0.75rem; color: #4b5563;">
+                    <span style="color: #374151;"><i class="fa-solid fa-lock" style="font-size: 0.65rem;"></i> Internal:</span>
+                    <a href="admin.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Admin Console</a>
+                    <span style="color: #374151;">&bull;</span>
+                    <a href="staff.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Staff Portal</a>
+                    <span style="color: #374151;">&bull;</span>
+                    <a href="register.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Staff Onboarding</a>
+                </div>
             </div>
         </div>
     </footer>

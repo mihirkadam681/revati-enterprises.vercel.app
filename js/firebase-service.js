@@ -143,6 +143,93 @@ class FirebaseService {
         return this.isReady && this.db !== null;
     }
 
+    // --- CUSTOMER & CLIENT AUTHENTICATION (EMAIL/PASSWORD + GOOGLE) ---
+
+    async signInWithEmail(email, password) {
+        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
+        const cred = await this.auth.signInWithEmailAndPassword(email, password);
+        return cred.user;
+    }
+
+    async signUpWithEmail(email, password, displayName = '', phone = '') {
+        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
+        const cred = await this.auth.createUserWithEmailAndPassword(email, password);
+        const user = cred.user;
+        if (displayName && user) {
+            await user.updateProfile({ displayName: displayName });
+        }
+        try {
+            await this.setDocument('customers', {
+                id: user.uid,
+                uid: user.uid,
+                name: displayName || email.split('@')[0],
+                email: email,
+                phone: phone,
+                role: 'CUSTOMER',
+                provider: 'password',
+                createdAt: new Date().toISOString()
+            });
+        } catch (e) {
+            console.warn('[FirebaseService] Customer Firestore record notice:', e);
+        }
+        return user;
+    }
+
+    async signInWithGoogle() {
+        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again in a moment.");
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await this.auth.signInWithPopup(provider);
+        const user = result.user;
+        if (user) {
+            try {
+                await this.setDocument('customers', {
+                    id: user.uid,
+                    uid: user.uid,
+                    name: user.displayName || user.email.split('@')[0],
+                    email: user.email,
+                    photoURL: user.photoURL || '',
+                    role: 'CUSTOMER',
+                    provider: 'google',
+                    lastLogin: new Date().toISOString()
+                });
+            } catch (e) {
+                console.warn('[FirebaseService] Customer Google record notice:', e);
+            }
+        }
+        return user;
+    }
+
+    async sendPasswordReset(email) {
+        if (!this.isInitialized() || !this.auth) throw new Error("Firebase Auth is connecting, please try again.");
+        await this.auth.sendPasswordResetEmail(email);
+        return true;
+    }
+
+    async signOut() {
+        if (this.auth) {
+            await this.auth.signOut();
+            localStorage.removeItem('revati_customer_session');
+        }
+    }
+
+    onAuthStateChanged(callback) {
+        if (this.auth) {
+            return this.auth.onAuthStateChanged(callback);
+        } else {
+            const checkInterval = setInterval(() => {
+                if (this.auth) {
+                    clearInterval(checkInterval);
+                    return this.auth.onAuthStateChanged(callback);
+                }
+            }, 100);
+        }
+    }
+
+    getCurrentUser() {
+        return this.auth ? this.auth.currentUser : null;
+    }
+
     // --- FIRESTORE CRUD OPERATIONS ---
 
     // Fetch entire collection
