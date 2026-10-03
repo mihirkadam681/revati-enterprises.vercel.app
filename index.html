@@ -29,7 +29,13 @@
             <span><i class="fa-solid fa-envelope"></i> Email: info@revatienterprises.com</span>
             <span><i class="fa-solid fa-location-dot"></i> Corporate H.Q: Mumbai / Pune / PAN India</span>
         </div>
-        <div style="display: flex; gap: 1rem; align-items: center;">
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <a href="admin.html" class="btn btn-gold btn-sm" style="text-decoration: none; padding: 0.35rem 0.85rem; font-size: 0.8rem; font-weight: 700; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);">
+                <i class="fa-solid fa-shield-halved"></i> Admin Login
+            </a>
+            <a href="staff.html" class="btn btn-secondary btn-sm" style="text-decoration: none; padding: 0.35rem 0.85rem; font-size: 0.8rem; border-color: rgba(212, 175, 55, 0.4); color: var(--gold-light);">
+                <i class="fa-solid fa-id-badge"></i> Staff Login
+            </a>
             <button id="pwaInstallBtn" class="btn btn-secondary btn-sm" onclick="installPhoneApp()"><i class="fa-solid fa-mobile-screen-button" style="color: var(--gold-primary);"></i> Install Phone App</button>
             <span class="badge badge-gold"><i class="fa-solid fa-shield-halved"></i> ISO 9001:2015 CERTIFIED</span>
             <span style="color: var(--gold-primary); font-weight: 600;">24/7 Facility Response</span>
@@ -53,6 +59,16 @@
             <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
             <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
             <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+            <li>
+                <a href="admin.html" class="btn btn-gold btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                    <i class="fa-solid fa-shield-halved"></i> Admin Portal
+                </a>
+            </li>
+            <li>
+                <a href="staff.html" class="btn btn-secondary btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 0.95rem; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.45); color: #FFF; display: inline-flex; align-items: center; gap: 0.45rem;">
+                    <i class="fa-solid fa-user-tie" style="color: var(--gold-primary);"></i> Staff Login
+                </a>
+            </li>
         </ul>
     </nav>
 
@@ -75,9 +91,69 @@
             <!-- 4K CINEMATIC VIDEO INTRO SHOWCASE -->
             <div id="videoIntroMount"></div>
 
-            <div class="hero-actions">
-                <a href="services.html" class="btn btn-gold" style="text-decoration: none;"><i class="fa-solid fa-layer-group"></i> Explore Facility Services Page</a>
-                <a href="estimator.html" class="btn btn-outline-gold" style="text-decoration: none;"><i class="fa-solid fa-calculator"></i> Go to Cost Estimator Page</a>
+            <div class="hero-actions" style="display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem;">
+                <a href="admin.html" class="btn btn-gold" style="background: linear-gradient(135deg, #FFDF73 0%, #D4AF37 50%, #996515 100%); color: #000; font-weight: 800; text-decoration: none; padding: 0.75rem 1.6rem; border-radius: 10px; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35); display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-shield-halved"></i> Admin Portal Login
+                </a>
+                <a href="staff.html" class="btn btn-outline-gold" style="text-decoration: none; padding: 0.75rem 1.4rem; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-id-badge"></i> Staff Mobile Login
+                </a>
+                <a href="register.html" class="btn btn-secondary" style="border: 1px solid rgba(212, 175, 55, 0.4); color: var(--gold-light); text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-user-plus"></i> Staff Registration
+                </a>
+                <a href="services.html" class="btn btn-secondary" style="text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 10px;"><i class="fa-solid fa-layer-group"></i> Explore Services</a>
+                <a href="estimator.html" class="btn btn-secondary" style="text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 10px;"><i class="fa-solid fa-calculator"></i> Cost Estimator</a>
+            </div>
+
+            <!-- DEDICATED PORTAL ACCESS HUBS -->
+            <div style="margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                <div style="background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(10, 12, 18, 0.95)); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, border-color 0.3s ease;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <span style="font-size: 1.75rem; color: var(--gold-primary);"><i class="fa-solid fa-shield-halved"></i></span>
+                            <span class="badge badge-gold" style="font-size: 0.7rem; padding: 0.2rem 0.6rem;">EXECUTIVE ACCESS</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; color: #FFF; font-family: 'Cinzel', serif; margin-bottom: 0.4rem;">Administrator Control Portal</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+                            Full operations oversight, real-time Firebase cloud sync, assign cleaning tasks, track live attendance & chemical inventory.
+                        </p>
+                    </div>
+                    <a href="admin.html" class="btn btn-gold" style="text-decoration: none; justify-content: center; font-weight: 700; width: 100%;">
+                        <i class="fa-solid fa-lock"></i> Launch Admin Portal &rarr;
+                    </a>
+                </div>
+
+                <div style="background: linear-gradient(145deg, rgba(59, 130, 246, 0.1), rgba(10, 12, 18, 0.95)); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <span style="font-size: 1.75rem; color: #3B82F6;"><i class="fa-solid fa-mobile-screen"></i></span>
+                            <span class="badge badge-info" style="font-size: 0.7rem; padding: 0.2rem 0.6rem;">STAFF APP</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; color: #FFF; font-family: 'Cinzel', serif; margin-bottom: 0.4rem;">Staff & Attendant Portal</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+                            Daily digital punch-in/punch-out, shift schedules, assigned cleaning task checklists, and leave application management.
+                        </p>
+                    </div>
+                    <a href="staff.html" class="btn btn-outline-gold" style="text-decoration: none; justify-content: center; font-weight: 700; width: 100%;">
+                        <i class="fa-solid fa-right-to-bracket"></i> Launch Staff Mobile Portal &rarr;
+                    </a>
+                </div>
+
+                <div style="background: linear-gradient(145deg, rgba(16, 185, 129, 0.1), rgba(10, 12, 18, 0.95)); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <span style="font-size: 1.75rem; color: #10B981;"><i class="fa-solid fa-id-card-clip"></i></span>
+                            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10B981; font-size: 0.7rem; padding: 0.2rem 0.6rem;">NEW RECRUITS</span>
+                        </div>
+                        <h3 style="font-size: 1.15rem; color: #FFF; font-family: 'Cinzel', serif; margin-bottom: 0.4rem;">Worker Digital Registration</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+                            New facility attendant registration with Aadhaar/PAN KYC document submission and instant mobile OTP verification.
+                        </p>
+                    </div>
+                    <a href="register.html" class="btn btn-secondary" style="border: 1px solid rgba(16, 185, 129, 0.4); color: #10B981; text-decoration: none; justify-content: center; font-weight: 700; width: 100%;">
+                        <i class="fa-solid fa-user-plus"></i> Register New Staff &rarr;
+                    </a>
+                </div>
             </div>
 
             <div class="hero-stats">
