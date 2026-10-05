@@ -110,7 +110,11 @@ def verify_jwt(token):
         return None
 
 class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
-    protocol_version = "HTTP/1.0"
+    protocol_version = "HTTP/1.1"
+
+    def __init__(self, *args, **kwargs):
+        root_dir = os.path.dirname(os.path.abspath(__file__))
+        super().__init__(*args, directory=root_dir, **kwargs)
 
     def address_string(self):
         # Prevent slow reverse DNS lookup on Windows localhost
@@ -118,13 +122,24 @@ class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def send_cors_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
 
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_cors_headers()
+        self.send_header('Connection', 'close')
         self.end_headers()
+
+    def do_HEAD(self):
+        if self.path.startswith('/api/'):
+            self.send_response(200)
+            self.send_cors_headers()
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Connection', 'close')
+            self.end_headers()
+            return
+        return super().do_HEAD()
 
     def send_json(self, data, code=200):
         body = json.dumps(data).encode('utf-8')
@@ -132,6 +147,7 @@ class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_cors_headers()
         self.send_header('Content-Type', 'application/json; charset=utf-8')
         self.send_header('Content-Length', str(len(body)))
+        self.send_header('Connection', 'close')
         self.end_headers()
         self.wfile.write(body)
         self.wfile.flush()

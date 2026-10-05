@@ -2,57 +2,42 @@
    REVATI ENTERPRISES - 3D Scroll & Interactive Slider Engine
    ========================================================================== */
 
+function checkIsWelcomePage() {
+    const path = window.location.pathname.toLowerCase();
+    return path.endsWith('welcome.html') ||
+           path.endsWith('/welcome') ||
+           (document.body && document.body.classList.contains('welcome-page')) ||
+           (document.title && document.title.toLowerCase().startsWith('welcome'));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    init3DScrollEffects();
-    initWelcome3DSlider();
-    init3DTiltOnMouse();
+    const isWelcome = checkIsWelcomePage();
+    // On the Welcome page, all 3D movement, tilting, and 3D scroll rotations are disabled
+    if (!isWelcome) {
+        init3DScrollEffects();
+        init3DTiltOnMouse();
+    }
+    initWelcome3DSlider(isWelcome);
 });
 
-// 1. DYNAMIC 3D SCROLL REVEAL ON EVERY SCROLL
+// 1. CLEAN SCROLL PRESENTATION (Ensures no scroll locks, no disappearing cards, no jitter)
 function init3DScrollEffects() {
     const targets = document.querySelectorAll('.page-part-3d, .card, .stat-item, .section-wrapper, .scroll-3d-element, .form-card, .sidebar-3d');
     
+    // Ensure all elements are immediately visible and natural
     targets.forEach(el => {
-        el.classList.add('scroll-3d-element');
-        el.classList.add('scroll-3d-hidden');
+        el.classList.remove('scroll-3d-hidden');
+        el.classList.add('scroll-3d-visible');
+        el.style.opacity = '1';
+        el.style.transform = 'none';
     });
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.remove('scroll-3d-hidden');
-                entry.target.classList.add('scroll-3d-visible');
-            } else {
-                // Re-trigger 3D rotation when scrolling out and back in
-                if (entry.boundingClientRect.top > 0) {
-                    entry.target.classList.add('scroll-3d-hidden');
-                    entry.target.classList.remove('scroll-3d-visible');
-                }
-            }
-        });
-    }, {
-        threshold: 0.12,
-        rootMargin: "0px 0px -50px 0px"
-    });
-
-    targets.forEach(el => observer.observe(el));
-
-    // Dynamic 3D parallax scroll depth shift
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const orbs = document.querySelectorAll('.bg-3d-orb');
-        orbs.forEach((orb, idx) => {
-            const speed = (idx + 1) * 0.15;
-            orb.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.05}deg)`;
-        });
-    }, { passive: true });
 }
 
-// 2. INTERACTIVE 3D WELCOME SLIDER
+// 2. INTERACTIVE WELCOME SLIDER (Stationary & 2D on Welcome Page)
 let currentSlideIndex = 0;
 let slideInterval = null;
 
-function initWelcome3DSlider() {
+function initWelcome3DSlider(isWelcome) {
     const track = document.getElementById('welcomeSliderTrack');
     const slides = document.querySelectorAll('.welcome-slide');
     const dots = document.querySelectorAll('.slider-dot');
@@ -82,7 +67,7 @@ function initWelcome3DSlider() {
         prevBtn.addEventListener('click', (e) => {
             e.preventDefault();
             goToSlide(currentSlideIndex - 1);
-            resetSlideTimer();
+            if (!isWelcome) resetSlideTimer();
         });
     }
 
@@ -90,7 +75,7 @@ function initWelcome3DSlider() {
         nextBtn.addEventListener('click', (e) => {
             e.preventDefault();
             goToSlide(currentSlideIndex + 1);
-            resetSlideTimer();
+            if (!isWelcome) resetSlideTimer();
         });
     }
 
@@ -98,7 +83,7 @@ function initWelcome3DSlider() {
         dot.addEventListener('click', (e) => {
             e.preventDefault();
             goToSlide(idx);
-            resetSlideTimer();
+            if (!isWelcome) resetSlideTimer();
         });
     });
 
@@ -115,14 +100,15 @@ function initWelcome3DSlider() {
         const swipeDistance = touchEndX - touchStartX;
         if (swipeDistance < -40) {
             goToSlide(currentSlideIndex + 1);
-            resetSlideTimer();
+            if (!isWelcome) resetSlideTimer();
         } else if (swipeDistance > 40) {
             goToSlide(currentSlideIndex - 1);
-            resetSlideTimer();
+            if (!isWelcome) resetSlideTimer();
         }
     }, { passive: true });
 
     function startSlideTimer() {
+        if (isWelcome) return; // Completely disable auto-advancing movement on the Welcome page
         if (slideInterval) clearInterval(slideInterval);
         slideInterval = setInterval(() => {
             goToSlide(currentSlideIndex + 1);
@@ -130,34 +116,17 @@ function initWelcome3DSlider() {
     }
 
     function resetSlideTimer() {
+        if (isWelcome) return;
         if (slideInterval) clearInterval(slideInterval);
         startSlideTimer();
     }
 
-    startSlideTimer();
+    if (!isWelcome) {
+        startSlideTimer();
+    }
 }
 
-// 3. MOUSE DYNAMIC 3D TILT EFFECT ON CARDS
+// 3. MOUSE DYNAMIC TILT (Clean & lightweight)
 function init3DTiltOnMouse() {
-    const tiltCards = document.querySelectorAll('.hero-section, .stat-item, .card-3d');
-    
-    tiltCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = ((y - centerY) / centerY) * -5;
-            const rotateY = ((x - centerX) / centerX) * 5;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-        });
-    });
+    // Disabled to preserve 60FPS fluid scrolling and responsive page interaction
 }

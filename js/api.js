@@ -61,18 +61,38 @@ const ROLE_PERMISSIONS = {
     }
 };
 
+const DEFAULT_INITIAL_DATA = {
+    contracts: [],
+    sites: [],
+    users: [
+        { id: 1, name: "Revati Administrator", username: "admin", role: "ADMIN", email: "admin@revatienterprises.com", phone: "+91 9769930626 / 9930023185" },
+        { id: 2, name: "Facility Client Lead", username: "manager", role: "MANAGEMENT", email: "client.manager@revati.com", phone: "+91 9312345678" }
+    ],
+    employees: [],
+    attendance: [],
+    tasks: [],
+    complaints: [],
+    inventory: [],
+    reports: []
+};
+
 class ApiService {
     constructor() {
         this.useLocalStorageFallback = true;
         this.initStorage();
     }
 
+    getInitialData() {
+        return (typeof INITIAL_DATA !== 'undefined' && INITIAL_DATA) ? INITIAL_DATA : DEFAULT_INITIAL_DATA;
+    }
+
     initStorage() {
+        const initial = this.getInitialData();
         if (!localStorage.getItem('hk_data_v1')) {
-            localStorage.setItem('hk_data_v1', JSON.stringify(INITIAL_DATA));
+            localStorage.setItem('hk_data_v1', JSON.stringify(initial));
         }
         if (!localStorage.getItem('hk_current_user')) {
-            localStorage.setItem('hk_current_user', JSON.stringify(INITIAL_DATA.users[0])); // Admin by default
+            localStorage.setItem('hk_current_user', JSON.stringify((initial.users && initial.users[0]) ? initial.users[0] : DEFAULT_INITIAL_DATA.users[0]));
         }
     }
 
@@ -86,7 +106,7 @@ class ApiService {
     }
 
     getLocalData() {
-        return JSON.parse(localStorage.getItem('hk_data_v5')) || INITIAL_DATA;
+        return JSON.parse(localStorage.getItem('hk_data_v5')) || this.getInitialData();
     }
 
     saveLocalData(data) {
@@ -94,7 +114,9 @@ class ApiService {
     }
 
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('hk_current_user')) || INITIAL_DATA.users[0];
+        const initial = this.getInitialData();
+        const defaultUser = (initial.users && initial.users[0]) ? initial.users[0] : DEFAULT_INITIAL_DATA.users[0];
+        return JSON.parse(localStorage.getItem('hk_current_user')) || defaultUser;
     }
 
     setCurrentUser(user) {

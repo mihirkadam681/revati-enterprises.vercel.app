@@ -25,7 +25,7 @@ class FirebaseService {
 
         // Check for stored Firebase Config in localStorage or default fallback
         this.config = this.loadConfig();
-        
+
         // Auto-initialize if config exists
         if (this.config && this.config.projectId && this.config.apiKey) {
             if (typeof firebase !== 'undefined') {
@@ -53,11 +53,11 @@ class FirebaseService {
         } catch (e) {
             console.warn('Failed to parse saved Firebase config', e);
         }
-        
+
         // Save and return project default credentials
         try {
             localStorage.setItem('revati_firebase_config', JSON.stringify(DEFAULT_FIREBASE_CONFIG));
-        } catch (e) {}
+        } catch (e) { }
         return { ...DEFAULT_FIREBASE_CONFIG };
     }
 
@@ -143,7 +143,7 @@ class FirebaseService {
         } catch (err) {
             console.error('[FirebaseService] Initialization Error:', err);
             if (typeof firebase !== 'undefined' && typeof firebase.auth === 'function') {
-                try { this.auth = firebase.auth(); } catch (e) {}
+                try { this.auth = firebase.auth(); } catch (e) { }
             }
             this.isReady = false;
             this.updateStatus('error', err.message);
@@ -316,7 +316,7 @@ class FirebaseService {
     // Real-Time Live Snapshot Listener
     subscribeCollection(collectionName, onUpdate) {
         if (!this.isInitialized()) return null;
-        
+
         // Unsubscribe existing listener if present
         if (this.listeners[collectionName]) {
             this.listeners[collectionName]();

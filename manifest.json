@@ -1,7 +1,7 @@
 {
-  "name": "REVATI ENTERPRISES - Staff & Facility Management Application",
-  "short_name": "Revati Staff App",
-  "description": "Official Staff Mobile Portal & Registration App for Revati Enterprises.",
+  "name": "REVATI ENTERPRISES - STAFF APP ONLY",
+  "short_name": "Staff App Only",
+  "description": "Official Staff App Only - Tasks, Attendance Punch, Active Shift Stopwatch & Leave Desk for Revati Enterprises.",
   "start_url": "./staff.html",
   "display": "standalone",
   "background_color": "#07090E",

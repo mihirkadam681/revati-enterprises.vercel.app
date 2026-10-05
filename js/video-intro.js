@@ -319,16 +319,7 @@
 
         if (typeWriterTimer) clearInterval(typeWriterTimer);
 
-        captionEl.textContent = '';
-        let i = 0;
-        typeWriterTimer = setInterval(() => {
-            if (i < text.length) {
-                captionEl.textContent += text.charAt(i);
-                i++;
-            } else {
-                clearInterval(typeWriterTimer);
-            }
-        }, 22);
+        captionEl.textContent = text; // Display directly for instant clarity and zero layout thrash
     }
 
     function toggleAudio() {
@@ -415,15 +406,16 @@
         const ctx = canvas.getContext('2d');
 
         function resize() {
+            if (!canvas.parentElement) return;
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
         }
         resize();
-        window.addEventListener('resize', resize);
+        window.addEventListener('resize', resize, { passive: true });
 
-        const particles = Array.from({ length: 30 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+        const particles = Array.from({ length: 25 }, () => ({
+            x: Math.random() * (canvas.width || 600),
+            y: Math.random() * (canvas.height || 350),
             r: Math.random() * 2 + 0.5,
             speedX: (Math.random() - 0.5) * 0.5,
             speedY: -Math.random() * 0.8 - 0.2,
@@ -431,8 +423,29 @@
         }));
 
         let flareX = 0;
+        let isVisible = true;
+        let rafId = null;
+
+        // Only render when the video player is actually visible on screen
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                isVisible = entries[0].isIntersecting;
+                if (isVisible && !rafId) {
+                    rafId = requestAnimationFrame(animate);
+                } else if (!isVisible && rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            }, { threshold: 0.05 });
+            obs.observe(canvas.parentElement || canvas);
+        }
 
         function animate() {
+            if (!isVisible) {
+                rafId = null;
+                return;
+            }
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Light Dust Particles
@@ -450,7 +463,7 @@
             });
 
             // Cinematic Horizon Sweep Line
-            flareX = (flareX + 1.5) % (canvas.width * 2);
+            flareX = (flareX + 1.5) % ((canvas.width * 2) || 1200);
             if (flareX < canvas.width) {
                 const grad = ctx.createLinearGradient(flareX - 100, 0, flareX + 100, 0);
                 grad.addColorStop(0, 'rgba(212, 175, 55, 0)');
@@ -460,9 +473,10 @@
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
 
-            requestAnimationFrame(animate);
+            rafId = requestAnimationFrame(animate);
         }
-        animate();
+
+        rafId = requestAnimationFrame(animate);
     }
 
     // Auto Init on DOM Load

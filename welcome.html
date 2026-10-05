@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,86 @@
     <!-- PWA Support -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#D4AF37">
+    <style>
+        /* ==========================================================================
+           WELCOME PAGE - PURE FLAT STABLE PRESENTATION (NO 3D MOVEMENT)
+           ========================================================================== */
+        body.welcome-page {
+            perspective: none !important;
+            transform: none !important;
+        }
+
+        body.welcome-page .bg-3d-orb {
+            transform: none !important;
+            transition: none !important;
+        }
+
+        body.welcome-page .welcome-slider-container {
+            perspective: none !important;
+            transform: none !important;
+        }
+
+        body.welcome-page .welcome-slider-track {
+            transform-style: flat !important;
+            transition: transform 0.45s ease-out !important;
+        }
+
+        body.welcome-page .welcome-slide {
+            transform-style: flat !important;
+            backface-visibility: visible !important;
+            transform: none !important;
+        }
+
+        body.welcome-page .welcome-slide-card,
+        body.welcome-page .welcome-slide-card-3d {
+            background: linear-gradient(135deg, rgba(20, 26, 40, 0.95) 0%, rgba(13, 17, 26, 0.98) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.25);
+            transform: none !important;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+            overflow: hidden;
+        }
+
+        body.welcome-page .welcome-slide-card:hover,
+        body.welcome-page .welcome-slide-card-3d:hover {
+            transform: translateY(-4px) !important;
+            border-color: var(--gold-primary) !important;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.35) !important;
+        }
+
+        body.welcome-page .welcome-service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            transform: none !important;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+        }
+
+        body.welcome-page .welcome-service-card:hover {
+            transform: translateY(-4px) !important;
+            border-color: var(--gold-primary) !important;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.25) !important;
+        }
+
+        body.welcome-page .scroll-3d-element,
+        body.welcome-page .scroll-3d-hidden,
+        body.welcome-page .scroll-3d-visible,
+        body.welcome-page .section-wrapper {
+            transform: none !important;
+            opacity: 1 !important;
+            transform-style: flat !important;
+            transition: none !important;
+        }
+    </style>
 </head>
-<body>
-    <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
+
+<body class="welcome-page">
+    <!-- AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
     <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
     <div class="bg-3d-orb bg-orb-gold-1"></div>
     <div class="bg-3d-orb bg-orb-gold-2"></div>
@@ -42,19 +120,23 @@
         </a>
         <button class="mobile-menu-btn" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
         <ul class="nav-links" id="navLinks">
-            <li><a href="welcome.html" class="nav-link active" onclick="closeMobileNav()"><i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> Welcome</a></li>
+            <li><a href="welcome.html" class="nav-link active" onclick="closeMobileNav()"><i class="fa-solid fa-star"
+                        style="color: var(--gold-primary);"></i> Welcome</a></li>
             <li><a href="index.html" class="nav-link" onclick="closeMobileNav()">Home</a></li>
             <li><a href="services.html" class="nav-link" onclick="closeMobileNav()">Facility Services</a></li>
             <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
             <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
             <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
             <li id="customerAuthContainer">
-                <button class="btn btn-gold btn-sm" id="customerLoginBtn" onclick="openCustomerAuthModal()" style="text-decoration: none; padding: 0.45rem 1.1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                <button class="btn btn-gold btn-sm" id="customerLoginBtn" onclick="openCustomerAuthModal()"
+                    style="text-decoration: none; padding: 0.45rem 1.1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
                     <i class="fa-solid fa-user-circle"></i> <span id="customerBtnText">Sign In / Register</span>
                 </button>
                 <div id="customerLoggedInState" style="display: none; align-items: center; gap: 0.75rem;">
-                    <span id="customerGreeting" style="font-size: 0.85rem; color: var(--gold-light); font-weight: 600;"></span>
-                    <button class="btn btn-secondary btn-sm" onclick="handleCustomerSignOut()" title="Sign Out" style="padding: 0.35rem 0.65rem; border-radius: 6px;">
+                    <span id="customerGreeting"
+                        style="font-size: 0.85rem; color: var(--gold-light); font-weight: 600;"></span>
+                    <button class="btn btn-secondary btn-sm" onclick="handleCustomerSignOut()" title="Sign Out"
+                        style="padding: 0.35rem 0.65rem; border-radius: 6px;">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     </button>
                 </div>
@@ -68,14 +150,16 @@
         <!-- 4K CINEMATIC VIDEO INTRO SHOWCASE -->
         <div id="videoIntroMount"></div>
 
-        <!-- 3D EXECUTIVE WELCOME BANNER SLIDER -->
-        <section class="welcome-slider-container scroll-3d-element">
-            <button class="slider-nav-btn slider-nav-prev" id="sliderPrevBtn" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="slider-nav-btn slider-nav-next" id="sliderNextBtn" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+        <!-- EXECUTIVE WELCOME BANNER SLIDER -->
+        <section class="welcome-slider-container">
+            <button class="slider-nav-btn slider-nav-prev" id="sliderPrevBtn" aria-label="Previous Slide"><i
+                    class="fa-solid fa-chevron-left"></i></button>
+            <button class="slider-nav-btn slider-nav-next" id="sliderNextBtn" aria-label="Next Slide"><i
+                    class="fa-solid fa-chevron-right"></i></button>
 
             <div style="overflow: hidden; border-radius: 24px;">
                 <div class="welcome-slider-track" id="welcomeSliderTrack">
-                    
+
                     <!-- SLIDE 1: ABOUT COMPANY -->
                     <div class="welcome-slide">
                         <div>
@@ -86,18 +170,26 @@
                                 Premier Integrated <span>Facility Management</span>
                             </h1>
                             <p class="welcome-slide-desc">
-                                Revati Enterprises is an ISO 9001:2015 certified leader in commercial housekeeping, high-rise glass facade maintenance, and MEP technical operations across India.
+                                Revati Enterprises is an ISO 9001:2015 certified leader in commercial housekeeping,
+                                high-rise glass facade maintenance, and MEP technical operations across India.
                             </p>
                             <div class="welcome-slide-actions">
-                                <a href="services.html" class="btn btn-gold"><i class="fa-solid fa-layer-group"></i> Our Services Overview</a>
-                                <a href="contact.html" class="btn btn-outline-gold"><i class="fa-solid fa-phone"></i> Contact Operations HQ</a>
+                                <a href="services.html" class="btn btn-gold"><i class="fa-solid fa-layer-group"></i> Our
+                                    Services Overview</a>
+                                <a href="contact.html" class="btn btn-outline-gold"><i class="fa-solid fa-phone"></i>
+                                    Contact Operations HQ</a>
                             </div>
                         </div>
                         <div class="welcome-slide-visual">
-                            <div class="welcome-slide-card-3d">
-                                <i class="fa-solid fa-award" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
-                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">ISO 9001:2015 Certified</h3>
-                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Delivering benchmark hygiene & technical SLA excellence for IT parks, commercial towers, and retail malls.</p>
+                            <div class="welcome-slide-card">
+                                <i class="fa-solid fa-award"
+                                    style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3
+                                    style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+                                    ISO 9001:2015 Certified</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Delivering
+                                    benchmark hygiene & technical SLA excellence for IT parks, commercial towers, and
+                                    retail malls.</p>
                                 <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
                                     <span class="badge badge-gold">500+ Clients</span>
                                     <span class="badge badge-info">PAN India</span>
@@ -116,18 +208,25 @@
                                 Deep Cleaning & <span>Facade Operations</span>
                             </h1>
                             <p class="welcome-slide-desc">
-                                Specialized mechanized floor scrubbing, hospital-grade sanitization, and high-rise rope access spider glass facade cleaning with hydrophobic protection.
+                                Specialized mechanized floor scrubbing, hospital-grade sanitization, and high-rise rope
+                                access spider glass facade cleaning with hydrophobic protection.
                             </p>
                             <div class="welcome-slide-actions">
-                                <a href="services.html" class="btn btn-gold"><i class="fa-solid fa-spray-can-sparkles"></i> Housekeeping Details</a>
-                                <a href="estimator.html" class="btn btn-outline-gold"><i class="fa-solid fa-calculator"></i> Calculate Cost Estimate</a>
+                                <a href="services.html" class="btn btn-gold"><i
+                                        class="fa-solid fa-spray-can-sparkles"></i> Housekeeping Details</a>
+                                <a href="estimator.html" class="btn btn-outline-gold"><i
+                                        class="fa-solid fa-calculator"></i> Calculate Cost Estimate</a>
                             </div>
                         </div>
                         <div class="welcome-slide-visual">
-                            <div class="welcome-slide-card-3d">
-                                <i class="fa-solid fa-building-user" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
-                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">99.8% Hygiene SLA</h3>
-                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Mechanized janitorial care and safety-certified rope access glass cleaning technicians.</p>
+                            <div class="welcome-slide-card">
+                                <i class="fa-solid fa-building-user"
+                                    style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3
+                                    style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+                                    99.8% Hygiene SLA</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Mechanized
+                                    janitorial care and safety-certified rope access glass cleaning technicians.</p>
                                 <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
                                     <span class="badge badge-gold">Certified Safety</span>
                                     <span class="badge badge-present">Zero Accidents</span>
@@ -146,18 +245,26 @@
                                 MEP Engineering & <span>Building Maintenance</span>
                             </h1>
                             <p class="welcome-slide-desc">
-                                24/7 technical operations including electrical substation auditing, HVAC chiller servicing, plumbing network maintenance, and rapid breakdown response.
+                                24/7 technical operations including electrical substation auditing, HVAC chiller
+                                servicing, plumbing network maintenance, and rapid breakdown response.
                             </p>
                             <div class="welcome-slide-actions">
-                                <a href="estimator.html" class="btn btn-gold"><i class="fa-solid fa-calculator"></i> Get Free Quote</a>
-                                <a href="about.html" class="btn btn-outline-gold"><i class="fa-solid fa-circle-info"></i> About Company</a>
+                                <a href="estimator.html" class="btn btn-gold"><i class="fa-solid fa-calculator"></i> Get
+                                    Free Quote</a>
+                                <a href="about.html" class="btn btn-outline-gold"><i
+                                        class="fa-solid fa-circle-info"></i> About Company</a>
                             </div>
                         </div>
                         <div class="welcome-slide-visual">
-                            <div class="welcome-slide-card-3d">
-                                <i class="fa-solid fa-screwdriver-wrench" style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
-                                <h3 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">24/7 Technical Response</h3>
-                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Certified engineers maintaining uninterrupted electrical and HVAC performance in corporate facilities.</p>
+                            <div class="welcome-slide-card">
+                                <i class="fa-solid fa-screwdriver-wrench"
+                                    style="font-size: 3.5rem; color: var(--gold-primary); margin-bottom: 1rem;"></i>
+                                <h3
+                                    style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem;">
+                                    24/7 Technical Response</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Certified
+                                    engineers maintaining uninterrupted electrical and HVAC performance in corporate
+                                    facilities.</p>
                                 <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; justify-content: center;">
                                     <span class="badge badge-gold">24/7 Helpline</span>
                                     <span class="badge badge-info">Certified MEP</span>
@@ -178,28 +285,45 @@
         </section>
 
         <!-- BRIEF COMPANY OVERVIEW SECTION -->
-        <section class="section-wrapper scroll-3d-element" style="margin-top: 3.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; box-shadow: var(--glass-shadow);">
+        <section class="section-wrapper"
+            style="margin-top: 3.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2.5rem; box-shadow: var(--glass-shadow);">
             <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-                <div style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 0.5rem;">
+                <div
+                    style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 0.5rem;">
                     COMPANY BRIEF
                 </div>
                 <h2 style="font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; margin-bottom: 1rem;">
-                    About <span style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Revati Enterprises</span>
+                    About <span
+                        style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Revati
+                        Enterprises</span>
                 </h2>
                 <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem;">
-                    Headquartered in Mumbai with operations across Pune and major Indian hubs, <strong>Revati Enterprises</strong> provides comprehensive, single-window integrated facility management services. We specialize in maintaining commercial office spaces, high-rise corporate towers, shopping malls, hospitals, and luxury residential complexes with rigorous ISO 9001:2015 quality standards.
+                    Headquartered in Mumbai with operations across Pune and major Indian hubs, <strong>Revati
+                        Enterprises</strong> provides comprehensive, single-window integrated facility management
+                    services. We specialize in maintaining commercial office spaces, high-rise corporate towers,
+                    shopping malls, hospitals, and luxury residential complexes with rigorous ISO 9001:2015 quality
+                    standards.
                 </p>
                 <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
-                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
-                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">500+</div>
+                    <div
+                        style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div
+                            style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">
+                            500+</div>
                         <div style="font-size: 0.82rem; color: var(--text-muted);">Corporate Clients</div>
                     </div>
-                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
-                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">1,200+</div>
+                    <div
+                        style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div
+                            style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">
+                            1,200+</div>
                         <div style="font-size: 0.82rem; color: var(--text-muted);">Trained Workforce</div>
                     </div>
-                    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
-                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">99.8%</div>
+                    <div
+                        style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(212,175,55,0.3); border-radius: 12px; padding: 1rem 1.5rem; min-width: 160px;">
+                        <div
+                            style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: var(--gold-primary);">
+                            99.8%</div>
                         <div style="font-size: 0.82rem; color: var(--text-muted);">Hygiene SLA Perfection</div>
                     </div>
                 </div>
@@ -207,67 +331,97 @@
         </section>
 
         <!-- WHAT WE DO (OUR WORK & SPECIALIZATIONS) -->
-        <section class="section-wrapper scroll-3d-element" style="margin-top: 4rem;">
+        <section class="section-wrapper" style="margin-top: 4rem;">
             <div style="text-align: center; margin-bottom: 2.5rem;">
-                <div style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem;">OUR CORE SERVICES</div>
+                <div
+                    style="color: var(--gold-primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem;">
+                    OUR CORE SERVICES</div>
                 <h2 style="font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin-top: 0.5rem;">
-                    The Work We <span style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Deliver Daily</span>
+                    The Work We <span
+                        style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Deliver
+                        Daily</span>
                 </h2>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-                
+
                 <!-- WORK ITEM 1 -->
-                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
-                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                <div class="welcome-service-card"
+                    style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;">
+                    <div
+                        style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
                         <i class="fa-solid fa-broom"></i>
                     </div>
-                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Commercial Housekeeping</h3>
-                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Daily janitorial maintenance, floor scrubbing, washroom hygiene control, and cafeteria sanitization for IT parks and office towers.</p>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">
+                        Commercial Housekeeping</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Daily janitorial
+                        maintenance, floor scrubbing, washroom hygiene control, and cafeteria sanitization for IT parks
+                        and office towers.</p>
                 </div>
 
                 <!-- WORK ITEM 2 -->
-                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
-                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                <div class="welcome-service-card"
+                    style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;">
+                    <div
+                        style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
                         <i class="fa-solid fa-building-user"></i>
                     </div>
-                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Glass Facade Cleaning</h3>
-                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">High-rise exterior glass facade cleaning using spider rope access technicians, BMU cradles, and hydrophobic sealant application.</p>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">
+                        Glass Facade Cleaning</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">High-rise exterior glass
+                        facade cleaning using spider rope access technicians, BMU cradles, and hydrophobic sealant
+                        application.</p>
                 </div>
 
                 <!-- WORK ITEM 3 -->
-                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
-                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                <div class="welcome-service-card"
+                    style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;">
+                    <div
+                        style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
                         <i class="fa-solid fa-gears"></i>
                     </div>
-                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">MEP & Electrical Operations</h3>
-                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">24/7 electrical substation audits, HVAC chiller servicing, DG set monitoring, and plumbing infrastructure maintenance.</p>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">
+                        MEP & Electrical Operations</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">24/7 electrical
+                        substation audits, HVAC chiller servicing, DG set monitoring, and plumbing infrastructure
+                        maintenance.</p>
                 </div>
 
                 <!-- WORK ITEM 4 -->
-                <div class="card-3d" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: all 0.3s ease;">
-                    <div style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
+                <div class="welcome-service-card"
+                    style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;">
+                    <div
+                        style="width: 56px; height: 56px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold-primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: var(--gold-primary); margin-bottom: 1.25rem;">
                         <i class="fa-solid fa-users"></i>
                     </div>
-                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">Corporate Manpower Deployment</h3>
-                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Trained, police-verified, and uniform-ready janitors, facility supervisors, office attendants, and pantry staff.</p>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin-bottom: 0.75rem;">
+                        Corporate Manpower Deployment</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">Trained, police-verified,
+                        and uniform-ready janitors, facility supervisors, office attendants, and pantry staff.</p>
                 </div>
 
             </div>
         </section>
 
         <!-- EXPLORE MORE CALL TO ACTION -->
-        <section class="section-wrapper scroll-3d-element" style="margin-top: 4rem; background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(18,24,38,0.9) 100%); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 3rem; text-align: center;">
+        <section class="section-wrapper"
+            style="margin-top: 4rem; background: linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(18,24,38,0.9) 100%); border: 1px solid var(--gold-primary); border-radius: 24px; padding: 3rem; text-align: center;">
             <h2 style="font-family: 'Cinzel', serif; font-size: 2.2rem; color: #fff; margin-bottom: 1rem;">
                 Need Corporate Facility Management Services?
             </h2>
-            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.6;">
-                Explore our detailed service offerings or calculate a customized monthly housekeeping estimate for your commercial office.
+            <p
+                style="color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.6;">
+                Explore our detailed service offerings or calculate a customized monthly housekeeping estimate for your
+                commercial office.
             </p>
 
+
             <div style="display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap;">
-                <a href="services.html" class="btn btn-gold" style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i class="fa-solid fa-layer-group"></i> Explore Detailed Services</a>
-                <a href="estimator.html" class="btn btn-outline-gold" style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i class="fa-solid fa-calculator"></i> Calculate Service Cost</a>
+                <a href="services.html" class="btn btn-gold" style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i
+                        class="fa-solid fa-layer-group"></i> Explore Detailed Services</a>
+                <a href="estimator.html" class="btn btn-outline-gold"
+                    style="font-size: 1rem; padding: 0.85rem 1.75rem;"><i class="fa-solid fa-calculator"></i> Calculate
+                    Service Cost</a>
             </div>
         </section>
 
@@ -293,87 +447,136 @@
     </main>
 
     <!-- FOOTER -->
-    <footer style="border-top: 1px solid var(--border-color); padding: 3rem 1.5rem; text-align: center; margin-top: 4rem; background: #05070A;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+    <footer
+        style="border-top: 1px solid var(--border-color); padding: 3rem 1.5rem; text-align: center; margin-top: 4rem; background: #05070A;">
+        <div
+            style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <img src="images/logo.png" alt="Logo" style="height: 38px;">
-                <span style="font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 900; color: var(--gold-primary); font-size: 1.2rem; letter-spacing: 2px;">REVATI ENTERPRISES</span>
+                <span
+                    style="font-family: 'Cinzel Decorative', 'Cinzel', serif; font-weight: 900; color: var(--gold-primary); font-size: 1.2rem; letter-spacing: 2px;">REVATI
+                    ENTERPRISES</span>
             </div>
             <p style="color: var(--text-muted); font-size: 0.88rem; max-width: 600px;">
-                ISO 9001:2015 Certified Commercial Housekeeping, Facade Cleaning, MEP Engineering & Facility Solutions. Mumbai • Pune • PAN India
+                ISO 9001:2015 Certified Commercial Housekeeping, Facade Cleaning, MEP Engineering & Facility Solutions.
+                Mumbai • Pune • PAN India
             </p>
-            <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+            <div
+                style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
                 <div>&copy; 2026 REVATI ENTERPRISES. All Rights Reserved.</div>
                 <div style="display: flex; gap: 0.85rem; align-items: center; font-size: 0.75rem; color: #4b5563;">
-                    <span style="color: #374151;"><i class="fa-solid fa-lock" style="font-size: 0.65rem;"></i> Internal:</span>
-                    <a href="admin.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Admin Console</a>
+                    <span style="color: #374151;"><i class="fa-solid fa-lock" style="font-size: 0.65rem;"></i>
+                        Internal:</span>
+                    <a href="admin.html" style="color: #4b5563; text-decoration: none;"
+                        onmouseover="this.style.color='var(--gold-primary)'"
+                        onmouseout="this.style.color='#4b5563'">Admin Console</a>
                     <span style="color: #374151;">&bull;</span>
-                    <a href="staff.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Staff Portal</a>
+                    <a href="staff.html" style="color: #4b5563; text-decoration: none;"
+                        onmouseover="this.style.color='var(--gold-primary)'"
+                        onmouseout="this.style.color='#4b5563'">Staff Portal</a>
                     <span style="color: #374151;">&bull;</span>
-                    <a href="register.html" style="color: #4b5563; text-decoration: none;" onmouseover="this.style.color='var(--gold-primary)'" onmouseout="this.style.color='#4b5563'">Staff Onboarding</a>
+                    <a href="register.html" style="color: #4b5563; text-decoration: none;"
+                        onmouseover="this.style.color='var(--gold-primary)'"
+                        onmouseout="this.style.color='#4b5563'">Staff Onboarding</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- CLIENT / CUSTOMER AUTHENTICATION MODAL -->
-    <div id="customerAuthModal" class="modal-overlay">
+    <div id="customerAuthModal" class="modal-overlay" style="display: none; pointer-events: none;">
         <div class="modal-container">
-            <button type="button" onclick="closeCustomerAuthModal()" style="position: absolute; top: 1.25rem; right: 1.25rem; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; transition: color 0.2s;" onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='var(--text-muted)'">&times;</button>
-            
+            <button type="button" onclick="closeCustomerAuthModal()"
+                style="position: absolute; top: 1.25rem; right: 1.25rem; background: transparent; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; transition: color 0.2s;"
+                onmouseover="this.style.color='#FFF'" onmouseout="this.style.color='var(--text-muted)'">&times;</button>
+
             <div style="text-align: center; margin-bottom: 1.5rem;">
-                <img src="images/logo.png" alt="Revati Logo" style="height: 44px; margin-bottom: 0.75rem; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));">
-                <h3 style="font-family: 'Cinzel', serif; font-size: 1.35rem; color: #FFF; margin-bottom: 0.25rem;">Client Portal Access</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage commercial housekeeping contracts, quotes & requests</p>
+                <img src="images/logo.png" alt="Revati Logo"
+                    style="height: 44px; margin-bottom: 0.75rem; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.35rem; color: #FFF; margin-bottom: 0.25rem;">
+                    Client Portal Access</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Manage commercial housekeeping contracts,
+                    quotes & requests</p>
             </div>
 
             <!-- GOOGLE SIGN-IN BUTTON -->
-            <button type="button" id="googleSignInBtn" onclick="handleGoogleSignIn()" style="width: 100%; padding: 0.8rem 1.25rem; background: #FFFFFF; color: #1f2937; border: 1px solid #e5e7eb; border-radius: 10px; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+            <button type="button" id="googleSignInBtn" onclick="handleGoogleSignIn()"
+                style="width: 100%; padding: 0.8rem 1.25rem; background: #FFFFFF; color: #1f2937; border: 1px solid #e5e7eb; border-radius: 10px; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
+                onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.2)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4"
+                        d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                    <path fill="#34A853"
+                        d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" />
+                    <path fill="#FBBC05"
+                        d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z" />
+                    <path fill="#EA4335"
+                        d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" />
+                </svg>
                 Continue with Google
             </button>
 
             <!-- OR DIVIDER -->
             <div style="display: flex; align-items: center; margin: 1.3rem 0; gap: 0.75rem;">
                 <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
-                <span style="font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; font-weight: 700;">OR USE EMAIL</span>
+                <span style="font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; font-weight: 700;">OR
+                    USE EMAIL</span>
                 <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
             </div>
 
             <!-- TAB SWITCHER: SIGN IN / CREATE ACCOUNT -->
-            <div style="display: flex; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 4px; margin-bottom: 1.25rem;">
-                <button type="button" id="tabSignInBtn" onclick="switchCustomerAuthTab('signin')" style="flex: 1; padding: 0.55rem; background: var(--gold-primary); color: #000; border: none; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+            <div
+                style="display: flex; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 4px; margin-bottom: 1.25rem;">
+                <button type="button" id="tabSignInBtn" onclick="switchCustomerAuthTab('signin')"
+                    style="flex: 1; padding: 0.55rem; background: var(--gold-primary); color: #000; border: none; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
                     Sign In
                 </button>
-                <button type="button" id="tabSignUpBtn" onclick="switchCustomerAuthTab('signup')" style="flex: 1; padding: 0.55rem; background: transparent; color: var(--text-muted); border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                <button type="button" id="tabSignUpBtn" onclick="switchCustomerAuthTab('signup')"
+                    style="flex: 1; padding: 0.55rem; background: transparent; color: var(--text-muted); border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
                     Create Account
                 </button>
             </div>
 
             <!-- STATUS MESSAGE BOX -->
-            <div id="customerAuthStatus" style="display: none; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1.25rem;"></div>
+            <div id="customerAuthStatus"
+                style="display: none; padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1.25rem;">
+            </div>
 
             <!-- FORM: SIGN IN -->
             <form id="customerSignInForm" onsubmit="handleCustomerSignIn(event)">
                 <div style="margin-bottom: 1rem;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Email Address</label>
+                    <label
+                        style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Email
+                        Address</label>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="email" id="custSignInEmail" class="form-control" placeholder="name@company.com" required style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-envelope"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="email" id="custSignInEmail" class="form-control" placeholder="name@company.com"
+                            required
+                            style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
                     </div>
                 </div>
                 <div style="margin-bottom: 1.25rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
                         <label style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">Password</label>
-                        <a href="javascript:void(0)" onclick="handleForgotPassword()" style="font-size: 0.75rem; color: var(--gold-primary); text-decoration: none;">Forgot Password?</a>
+                        <a href="javascript:void(0)" onclick="handleForgotPassword()"
+                            style="font-size: 0.75rem; color: var(--gold-primary); text-decoration: none;">Forgot
+                            Password?</a>
                     </div>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="password" id="custSignInPassword" class="form-control" placeholder="••••••••" required style="width: 100%; padding: 0.75rem 2.6rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
-                        <i class="fa-solid fa-eye" onclick="togglePasswordVisibility('custSignInPassword', this)" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 0.85rem;"></i>
+                        <i class="fa-solid fa-lock"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="password" id="custSignInPassword" class="form-control" placeholder="••••••••"
+                            required
+                            style="width: 100%; padding: 0.75rem 2.6rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-eye" onclick="togglePasswordVisibility('custSignInPassword', this)"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 0.85rem;"></i>
                     </div>
                 </div>
-                <button type="submit" id="custSignInSubmitBtn" class="btn btn-gold" style="width: 100%; padding: 0.85rem; font-weight: 700; border-radius: 10px; justify-content: center; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                <button type="submit" id="custSignInSubmitBtn" class="btn btn-gold"
+                    style="width: 100%; padding: 0.85rem; font-weight: 700; border-radius: 10px; justify-content: center; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
                     Sign In with Email
                 </button>
             </form>
@@ -381,35 +584,56 @@
             <!-- FORM: SIGN UP -->
             <form id="customerSignUpForm" onsubmit="handleCustomerSignUp(event)" style="display: none;">
                 <div style="margin-bottom: 0.9rem;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Full Name / Company Name</label>
+                    <label
+                        style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Full
+                        Name / Company Name</label>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="text" id="custSignUpName" class="form-control" placeholder="e.g. Ramesh Mehta" required style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-user"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="text" id="custSignUpName" class="form-control" placeholder="e.g. Ramesh Mehta"
+                            required
+                            style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
                     </div>
                 </div>
                 <div style="margin-bottom: 0.9rem;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Email Address</label>
+                    <label
+                        style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Email
+                        Address</label>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="email" id="custSignUpEmail" class="form-control" placeholder="name@company.com" required style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-envelope"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="email" id="custSignUpEmail" class="form-control" placeholder="name@company.com"
+                            required
+                            style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
                     </div>
                 </div>
                 <div style="margin-bottom: 0.9rem;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Contact Phone Number</label>
+                    <label
+                        style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Contact
+                        Phone Number</label>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-phone" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="tel" id="custSignUpPhone" class="form-control" placeholder="+91 98765 43210" style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-phone"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="tel" id="custSignUpPhone" class="form-control" placeholder="+91 98765 43210"
+                            style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
                     </div>
                 </div>
                 <div style="margin-bottom: 1.25rem;">
-                    <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Password (minimum 6 characters)</label>
+                    <label
+                        style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;">Password
+                        (minimum 6 characters)</label>
                     <div style="position: relative;">
-                        <i class="fa-solid fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
-                        <input type="password" id="custSignUpPassword" class="form-control" placeholder="Create secure password" required minlength="6" style="width: 100%; padding: 0.75rem 2.6rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
-                        <i class="fa-solid fa-eye" onclick="togglePasswordVisibility('custSignUpPassword', this)" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 0.85rem;"></i>
+                        <i class="fa-solid fa-lock"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem;"></i>
+                        <input type="password" id="custSignUpPassword" class="form-control"
+                            placeholder="Create secure password" required minlength="6"
+                            style="width: 100%; padding: 0.75rem 2.6rem 0.75rem 2.6rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: #FFF; font-size: 0.9rem;">
+                        <i class="fa-solid fa-eye" onclick="togglePasswordVisibility('custSignUpPassword', this)"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; font-size: 0.85rem;"></i>
                     </div>
                 </div>
-                <button type="submit" id="custSignUpSubmitBtn" class="btn btn-gold" style="width: 100%; padding: 0.85rem; font-weight: 700; border-radius: 10px; justify-content: center; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                <button type="submit" id="custSignUpSubmitBtn" class="btn btn-gold"
+                    style="width: 100%; padding: 0.85rem; font-weight: 700; border-radius: 10px; justify-content: center; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
                     Create Client Account
                 </button>
             </form>
@@ -423,7 +647,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
     <script src="js/firebase-service.js?v=999"></script>
 
-    <!-- 3D Scroll & Slider Engine -->
+    <!-- Video Intro & Interactive Slider Engine -->
     <script src="js/video-intro.js"></script>
     <script src="js/scroll3d.js"></script>
     <script>
@@ -445,6 +669,7 @@
                 modal.style.display = 'flex';
                 modal.style.opacity = '1';
                 modal.style.visibility = 'visible';
+                modal.style.pointerEvents = 'auto';
                 clearCustomerAuthStatus();
                 document.body.style.overflow = 'hidden';
             }
@@ -457,8 +682,10 @@
                 modal.style.display = 'none';
                 modal.style.opacity = '0';
                 modal.style.visibility = 'hidden';
-                document.body.style.overflow = '';
+                modal.style.pointerEvents = 'none';
             }
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = 'auto';
         }
 
         document.addEventListener('click', (e) => {
@@ -650,7 +877,12 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             if (window.location.hash === '#login' || window.location.search.includes('login')) {
-                setTimeout(openCustomerAuthModal, 300);
+                setTimeout(() => {
+                    openCustomerAuthModal();
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState(null, document.title, window.location.pathname);
+                    }
+                }, 300);
             }
             if (typeof firebaseService !== 'undefined') {
                 firebaseService.onAuthStateChanged(user => {
@@ -658,6 +890,14 @@
                 });
             }
         });
+
+        // SERVICE WORKER REGISTRATION
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Reg Error:', err));
+            });
+        }
     </script>
 </body>
+
 </html>

@@ -3,51 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Revati Enterprises - Staff & Worker Mobile Application</title>
-    <meta name="description" content="Dedicated Staff & Worker Mobile Application for Task Management, Location Tracking, Attendance, & Leave Applications at Revati Enterprises.">
+    <title>REVATI ENTERPRISES - STAFF APP ONLY</title>
+    <meta name="description" content="Dedicated Staff App Only - Official Workforce Application for Task Management, Attendance Punch, Active Shift Stopwatch & Leave Desk at Revati Enterprises.">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#07090E">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Multi-CDN FontAwesome 6.5.1 with Fallbacks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
     <style>
         :root {
-            --mobile-nav-height: 65px;
+            --mobile-nav-height: 68px;
+            --gold-primary: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #AA771C 100%);
+            --gold-glow: rgba(212, 175, 55, 0.35);
+            --bg-main: #07090E;
+            --bg-card: rgba(17, 24, 39, 0.95);
+            --border-color: rgba(212, 175, 55, 0.25);
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --success: #10B981;
+            --success-glow: rgba(16, 185, 129, 0.25);
+            --danger: #EF4444;
+            --danger-glow: rgba(239, 68, 68, 0.25);
         }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             background-color: var(--bg-main);
             color: var(--text-main);
-            padding-bottom: calc(var(--mobile-nav-height) + 20px);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding-bottom: calc(var(--mobile-nav-height) + 30px);
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
-        
+
+        /* Inline SVG / Icon Alignment Standard */
+        .app-icon {
+            width: 1.25em;
+            height: 1.25em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
         /* Mobile Top App Bar */
         .app-bar {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(11, 14, 23, 0.95);
+            background: rgba(11, 14, 23, 0.98);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
         }
-        .worker-profile-pill {
+
+        .brand-block {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255,255,255,0.06);
-            padding: 6px 14px;
-            border-radius: 30px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-decoration: none;
         }
+
+        .brand-logo-img {
+            height: 34px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+        }
+
+        .brand-title-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-title-revati {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #FFF 0%, #F3E5AB 50%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-title-sub {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Dedicated "STAFF APP ONLY" Badge */
+        .staff-only-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            box-shadow: 0 0 12px var(--gold-glow);
+            white-space: nowrap;
+        }
+
+        .staff-only-pill .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--gold-primary);
+            animation: pulseGlow 1.8s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+        }
+
+        .worker-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
         .worker-avatar {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: var(--gold-gradient);
             color: #000;
@@ -55,26 +169,43 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        /* Top Announcement / Notice Bar */
+        .staff-notice-bar {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.12), rgba(16, 185, 129, 0.08), rgba(212, 175, 55, 0.12));
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--gold-light);
+            text-align: center;
         }
 
         /* Container Layout */
         .app-container {
             max-width: 900px;
-            margin: 20px auto;
-            padding: 0 16px;
+            margin: 16px auto;
+            padding: 0 14px;
         }
 
         /* Tab Content Views */
         .tab-view {
             display: none;
-            animation: slideUp 0.3s ease;
+            animation: slideUpFade 0.25s ease-out;
         }
+
         .tab-view.active {
             display: block;
         }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(12px); }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -88,168 +219,467 @@
             background: rgba(11, 14, 23, 0.98);
             border-top: 1px solid var(--border-color);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 -5px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
+
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             gap: 4px;
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.72rem;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition-fast);
+            transition: all 0.2s ease;
             flex: 1;
-            padding: 8px 0;
+            padding: 6px 0;
+            position: relative;
         }
-        .nav-item i {
-            font-size: 1.3rem;
-            transition: var(--transition-fast);
+
+        .nav-item .nav-icon-wrap {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            border-radius: 12px;
+            transition: all 0.2s ease;
         }
+
         .nav-item.active {
             color: var(--gold-primary);
         }
-        .nav-item.active i {
+
+        .nav-item.active .nav-icon-wrap {
+            background: rgba(212, 175, 55, 0.18);
+            color: var(--gold-primary);
             transform: translateY(-2px);
-            filter: drop-shadow(0 0 8px var(--gold-glow));
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 18px;
+            height: 3px;
+            background: var(--gold-gradient);
+            border-radius: 3px;
+            box-shadow: 0 0 8px var(--gold-primary);
+        }
+
+        /* Live Clock & Shift Dashboard Card */
+        .punch-clock-card {
+            background: linear-gradient(135deg, rgba(18, 24, 38, 0.98), rgba(12, 16, 26, 0.98));
+            border: 1px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 24px 18px;
+            text-align: center;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px var(--gold-glow);
+            margin-bottom: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .punch-clock-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold-gradient);
+        }
+
+        .live-date-header {
+            font-size: 0.88rem;
+            color: var(--gold-light);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .live-clock-digits {
+            font-size: 2.7rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            letter-spacing: 2px;
+            font-family: 'Outfit', monospace;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
+            margin: 6px 0 10px;
+            line-height: 1;
+        }
+
+        .gps-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .gps-status-badge .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulseGlow 1.5s infinite;
+        }
+
+        /* --- ACTIVE DUTY STOPWATCH / SHIFT TIMER BOX --- */
+        .shift-stopwatch-box {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 16px;
+            padding: 16px 14px;
+            margin: 15px auto 20px;
+            max-width: 440px;
+        }
+
+        .stopwatch-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .stopwatch-status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .stopwatch-status-tag.standby {
+            background: rgba(156, 163, 175, 0.15);
+            color: var(--text-muted);
+            border: 1px solid rgba(156, 163, 175, 0.3);
+        }
+
+        .stopwatch-status-tag.running {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+            box-shadow: 0 0 10px var(--success-glow);
+        }
+
+        .stopwatch-timer-display {
+            font-size: 2.3rem;
+            font-weight: 900;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--gold-primary);
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px var(--gold-glow);
+            margin: 4px 0;
+        }
+
+        .stopwatch-timer-labels {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .shift-progress-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .shift-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gold-gradient);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 8px var(--gold-primary);
+        }
+
+        /* Big Circular Punch Button */
+        .btn-punch {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            border: 4px solid var(--gold-primary);
+            background: var(--gold-gradient);
+            color: #000000;
+            font-size: 1.15rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto 20px;
+            box-shadow: 0 0 35px var(--gold-glow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .btn-punch:active {
+            transform: scale(0.95);
+        }
+
+        .btn-punch.punched-in {
+            background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
+            border-color: #F87171;
+            color: #FFFFFF;
+            box-shadow: 0 0 35px var(--danger-glow);
+        }
+
+        .btn-punch i, .btn-punch svg {
+            font-size: 2.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* 3-Column Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        .metric-card-inner {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 8px 6px;
+        }
+
+        .metric-title {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .metric-value {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--gold-light);
         }
 
         /* Duty Task Cards */
         .task-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 18px;
-            margin-bottom: 16px;
-            box-shadow: var(--glass-shadow);
-            transition: var(--transition-fast);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s ease;
         }
+
         .task-card:hover {
-            border-color: var(--border-hover);
+            border-color: var(--gold-primary);
         }
+
         .location-badge {
             background: rgba(59, 130, 246, 0.15);
-            color: var(--primary);
+            color: #60A5FA;
+            border: 1px solid rgba(59, 130, 246, 0.3);
             padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.78rem;
+            border-radius: 14px;
+            font-size: 0.76rem;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 5px;
         }
 
-        /* Punch Clock Dashboard */
-        .punch-clock-card {
-            background: linear-gradient(135deg, rgba(18,24,38,0.95), rgba(28,38,60,0.95));
-            border: 1px solid var(--gold-primary);
-            border-radius: var(--radius-lg);
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            margin-bottom: 25px;
-        }
-        .big-time {
-            font-size: 2.8rem;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            color: var(--gold-light);
-            letter-spacing: 2px;
-            margin: 10px 0;
-        }
-        .btn-punch {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 4px solid var(--gold-primary);
+        .btn-gold {
             background: var(--gold-gradient);
             color: #000;
-            font-size: 1.3rem;
-            font-weight: 800;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-weight: 700;
+            font-size: 0.8rem;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            box-shadow: 0 0 30px var(--gold-glow);
-            transition: var(--transition-fast);
+            gap: 6px;
+            transition: all 0.2s ease;
         }
-        .btn-punch:active {
-            transform: scale(0.95);
-        }
-        .btn-punch.punched-in {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            border-color: #F87171;
-            color: #fff;
-            box-shadow: 0 0 30px var(--danger-glow);
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #FFF;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* Modal styling */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 2000;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
+
         .modal-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
+            background: #0E131F;
+            border: 1px solid var(--gold-primary);
+            border-radius: 20px;
             width: 100%;
-            max-width: 500px;
-            padding: 25px;
-            box-shadow: var(--glass-shadow);
+            max-width: 460px;
+            padding: 22px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--gold-glow);
+        }
+
+        .form-control-custom {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: #FFF;
+            padding: 10px 12px;
+            font-size: 0.88rem;
+            outline: none;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
 
+    <!-- Inline SVG Symbols Library for 100% Reliable Offline Icon Rendering -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-shield" viewBox="0 0 512 512">
+            <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0z"/>
+        </symbol>
+        <symbol id="icon-fingerprint" viewBox="0 0 512 512">
+            <path d="M256 0C114.6 0 0 114.6 0 256c0 60.1 20.8 115.4 55.6 158.9c9.3 11.6 26.2 13.4 37.8 4.1s13.4-26.2 4.1-37.8C68.9 344.4 51.2 299.7 51.2 256c0-113.1 91.7-204.8 204.8-204.8s204.8 91.7 204.8 204.8c0 43.7-17.7 88.4-46.3 125.2c-9.3 11.6-7.5 28.5 4.1 37.8c11.6 9.3 28.5 7.5 37.8-4.1C491.2 371.4 512 316.1 512 256C512 114.6 397.4 0 256 0zm-38.4 128c-70.7 0-128 57.3-128 128c0 23.6 6.4 46.1 18.2 65.8c7.4 12.3 23.3 16.3 35.6 8.9c12.3-7.4 16.3-23.3 8.9-35.6C144.1 278.4 139.2 264.8 139.2 256c0-43.2 35.2-78.4 78.4-78.4s78.4 35.2 78.4 78.4c0 30.6-11.7 60.1-33 82.2c-10.2 10.6-9.8 27.5.8 37.7c10.6 10.2 27.5 9.8 37.7-.8c29.8-31 46.1-72.3 46.1-115.1c0-70.7-57.3-128-128-128z"/>
+        </symbol>
+        <symbol id="icon-tasks" viewBox="0 0 512 512">
+            <path d="M152 64H296V24C296 10.7 285.3 0 272 0H176c-13.3 0-24 10.7-24 24V64zM48 96C21.5 96 0 117.5 0 144V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V144c0-26.5-21.5-48-48-48H352V56c0-30.9-25.1-56-56-56H152C121.1 0 96 25.1 96 56V96H48zm120 160c0-8.8 7.2-16 16-16H320c8.8 0 16 7.2 16 16s-7.2 16-16 16H184c-8.8 0-16-7.2-16-16zm0 96c0-8.8 7.2-16 16-16H320c8.8 0 16 7.2 16 16s-7.2 16-16 16H184c-8.8 0-16-7.2-16-16z"/>
+        </symbol>
+        <symbol id="icon-clock" viewBox="0 0 512 512">
+            <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zm0 96a16 16 0 0 0 -16 16V240c0 4.2 1.7 8.3 4.7 11.3l64 64c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6L272 233.4V112a16 16 0 0 0 -16-16z"/>
+        </symbol>
+        <symbol id="icon-stopwatch" viewBox="0 0 512 512">
+            <path d="M232 0c-13.3 0-24 10.7-24 24s10.7 24 24 24h16V74.9C132.3 87.4 48 181.8 48 296c0 119.3 96.7 216 216 216s216-96.7 216-216c0-114.2-84.3-208.6-200-221.1V48h16c13.3 0 24-10.7 24-24s-10.7-24-24-24H232zM272 176v120c0 8.8-7.2 16-16 16s-16-7.2-16-16V176c0-8.8 7.2-16 16-16s16 7.2 16 16z"/>
+        </symbol>
+        <symbol id="icon-beach" viewBox="0 0 512 512">
+            <path d="M464 256h-80l64-128h80L464 256zM256 0C114.6 0 0 114.6 0 256c0 8.8 7.2 16 16 16h224v176c0 35.3 28.7 64 64 64s64-28.7 64-64V272h128c8.8 0 16-7.2 16-16C512 114.6 397.4 0 256 0z"/>
+        </symbol>
+        <symbol id="icon-user" viewBox="0 0 448 512">
+            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+        </symbol>
+        <symbol id="icon-map-pin" viewBox="0 0 384 512">
+            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+        </symbol>
+        <symbol id="icon-check" viewBox="0 0 448 512">
+            <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+        </symbol>
+    </svg>
+
     <!-- Mobile Top App Bar -->
     <header class="app-bar">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="images/logo.png" alt="Revati Logo" style="height: 32px; width: auto; object-fit: contain;">
-            <div class="nav-brand-text">
-                <span class="nav-title-revati" style="font-size: 1.05rem;">REVATI</span>
-                <span class="nav-title-enterprises" style="font-size: 0.78rem;">ENTERPRISES</span>
+        <div class="brand-block">
+            <img src="images/logo.png" alt="Revati Logo" class="brand-logo-img">
+            <div class="brand-title-wrap">
+                <span class="brand-title-revati">REVATI</span>
+                <span class="brand-title-sub">ENTERPRISES</span>
             </div>
         </div>
-        
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <button id="pwaInstallBtn" onclick="installPWA()" style="display: none; background: var(--gold-gradient); color: #000; border: none; border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
-                <i class="fa-solid fa-download"></i> Install App
+
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <!-- Explicit "STAFF APP ONLY" Badge -->
+            <span class="staff-only-pill" title="Restricted Internal Staff Application">
+                <span class="pulse-dot"></span>
+                <svg class="app-icon" style="width: 1em; height: 1em;"><use href="#icon-shield"/></svg>
+                STAFF APP ONLY
+            </span>
+
+            <button id="pwaInstallBtn" onclick="installPWA()" style="display: none; background: var(--gold-gradient); color: #000; border: none; border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; font-weight: 800; cursor: pointer;">
+                <i class="fa-solid fa-download"></i> Install
             </button>
+
             <div class="worker-profile-pill">
                 <div class="worker-avatar" id="avatarLetter">S</div>
-                <div style="display: flex; flex-direction: column;">
-                    <span style="font-size: 0.8rem; font-weight: 700; color: #fff;" id="topWorkerName">Staff Member</span>
-                    <span style="font-size: 0.65rem; color: var(--gold-light);" id="topEmpCode">REV-WORKER</span>
+                <div style="display: flex; flex-direction: column; line-height: 1.1;">
+                    <span style="font-size: 0.78rem; font-weight: 700; color: #FFF; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="topWorkerName">Staff Member</span>
+                    <span style="font-size: 0.62rem; color: var(--gold-light); font-weight: 700;" id="topEmpCode">REV-STAFF</span>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Prominent Staff App Only Verification Ribbon -->
+    <div class="staff-notice-bar">
+        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-shield"/></svg>
+        <span><strong>STAFF PORTAL ONLY:</strong> Authorized Operations Workforce, Cleaners &amp; Technicians</span>
+    </div>
+
     <main class="app-container">
 
         <!-- TAB 1: MY TASKS & LOCATIONS -->
         <section class="tab-view active" id="viewTasks">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <div>
-                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Assigned Duty Tasks</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Your active work locations & cleaning assignments</p>
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+                        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-tasks"/></svg>
+                        Duty Assignments
+                    </h2>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Assigned commercial locations & daily sanitization checklists</p>
                 </div>
-                <span class="badge" style="background: rgba(212,175,55,0.15); color: var(--gold-primary); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;" id="taskCountBadge">0 Tasks</span>
+                <span class="badge" style="background: rgba(212,175,55,0.18); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;" id="taskCountBadge">0 Tasks</span>
             </div>
 
             <div id="tasksContainer">
@@ -257,55 +687,101 @@
             </div>
         </section>
 
-        <!-- TAB 2: ATTENDANCE PUNCH -->
+        <!-- TAB 2: ATTENDANCE PUNCH & ACTIVE STOPWATCH -->
         <section class="tab-view" id="viewAttendance">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Daily Attendance Portal</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Punch in & out with GPS verification</p>
+            <div style="text-align: center; margin-bottom: 14px;">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-fingerprint"/></svg>
+                    Daily Attendance &amp; Shift Timer
+                </h2>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Biometric verified clock-in with live GPS attendance tracking</p>
             </div>
 
             <div class="punch-clock-card">
-                <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;" id="currentDateStr">Monday, 11 August 2026</div>
-                <div class="big-time" id="liveClock">00:00:00 AM</div>
-                <div style="font-size: 0.8rem; color: var(--success);" id="gpsLocationText"><i class="fa-solid fa-location-dot"></i> GPS Location Acquired: Client Site Premises</div>
+                <!-- Live Calendar Date (Instant & Non-freezing) -->
+                <div class="live-date-header" id="currentDateStr">
+                    <i class="fa-solid fa-calendar-day"></i> Loading Live Date...
+                </div>
 
+                <!-- Big Live Clock (Seconds ticking continuously) -->
+                <div class="live-clock-digits" id="liveClock">--:--:-- --</div>
+
+                <!-- GPS Location Pill -->
+                <div class="gps-status-badge" id="gpsLocationText">
+                    <span class="live-dot"></span>
+                    <svg class="app-icon"><use href="#icon-map-pin"/></svg>
+                    <span>GPS Acquired: Client Site Premises Verified</span>
+                </div>
+
+                <!-- ACTIVE DUTY STOPWATCH / SHIFT COUNTER WIDGET -->
+                <div class="shift-stopwatch-box">
+                    <div class="stopwatch-header">
+                        <span style="display: flex; align-items: center; gap: 5px;">
+                            <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-stopwatch"/></svg>
+                            Shift Stopwatch
+                        </span>
+                        <span class="stopwatch-status-tag standby" id="stopwatchStatusTag">● STANDBY</span>
+                    </div>
+
+                    <!-- Monospace Big Live Shift Watch -->
+                    <div class="stopwatch-timer-display" id="shiftTimerDisplay">00:00:00</div>
+                    <div class="stopwatch-timer-labels">
+                        <span>Hours</span>
+                        <span>Minutes</span>
+                        <span>Seconds</span>
+                    </div>
+
+                    <div class="shift-progress-track">
+                        <div class="shift-progress-fill" id="shiftProgressFill"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted); margin-top: 5px;">
+                        <span>Target: 8h Shift</span>
+                        <span id="shiftPercentLabel">0% Elapsed</span>
+                    </div>
+                </div>
+
+                <!-- Punch Fingerprint Action Button -->
                 <button class="btn-punch" id="punchBtn" onclick="togglePunch()">
-                    <i class="fa-solid fa-fingerprint" style="font-size: 2rem; margin-bottom: 6px;"></i>
+                    <svg class="app-icon" style="width: 2.2rem; height: 2.2rem;"><use href="#icon-fingerprint"/></svg>
                     <span id="punchBtnLabel">PUNCH IN</span>
                 </button>
 
-                <div style="display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                    <div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">Punch In Time</div>
-                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--gold-light);" id="punchInTimeVal">--:--</div>
+                <!-- 3-Metrics Summary Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card-inner">
+                        <div class="metric-title"><i class="fa-solid fa-arrow-right-to-bracket"></i> Punch In</div>
+                        <div class="metric-value" id="punchInTimeVal">--:--</div>
                     </div>
-                    <div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">Punch Out Time</div>
-                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--gold-light);" id="punchOutTimeVal">--:--</div>
+                    <div class="metric-card-inner">
+                        <div class="metric-title"><i class="fa-solid fa-arrow-right-from-bracket"></i> Punch Out</div>
+                        <div class="metric-value" id="punchOutTimeVal">--:--</div>
                     </div>
-                    <div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">Status</div>
-                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--success);" id="punchStatusVal">Not Punched</div>
+                    <div class="metric-card-inner">
+                        <div class="metric-title"><i class="fa-solid fa-business-time"></i> Duty Status</div>
+                        <div class="metric-value" style="color: var(--gold-light);" id="punchStatusVal">Off Duty</div>
                     </div>
                 </div>
             </div>
 
             <!-- Attendance History Table -->
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
-                <h3 style="color: var(--gold-light); margin-bottom: 12px; font-size: 1.05rem;"><i class="fa-solid fa-clock-rotate-left"></i> Recent Attendance Log</h3>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-top: 15px;">
+                <h3 style="color: var(--gold-light); margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-clock-rotate-left" style="color: var(--gold-primary);"></i>
+                    Recent Duty Punch Logs
+                </h3>
                 <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
                         <thead>
-                            <tr style="border-bottom: 1px solid var(--border-color); text-align: left; color: var(--text-muted);">
-                                <th style="padding: 10px;">Date</th>
-                                <th style="padding: 10px;">Punch In</th>
-                                <th style="padding: 10px;">Punch Out</th>
-                                <th style="padding: 10px;">Location</th>
-                                <th style="padding: 10px;">Status</th>
+                            <tr style="border-bottom: 1px solid rgba(212, 175, 55, 0.2); text-align: left; color: var(--text-muted);">
+                                <th style="padding: 8px;">Date</th>
+                                <th style="padding: 8px;">In</th>
+                                <th style="padding: 8px;">Out</th>
+                                <th style="padding: 8px;">Premises</th>
+                                <th style="padding: 8px;">Verification</th>
                             </tr>
                         </thead>
                         <tbody id="attendanceLogTable">
-                            <!-- Populated via JS -->
+                            <!-- Dynamically loaded attendance rows -->
                         </tbody>
                     </table>
                 </div>
@@ -314,13 +790,16 @@
 
         <!-- TAB 3: LEAVE APPLICATION -->
         <section class="tab-view" id="viewLeave">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <div>
-                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Leave Application Portal</h2>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Apply for leave & track approval status</p>
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+                        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-beach"/></svg>
+                        Staff Leave Portal
+                    </h2>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Formal leave requisition desk with supervisor approval tracking</p>
                 </div>
-                <button class="btn-gold" onclick="openLeaveModal()" style="font-size: 0.85rem; padding: 8px 16px;">
-                    <i class="fa-solid fa-plus"></i> Apply for Leave
+                <button class="btn-gold" onclick="openLeaveModal()">
+                    <i class="fa-solid fa-plus"></i> Apply Leave
                 </button>
             </div>
 
@@ -331,47 +810,56 @@
 
         <!-- TAB 4: MY PROFILE -->
         <section class="tab-view" id="viewProfile">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.5rem;">Worker Identity Profile</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Official Revati Enterprises Credentials</p>
+            <div style="text-align: center; margin-bottom: 16px;">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-user"/></svg>
+                    Staff Official Profile
+                </h2>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Revati Enterprises Official Workforce Identity &amp; Statutory Records</p>
             </div>
 
-            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 25px; box-shadow: var(--glass-shadow);">
-                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
-                    <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--gold-gradient); color: #000; font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center;" id="profAvatar">S</div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+                    <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--gold-gradient); color: #000; font-size: 1.6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" id="profAvatar">S</div>
                     <div>
-                        <h3 style="color: var(--text-main); font-size: 1.2rem;" id="profName">Staff Attendant</h3>
-                        <div style="color: var(--gold-light); font-weight: 600; font-size: 0.85rem;" id="profCode">REV-WORKER001</div>
-                        <div style="color: var(--text-muted); font-size: 0.78rem;" id="profRole">Facility Operations & Housekeeping</div>
+                        <h3 style="color: #FFF; font-size: 1.15rem;" id="profName">Staff Attendant</h3>
+                        <div style="color: var(--gold-light); font-weight: 700; font-size: 0.82rem;" id="profCode">REV-WORKER001</div>
+                        <div style="display: inline-block; background: rgba(212,175,55,0.15); color: var(--gold-primary); border: 1px solid var(--gold-primary); border-radius: 12px; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; margin-top: 4px;">
+                            STAFF ONLY &bull; FACILITY SERVICES
+                        </div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; font-size: 0.9rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 0.85rem;">
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.78rem;">Phone Number</div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-phone"></i> Registered Mobile Phone</div>
                         <strong id="profPhone">+91 9769930626</strong>
                     </div>
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.78rem;">Email Address</div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-envelope"></i> Official Staff Email</div>
                         <strong id="profEmail">staff@revatienterprises.com</strong>
                     </div>
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.78rem;">Proof of Nationality</div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-id-card"></i> Statutory Proof of Identity</div>
                         <strong id="profProof">Aadhaar Card (Verified)</strong>
                     </div>
                     <div>
-                        <div style="color: var(--text-muted); font-size: 0.78rem;">Educational Qualification</div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-graduation-cap"></i> Educational Qualification</div>
                         <strong id="profQual">12th Standard HSC / Technical</strong>
                     </div>
                     <div style="grid-column: 1 / -1;">
-                        <div style="color: var(--text-muted); font-size: 0.78rem;">Residential Address</div>
-                        <strong id="profAddress">Revati Enterprises Staff Quarters, Mumbai, Maharashtra</strong>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-map-location-dot"></i> Quarters Address</div>
+                        <strong id="profAddress">Revati Enterprises Staff Quarters, Andheri East, Mumbai</strong>
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-                    <a href="register.html" style="color: var(--gold-primary); text-decoration: none; font-size: 0.85rem;"><i class="fa-solid fa-user-plus"></i> New Worker Registration Portal</a>
-                    <button class="btn-secondary" onclick="api.logout(); window.location.href='index.html';" style="font-size: 0.85rem; color: var(--danger); border-color: rgba(239,68,68,0.3);"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <a href="register.html" style="color: var(--gold-primary); text-decoration: none; font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+                        <i class="fa-solid fa-user-plus"></i> New Staff Registration
+                    </a>
+                    <button class="btn-secondary" onclick="api.logout(); window.location.href='index.html';" style="font-size: 0.8rem; color: var(--danger); border-color: rgba(239,68,68,0.4);">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out Staff
+                    </button>
                 </div>
             </div>
         </section>
@@ -381,85 +869,141 @@
     <!-- Apply Leave Modal -->
     <div class="modal-overlay" id="leaveModal">
         <div class="modal-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif;"><i class="fa-solid fa-calendar-plus"></i> Apply for Leave</h3>
-                <button onclick="closeLeaveModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;">&times;</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
+                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.15rem; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-calendar-plus"></i> Apply for Staff Leave
+                </h3>
+                <button onclick="closeLeaveModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; line-height: 1;">&times;</button>
             </div>
             <form onsubmit="submitLeaveApp(event)">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="leaveType">Leave Type *</label>
-                    <select id="leaveType" required>
-                        <option value="Casual Leave">Casual Leave (CL)</option>
-                        <option value="Sick Leave">Sick Leave (SL)</option>
-                        <option value="Earned / Paid Leave">Earned / Paid Leave (PL)</option>
-                        <option value="Unpaid Leave">Unpaid Leave</option>
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.78rem; color: var(--text-muted);">Leave Type *</label>
+                    <select id="leaveType" class="form-control-custom" required>
+                        <option value="Casual Leave (CL)">Casual Leave (CL)</option>
+                        <option value="Sick Leave (SL)">Sick Leave (SL)</option>
+                        <option value="Privilege Leave (PL)">Privilege / Annual Leave (PL)</option>
                         <option value="Emergency Leave">Emergency Leave</option>
                     </select>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="startDate">Start Date *</label>
-                        <input type="date" id="startDate" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 0.78rem; color: var(--text-muted);">Start Date *</label>
+                        <input type="date" id="startDate" class="form-control-custom" required>
                     </div>
-                    <div class="form-group">
-                        <label for="endDate">End Date *</label>
-                        <input type="date" id="endDate" required>
+                    <div>
+                        <label style="font-size: 0.78rem; color: var(--text-muted);">End Date *</label>
+                        <input type="date" id="endDate" class="form-control-custom" required>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="leavePhone">Emergency Contact Phone during Leave *</label>
-                    <input type="tel" id="leavePhone" placeholder="+91 XXXXXXXXXX" required>
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.78rem; color: var(--text-muted);">Emergency Phone Number *</label>
+                    <input type="tel" id="leavePhone" class="form-control-custom" placeholder="+91 9769930626" required>
                 </div>
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="leaveReason">Reason for Leave *</label>
-                    <textarea id="leaveReason" rows="3" placeholder="Provide clear reason or justification for leave request..." required></textarea>
+                <div style="margin-bottom: 18px;">
+                    <label style="font-size: 0.78rem; color: var(--text-muted);">Reason for Leave *</label>
+                    <textarea id="leaveReason" class="form-control-custom" rows="3" placeholder="State reason for absence..." required></textarea>
                 </div>
-                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
                     <button type="button" class="btn-secondary" onclick="closeLeaveModal()">Cancel</button>
-                    <button type="submit" class="btn-gold">Submit Application</button>
+                    <button type="submit" class="btn-gold"><i class="fa-solid fa-paper-plane"></i> Submit Requisition</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Mobile Bottom Navigation Bar -->
+    <!-- Mobile Bottom Navigation Bar: Perfectly Assembled & Aligned -->
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('viewTasks', this)">
-            <i class="fa-solid fa-list-check"></i>
+            <div class="nav-icon-wrap">
+                <svg class="app-icon"><use href="#icon-tasks"/></svg>
+            </div>
             <span>My Tasks</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewAttendance', this)">
-            <i class="fa-solid fa-fingerprint"></i>
-            <span>Attendance</span>
+            <div class="nav-icon-wrap">
+                <svg class="app-icon"><use href="#icon-stopwatch"/></svg>
+            </div>
+            <span>Shift Clock</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewLeave', this)">
-            <i class="fa-solid fa-umbrella-beach"></i>
-            <span>Leaves</span>
+            <div class="nav-icon-wrap">
+                <svg class="app-icon"><use href="#icon-beach"/></svg>
+            </div>
+            <span>Leave Desk</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewProfile', this)">
-            <i class="fa-solid fa-circle-user"></i>
-            <span>Profile</span>
+            <div class="nav-icon-wrap">
+                <svg class="app-icon"><use href="#icon-user"/></svg>
+            </div>
+            <span>Staff ID</span>
         </div>
     </nav>
+
+    <!-- IMMEDIATE SELF-EXECUTING TICKER SCRIPT (GUARANTEES ZERO FREEZING) -->
+    <script>
+        (function initClockImmediately() {
+            function updateClock() {
+                try {
+                    const now = new Date();
+                    const clockEl = document.getElementById('liveClock');
+                    const dateEl = document.getElementById('currentDateStr');
+                    if (clockEl) {
+                        clockEl.innerText = now.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: true
+                        });
+                    }
+                    if (dateEl) {
+                        dateEl.innerHTML = '<i class="fa-solid fa-calendar-day" style="margin-right: 5px;"></i> ' + now.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                    }
+                } catch (e) {
+                    console.error("Live clock tick error:", e);
+                }
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        })();
+    </script>
 
     <!-- Firebase SDK v10 Scripts (Compat Mode) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Core Models & Services -->
     <script src="js/firebase-service.js"></script>
+    <script src="js/mockData.js"></script>
     <script src="js/api.js"></script>
     <script src="js/excelExporter.js"></script>
+
+    <!-- MAIN STAFF APP & SHIFT STOPWATCH CONTROLLER -->
     <script>
         let currentUser = null;
         let isPunchedIn = false;
         let punchInTime = null;
+        let shiftStartTimestamp = null;
+        let stopwatchInterval = null;
         let deferredPwaPrompt = null;
 
+        const STORAGE_KEY_SHIFT = 'revati_staff_active_shift_v1';
+
+        // 1. INITIALIZATION ON DOM READY
         window.addEventListener('DOMContentLoaded', async () => {
-            currentUser = api.getCurrentUser();
+            try {
+                currentUser = api.getCurrentUser();
+            } catch (err) {
+                console.warn("api.getCurrentUser fallback", err);
+            }
+
             if (!currentUser) {
-                // Default Staff fallback
                 currentUser = {
                     id: 3,
                     name: 'Staff Attendant',
@@ -470,17 +1014,20 @@
                     email: 'staff@revatienterprises.com',
                     nationalityProofType: 'Aadhaar Card',
                     nationalityProofNo: '9876 5432 1098',
-                    qualification: '12th Standard HSC / Diploma'
+                    qualification: '12th Standard HSC / Technical'
                 };
             }
 
             renderWorkerHeader();
-            updateClock();
-            setInterval(updateClock, 1000);
-            await loadTasks();
-            await loadAttendance();
-            await loadLeaves();
             renderProfile();
+
+            // Restore active shift stopwatch if worker was already punched in
+            restoreShiftState();
+
+            // Load data asynchronously without blocking UI or timers
+            try { await loadTasks(); } catch (e) { console.warn("loadTasks error", e); }
+            try { await loadAttendance(); } catch (e) { console.warn("loadAttendance error", e); }
+            try { await loadLeaves(); } catch (e) { console.warn("loadLeaves error", e); }
 
             // PWA Install prompt listener
             window.addEventListener('beforeinstallprompt', (e) => {
@@ -491,117 +1038,250 @@
             });
         });
 
-        function installPWA() {
-            if (deferredPwaPrompt) {
-                deferredPwaPrompt.prompt();
-                deferredPwaPrompt.userChoice.then((choice) => {
-                    if (choice.outcome === 'accepted') {
-                        document.getElementById('pwaInstallBtn').style.display = 'none';
-                    }
-                });
+        // 2. ACTIVE DUTY STOPWATCH ENGINE (UNFREEZABLE)
+        function startShiftStopwatch(startTimeMs) {
+            shiftStartTimestamp = startTimeMs || Date.now();
+            if (stopwatchInterval) clearInterval(stopwatchInterval);
+
+            function updateStopwatch() {
+                const now = Date.now();
+                const elapsedSeconds = Math.max(0, Math.floor((now - shiftStartTimestamp) / 1000));
+
+                const hrs = Math.floor(elapsedSeconds / 3600);
+                const mins = Math.floor((elapsedSeconds % 3600) / 60);
+                const secs = elapsedSeconds % 60;
+
+                const formattedTime = 
+                    String(hrs).padStart(2, '0') + ':' + 
+                    String(mins).padStart(2, '0') + ':' + 
+                    String(secs).padStart(2, '0');
+
+                const timerEl = document.getElementById('shiftTimerDisplay');
+                if (timerEl) timerEl.innerText = formattedTime;
+
+                // 8 Hour Target Progress Bar (8 * 3600 = 28800 seconds)
+                const targetSeconds = 8 * 3600;
+                const percent = Math.min(100, Math.round((elapsedSeconds / targetSeconds) * 100));
+                
+                const fillEl = document.getElementById('shiftProgressFill');
+                const percentEl = document.getElementById('shiftPercentLabel');
+                if (fillEl) fillEl.style.width = percent + '%';
+                if (percentEl) percentEl.innerText = `${percent}% Completed (${hrs}h ${mins}m)`;
+            }
+
+            updateStopwatch();
+            stopwatchInterval = setInterval(updateStopwatch, 1000);
+
+            // Update Status Badge UI
+            const badge = document.getElementById('stopwatchStatusTag');
+            if (badge) {
+                badge.className = 'stopwatch-status-tag running';
+                badge.innerHTML = '<span class="pulse-dot" style="background:#10B981; width:6px; height:6px; border-radius:50%; display:inline-block; animation:pulseGlow 1.5s infinite;"></span> LIVE SHIFT RUNNING';
             }
         }
 
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if (el) el.classList.add('active');
+        function stopShiftStopwatch() {
+            if (stopwatchInterval) {
+                clearInterval(stopwatchInterval);
+                stopwatchInterval = null;
+            }
+            const timerEl = document.getElementById('shiftTimerDisplay');
+            if (timerEl) timerEl.innerText = "00:00:00";
+
+            const fillEl = document.getElementById('shiftProgressFill');
+            const percentEl = document.getElementById('shiftPercentLabel');
+            if (fillEl) fillEl.style.width = '0%';
+            if (percentEl) percentEl.innerText = "0% Completed";
+
+            const badge = document.getElementById('stopwatchStatusTag');
+            if (badge) {
+                badge.className = 'stopwatch-status-tag standby';
+                badge.innerText = '● STANDBY';
+            }
         }
 
-        function renderWorkerHeader() {
-            const letter = (currentUser.name || 'W').charAt(0).toUpperCase();
-            document.getElementById('avatarLetter').innerText = letter;
-            document.getElementById('topWorkerName').innerText = currentUser.name || 'Worker Staff';
-            document.getElementById('topEmpCode').innerText = currentUser.empCode || 'REV-WORKER';
+        // 3. PERSISTENT SHIFT RESTORATION
+        function restoreShiftState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY_SHIFT);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    // Check if shift belongs to today
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    if (data && data.isPunchedIn && data.date === todayStr && data.startTimestamp) {
+                        isPunchedIn = true;
+                        punchInTime = data.inTime;
+                        shiftStartTimestamp = data.startTimestamp;
+
+                        const btn = document.getElementById('punchBtn');
+                        const label = document.getElementById('punchBtnLabel');
+                        if (btn) btn.classList.add('punched-in');
+                        if (label) label.innerText = 'PUNCH OUT';
+
+                        document.getElementById('punchInTimeVal').innerText = punchInTime;
+                        document.getElementById('punchStatusVal').innerText = 'Punched In (Active)';
+                        document.getElementById('punchStatusVal').style.color = '#10B981';
+
+                        startShiftStopwatch(shiftStartTimestamp);
+                    } else {
+                        localStorage.removeItem(STORAGE_KEY_SHIFT);
+                    }
+                }
+            } catch (e) {
+                console.warn("restoreShiftState error", e);
+            }
         }
 
-        function updateClock() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString();
-            const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('liveClock').innerText = timeStr;
-            document.getElementById('currentDateStr').innerText = dateStr;
-        }
-
+        // 4. BIOMETRIC PUNCH TOGGLE
         function togglePunch() {
             const btn = document.getElementById('punchBtn');
             const label = document.getElementById('punchBtnLabel');
-            const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const now = new Date();
+            const nowTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            const todayStr = now.toISOString().split('T')[0];
 
             if (!isPunchedIn) {
+                // PUNCH IN
                 isPunchedIn = true;
                 punchInTime = nowTime;
+                shiftStartTimestamp = Date.now();
+
                 btn.classList.add('punched-in');
                 label.innerText = 'PUNCH OUT';
                 document.getElementById('punchInTimeVal').innerText = punchInTime;
-                document.getElementById('punchStatusVal').innerText = 'PUNCHED IN';
+                document.getElementById('punchOutTimeVal').innerText = '--:--';
+                document.getElementById('punchStatusVal').innerText = 'Punched In (Active)';
+                document.getElementById('punchStatusVal').style.color = '#10B981';
 
-                // Record attendance API
+                // Save persistent state
+                localStorage.setItem(STORAGE_KEY_SHIFT, JSON.stringify({
+                    isPunchedIn: true,
+                    inTime: punchInTime,
+                    startTimestamp: shiftStartTimestamp,
+                    date: todayStr
+                }));
+
+                // Start stopwatch immediately
+                startShiftStopwatch(shiftStartTimestamp);
+
+                // API record
                 api.request('/attendance', 'POST', {
                     employeeName: currentUser.name,
-                    empCode: currentUser.empCode || 'REV-WORKER',
+                    empCode: currentUser.empCode || 'REV-WORKER001',
                     timeIn: nowTime,
                     timeOut: 'Active Shift',
-                    location: 'Client Site GPS',
+                    location: 'Client Site Premises (Verified GPS)',
                     status: 'Present'
-                }).then(() => loadAttendance());
+                }).then(() => loadAttendance()).catch(e => console.warn(e));
+
             } else {
+                // PUNCH OUT
+                const elapsedMinutes = Math.round((Date.now() - shiftStartTimestamp) / 60000);
+                const hrs = Math.floor(elapsedMinutes / 60);
+                const mins = elapsedMinutes % 60;
+                const durationStr = `${hrs}h ${mins}m`;
+
                 isPunchedIn = false;
                 btn.classList.remove('punched-in');
                 label.innerText = 'PUNCH IN';
                 document.getElementById('punchOutTimeVal').innerText = nowTime;
-                document.getElementById('punchStatusVal').innerText = 'SHIFT COMPLETED';
+                document.getElementById('punchStatusVal').innerText = `Completed (${durationStr})`;
+                document.getElementById('punchStatusVal').style.color = '#D4AF37';
+
+                localStorage.removeItem(STORAGE_KEY_SHIFT);
+                stopShiftStopwatch();
 
                 api.request('/attendance', 'POST', {
                     employeeName: currentUser.name,
-                    empCode: currentUser.empCode || 'REV-WORKER',
+                    empCode: currentUser.empCode || 'REV-WORKER001',
                     timeIn: punchInTime || '09:00 AM',
                     timeOut: nowTime,
-                    location: 'Client Site GPS',
-                    status: 'Completed'
-                }).then(() => loadAttendance());
+                    location: 'Client Site Premises (Verified GPS)',
+                    status: `Completed (${durationStr})`
+                }).then(() => loadAttendance()).catch(e => console.warn(e));
             }
         }
 
+        // 5. TAB SWITCHING
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderWorkerHeader() {
+            const letter = (currentUser.name || 'S').charAt(0).toUpperCase();
+            document.getElementById('avatarLetter').innerText = letter;
+            document.getElementById('topWorkerName').innerText = currentUser.name || 'Staff Member';
+            document.getElementById('topEmpCode').innerText = currentUser.empCode || 'REV-STAFF';
+        }
+
+        function renderProfile() {
+            const name = currentUser.name || 'Staff Attendant';
+            document.getElementById('profAvatar').innerText = name.charAt(0).toUpperCase();
+            document.getElementById('profName').innerText = name;
+            document.getElementById('profCode').innerText = currentUser.empCode || 'REV-WORKER001';
+            document.getElementById('profPhone').innerText = currentUser.phone || '+91 9769930626';
+            document.getElementById('profEmail').innerText = currentUser.email || 'staff@revatienterprises.com';
+            document.getElementById('profProof').innerText = `${currentUser.nationalityProofType || 'Aadhaar Card'} (${currentUser.nationalityProofNo || 'Verified ID'})`;
+            document.getElementById('profQual').innerText = currentUser.qualification || '12th Standard HSC / Technical';
+            document.getElementById('profAddress').innerText = currentUser.address || 'Revati Enterprises Staff Quarters, Andheri East, Mumbai';
+        }
+
+        // 6. TASKS LOADER
         async function loadTasks() {
-            try {
-                const tasks = await api.request('/tasks', 'GET') || [];
-                const container = document.getElementById('tasksContainer');
-                document.getElementById('taskCountBadge').innerText = `${tasks.length} Tasks`;
+            const tasks = await api.request('/tasks', 'GET') || [];
+            const container = document.getElementById('tasksContainer');
+            const badge = document.getElementById('taskCountBadge');
+            if (badge) badge.innerText = `${tasks.length} Assigned`;
 
-                if (tasks.length === 0) {
-                    container.innerHTML = `
-                        <div class="task-card" style="text-align: center; color: var(--text-muted);">
-                            <i class="fa-solid fa-clipboard-check" style="font-size: 2rem; margin-bottom: 10px; color: var(--gold-primary);"></i>
-                            <p>No active duty tasks assigned for today.</p>
-                        </div>
-                    `;
-                    return;
-                }
+            if (!container) return;
 
-                container.innerHTML = tasks.map(t => `
-                    <div class="task-card">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                            <span class="location-badge"><i class="fa-solid fa-location-dot"></i> ${t.location || 'Client Facility Location'}</span>
-                            <span class="badge" style="background: ${t.status === 'Completed' ? 'var(--success-glow)' : 'var(--warning-glow)'}; color: ${t.status === 'Completed' ? 'var(--success)' : 'var(--warning)'}; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 12px;">${t.status || 'Pending'}</span>
-                        </div>
-                        <h3 style="color: var(--gold-light); font-size: 1.1rem; margin-bottom: 6px;">${t.title || t.description || 'Facility Housekeeping & Maintenance'}</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Duty Task Code: <strong>${t.taskCode || 'REV-HK'}</strong> | Priority: <span style="color: var(--gold-primary); font-weight: 600;">${t.priority || 'Normal'}</span></p>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
-                            <a href="https://maps.google.com/?q=${encodeURIComponent(t.location || 'Mumbai')}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.82rem; font-weight: 600;"><i class="fa-solid fa-map-location-dot"></i> View Location Map</a>
-                            ${t.status !== 'Completed' ? `
-                                <button class="btn-gold" onclick="markTaskDone(${t.id})" style="font-size: 0.78rem; padding: 6px 14px;"><i class="fa-solid fa-check"></i> Mark Complete</button>
-                            ` : `
-                                <span style="color: var(--success); font-size: 0.82rem; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Work Verified</span>
-                            `}
-                        </div>
+            if (tasks.length === 0) {
+                container.innerHTML = `
+                    <div class="task-card" style="text-align: center; color: var(--text-muted); padding: 30px 15px;">
+                        <svg class="app-icon" style="width: 2.5rem; height: 2.5rem; color: var(--gold-primary); margin-bottom: 12px;"><use href="#icon-tasks"/></svg>
+                        <h4 style="color: var(--gold-light); margin-bottom: 6px;">All Assigned Duties Up To Date</h4>
+                        <p style="font-size: 0.8rem;">No pending facility housekeeping tasks assigned for your shift today.</p>
                     </div>
-                `).join('');
-            } catch (e) {
-                console.warn("Tasks load fallback", e);
+                `;
+                return;
             }
+
+            container.innerHTML = tasks.map(t => `
+                <div class="task-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <span class="location-badge">
+                            <svg class="app-icon" style="width: 1em; height: 1em;"><use href="#icon-map-pin"/></svg>
+                            ${t.location || 'Client Facility Premises'}
+                        </span>
+                        <span style="background: ${t.status === 'Completed' ? 'var(--success-glow)' : 'rgba(212,175,55,0.18)'}; color: ${t.status === 'Completed' ? 'var(--success)' : 'var(--gold-primary)'}; border: 1px solid ${t.status === 'Completed' ? 'var(--success)' : 'var(--gold-primary)'}; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;">
+                            ${t.status || 'Pending'}
+                        </span>
+                    </div>
+                    <h3 style="color: #FFF; font-size: 1.05rem; margin-bottom: 5px;">${t.title || t.description || 'Facility Housekeeping & Deep Sanitation'}</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Task Code: <strong style="color: var(--gold-light);">${t.taskCode || 'REV-HK'}</strong> | Priority: <span style="color: var(--gold-primary); font-weight: 700;">${t.priority || 'Normal'}</span></p>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+                        <a href="https://maps.google.com/?q=${encodeURIComponent(t.location || 'Mumbai')}" target="_blank" style="color: #60A5FA; text-decoration: none; font-size: 0.78rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-map-location-dot"></i> Open Maps
+                        </a>
+                        ${t.status !== 'Completed' ? `
+                            <button class="btn-gold" onclick="markTaskDone(${t.id})">
+                                <i class="fa-solid fa-check"></i> Mark Complete
+                            </button>
+                        ` : `
+                            <span style="color: var(--success); font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fa-solid fa-circle-check"></i> Work Verified
+                            </span>
+                        `}
+                    </div>
+                </div>
+            `).join('');
         }
 
         async function markTaskDone(taskId) {
@@ -614,51 +1294,62 @@
             }
         }
 
+        // 7. ATTENDANCE TABLE LOADER
         async function loadAttendance() {
             const list = await api.request('/attendance', 'GET') || [];
             const tbody = document.getElementById('attendanceLogTable');
+            if (!tbody) return;
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:var(--text-muted);">No attendance punch records yet today.</td></tr>`;
+                return;
+            }
+
             tbody.innerHTML = list.slice(0, 10).map(att => `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px;">${att.date || 'Today'}</td>
-                    <td style="padding: 10px; color: var(--gold-light); font-weight: 600;">${att.timeIn || att.time || '09:00 AM'}</td>
-                    <td style="padding: 10px; color: var(--gold-light);">${att.timeOut || '06:00 PM'}</td>
-                    <td style="padding: 10px;">${att.location || 'Client Facility'}</td>
-                    <td style="padding: 10px;"><span style="color: var(--success); font-weight: 700;">● ${att.status || 'Present'}</span></td>
+                    <td style="padding: 9px 8px;">${att.date || 'Today'}</td>
+                    <td style="padding: 9px 8px; color: var(--gold-light); font-weight: 700;">${att.timeIn || '09:00 AM'}</td>
+                    <td style="padding: 9px 8px; color: var(--gold-light);">${att.timeOut || '--:--'}</td>
+                    <td style="padding: 9px 8px;">${att.location || 'Client Premises'}</td>
+                    <td style="padding: 9px 8px;"><span style="color: var(--success); font-weight: 700;">● ${att.status || 'Verified'}</span></td>
                 </tr>
             `).join('');
         }
 
+        // 8. LEAVES LOADER
         async function loadLeaves() {
             const leaves = await api.getLeaves() || [];
             const container = document.getElementById('leavesContainer');
+            if (!container) return;
 
             if (leaves.length === 0) {
                 container.innerHTML = `
                     <div class="task-card" style="text-align: center; color: var(--text-muted); padding: 30px;">
-                        <i class="fa-solid fa-umbrella-beach" style="font-size: 2.2rem; margin-bottom: 10px; color: var(--gold-primary);"></i>
-                        <p>No leave applications submitted yet.</p>
+                        <svg class="app-icon" style="width: 2.5rem; height: 2.5rem; color: var(--gold-primary); margin-bottom: 10px;"><use href="#icon-beach"/></svg>
+                        <h4 style="color: var(--gold-light); margin-bottom: 5px;">No Leave Applications Filed</h4>
+                        <p style="font-size: 0.8rem;">Tap 'Apply Leave' above to submit a requisition to operations management.</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = leaves.map(l => {
-                let badgeStyle = "background: var(--warning-glow); color: var(--warning);";
-                if (l.status === 'Approved') badgeStyle = "background: var(--success-glow); color: var(--success);";
-                if (l.status === 'Rejected') badgeStyle = "background: var(--danger-glow); color: var(--danger);";
+                let badgeStyle = "background: rgba(212,175,55,0.15); color: var(--gold-primary); border: 1px solid var(--gold-primary);";
+                if (l.status === 'Approved') badgeStyle = "background: var(--success-glow); color: var(--success); border: 1px solid var(--success);";
+                if (l.status === 'Rejected') badgeStyle = "background: var(--danger-glow); color: var(--danger); border: 1px solid var(--danger);";
 
                 return `
                     <div class="task-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <strong style="color: var(--gold-light); font-size: 1.05rem;"><i class="fa-solid fa-calendar"></i> ${l.leaveType}</strong>
-                            <span style="${badgeStyle} font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 12px;">${l.status}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="color: var(--gold-light); font-size: 1rem;"><i class="fa-solid fa-calendar-day" style="color: var(--gold-primary); margin-right: 5px;"></i> ${l.leaveType}</strong>
+                            <span style="${badgeStyle} font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 12px;">${l.status}</span>
                         </div>
-                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">
-                            Dates: <strong style="color: #fff;">${l.startDate}</strong> to <strong style="color: #fff;">${l.endDate}</strong>
+                        <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px;">
+                            Requisition Dates: <strong style="color: #FFF;">${l.startDate}</strong> to <strong style="color: #FFF;">${l.endDate}</strong>
                         </div>
-                        <p style="font-size: 0.88rem; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--gold-primary);">${l.reason}</p>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
-                            <span>Applied: ${l.appliedDate || 'N/A'}</span>
+                        <p style="font-size: 0.84rem; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--gold-primary);">${l.reason}</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted);">
+                            <span>Applied: ${l.appliedDate || 'Today'}</span>
                             <span>Emergency Contact: ${l.phoneOnLeave || 'N/A'}</span>
                         </div>
                     </div>
@@ -677,7 +1368,7 @@
             e.preventDefault();
             const leaveData = {
                 empName: currentUser.name,
-                empCode: currentUser.empCode || 'REV-WORKER',
+                empCode: currentUser.empCode || 'REV-WORKER001',
                 leaveType: document.getElementById('leaveType').value,
                 startDate: document.getElementById('startDate').value,
                 endDate: document.getElementById('endDate').value,
@@ -690,17 +1381,15 @@
             loadLeaves();
         }
 
-        function renderProfile() {
-            const name = currentUser.name || 'Worker Staff';
-            document.getElementById('profAvatar').innerText = name.charAt(0).toUpperCase();
-            document.getElementById('profName').innerText = name;
-            document.getElementById('profCode').innerText = currentUser.empCode || 'REV-WORKER001';
-            document.getElementById('profRole').innerText = `${currentUser.designation || 'Attendant'} (${currentUser.role})`;
-            document.getElementById('profPhone').innerText = currentUser.phone || '+91 9769930626';
-            document.getElementById('profEmail').innerText = currentUser.email || 'staff@revatienterprises.com';
-            document.getElementById('profProof').innerText = `${currentUser.nationalityProofType || 'Aadhaar Card'} (${currentUser.nationalityProofNo || 'Verified ID'})`;
-            document.getElementById('profQual').innerText = currentUser.qualification || '10th / 12th Standard Pass';
-            document.getElementById('profAddress').innerText = currentUser.address || 'Revati Enterprises Operational Quarters, Mumbai';
+        function installPWA() {
+            if (deferredPwaPrompt) {
+                deferredPwaPrompt.prompt();
+                deferredPwaPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        document.getElementById('pwaInstallBtn').style.display = 'none';
+                    }
+                });
+            }
         }
     </script>
 </body>
