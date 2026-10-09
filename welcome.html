@@ -7,8 +7,10 @@
     <title>Welcome | REVATI ENTERPRISES - Facility Management</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/video-intro.css">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome Icons (Multi-CDN CSS + SVG Vector Engine) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
     <!-- PWA Support -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#D4AF37">
@@ -684,8 +686,8 @@
                 modal.style.visibility = 'hidden';
                 modal.style.pointerEvents = 'none';
             }
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.overflow = 'auto';
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
         }
 
         document.addEventListener('click', (e) => {
@@ -876,6 +878,9 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // Guarantee fluid scroll state on initial page entry
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
             if (window.location.hash === '#login' || window.location.search.includes('login')) {
                 setTimeout(() => {
                     openCustomerAuthModal();

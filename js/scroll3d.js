@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function init3DScrollEffects() {
     const targets = document.querySelectorAll('.page-part-3d, .card, .stat-item, .section-wrapper, .scroll-3d-element, .form-card, .sidebar-3d');
     
-    // Ensure all elements are immediately visible and natural
+    // Ensure all elements are immediately visible without inline transform collisions
     targets.forEach(el => {
         el.classList.remove('scroll-3d-hidden');
         el.classList.add('scroll-3d-visible');
         el.style.opacity = '1';
-        el.style.transform = 'none';
     });
 }
 
