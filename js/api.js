@@ -1,3 +1,4 @@
+
 // REVATI ENTERPRISES - JWT Security & API Client Service Layer
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -79,7 +80,10 @@ const DEFAULT_INITIAL_DATA = {
 class ApiService {
     constructor() {
         this.useLocalStorageFallback = true;
+        this.syncListeners = [];
+        this.lastSyncTimestamp = Date.now();
         this.initStorage();
+        this.setupLiveSync();
     }
 
     getInitialData() {
@@ -88,11 +92,78 @@ class ApiService {
 
     initStorage() {
         const initial = this.getInitialData();
-        if (!localStorage.getItem('hk_data_v1')) {
-            localStorage.setItem('hk_data_v1', JSON.stringify(initial));
+        if (!localStorage.getItem('hk_data_v5')) {
+            const oldData = localStorage.getItem('hk_data_v4') || localStorage.getItem('hk_data_v1');
+            const dataToSet = oldData ? JSON.parse(oldData) : initial;
+            localStorage.setItem('hk_data_v5', JSON.stringify(dataToSet));
         }
         if (!localStorage.getItem('hk_current_user')) {
             localStorage.setItem('hk_current_user', JSON.stringify((initial.users && initial.users[0]) ? initial.users[0] : DEFAULT_INITIAL_DATA.users[0]));
+        }
+    }
+
+    setupLiveSync() {
+        if (typeof window === 'undefined') return;
+
+        // 1. BroadcastChannel for instant zero-latency cross-tab sync
+        if (typeof BroadcastChannel !== 'undefined') {
+            try {
+                this.broadcastChannel = new BroadcastChannel('revati_live_sync_bus');
+                this.broadcastChannel.onmessage = (event) => {
+                    if (event && event.data && event.data.timestamp !== this.lastSyncTimestamp) {
+                        this.lastSyncTimestamp = event.data.timestamp;
+                        this.emitLocalChange(event.data.type || 'SYNC_EVENT', event.data.payload || {});
+                    }
+                };
+            } catch (err) {
+                console.warn('[ApiService] BroadcastChannel notice:', err);
+            }
+        }
+
+        // 2. Window storage event (fires automatically across tabs when localStorage changes)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'hk_data_v5' || e.key === 'hk_last_sync_timestamp' || e.key === 'revati_staff_active_shift_v1') {
+                this.emitLocalChange('STORAGE_MUTATION', { key: e.key });
+            }
+        });
+
+        // 3. Heartbeat polling check (every 2.5s) ensuring real-time state for background tabs
+        setInterval(() => {
+            const storedTs = parseInt(localStorage.getItem('hk_last_sync_timestamp') || '0', 10);
+            if (storedTs > this.lastSyncTimestamp) {
+                this.lastSyncTimestamp = storedTs;
+                this.emitLocalChange('HEARTBEAT_SYNC', { timestamp: storedTs });
+            }
+        }, 2500);
+    }
+
+    notifyChange(type = 'DATA_UPDATED', payload = {}) {
+        const timestamp = Date.now();
+        this.lastSyncTimestamp = timestamp;
+        try {
+            localStorage.setItem('hk_last_sync_timestamp', timestamp.toString());
+        } catch (e) { }
+
+        if (this.broadcastChannel) {
+            try {
+                this.broadcastChannel.postMessage({ type, payload, timestamp });
+            } catch (e) { }
+        }
+
+        this.emitLocalChange(type, payload);
+    }
+
+    onDataChange(callback) {
+        if (typeof callback === 'function') {
+            this.syncListeners.push(callback);
+        }
+    }
+
+    emitLocalChange(type, payload) {
+        if (this.syncListeners && this.syncListeners.length > 0) {
+            this.syncListeners.forEach(cb => {
+                try { cb(type, payload); } catch (e) { console.warn('[ApiService] live sync callback error:', e); }
+            });
         }
     }
 
@@ -111,6 +182,7 @@ class ApiService {
 
     saveLocalData(data) {
         localStorage.setItem('hk_data_v5', JSON.stringify(data));
+        this.notifyChange('DATA_SAVED', { timestamp: Date.now() });
     }
 
     getCurrentUser() {
@@ -695,6 +767,22 @@ class ApiService {
             this.setToken(mockToken);
             this.setCurrentUser(newWorker);
             return { success: true, user: newWorker, token: mockToken };
+        }
+
+        if (endpoint === '/contracts') {
+            if (!data.contracts) data.contracts = [];
+            if (method === 'GET') return data.contracts;
+            if (method === 'POST') {
+                const newContract = {
+                    id: Date.now(),
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'Active',
+                    ...body
+                };
+                data.contracts.unshift(newContract);
+                this.saveLocalData(data);
+                return newContract;
+            }
         }
 
         if (endpoint === '/reports') {

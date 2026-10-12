@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revati-app-v5';
+const CACHE_NAME = 'revati-app-v6';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

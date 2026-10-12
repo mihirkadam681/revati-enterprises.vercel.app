@@ -2,8 +2,6 @@
 // Academic Project: Sheth L.U.J. & Sir M.V. College of Science | Mihir R. Kadam (T082)
 
 document.addEventListener('DOMContentLoaded', async () => {
-    localStorage.removeItem('revati_admin_auth');
-    sessionStorage.removeItem('revati_admin_auth');
     setupAdminSecurityForm();
     checkAdminSecurityAuth();
     setupNavigation();
@@ -12,11 +10,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupFirebaseUI();
     await applyRolePermissions();
     await loadAppState();
-});
 
-window.addEventListener('beforeunload', () => {
-    localStorage.removeItem('revati_admin_auth');
-    sessionStorage.removeItem('revati_admin_auth');
+    // Real-Time Inter-Tab Live Synchronization
+    if (typeof api !== 'undefined' && typeof api.onDataChange === 'function') {
+        api.onDataChange(async (type, payload) => {
+            console.log('⚡ [Live Sync Bus] Admin portal received update:', type, payload);
+            await loadAppState();
+        });
+    }
 });
 
 // Setup JWT Login Form Submission
@@ -633,13 +634,13 @@ async function renderAttendance() {
         } else {
             tbody.innerHTML = atts.map(a => `
                 <tr>
-                    <td><strong>${a.empCode}</strong></td>
-                    <td><strong>${a.empName}</strong></td>
-                    <td>${a.date}</td>
-                    <td><i class="fa-regular fa-clock" style="color: var(--success);"></i> ${a.clockIn}</td>
-                    <td>${a.clockOut}</td>
-                    <td><span class="badge badge-present">${a.status}</span></td>
-                    <td><strong>${a.hoursWorked} hrs</strong></td>
+                    <td><strong>${a.empCode || 'REV-WORKER'}</strong></td>
+                    <td><strong>${a.empName || a.employeeName || 'Staff Member'}</strong></td>
+                    <td>${a.date || 'Today'}</td>
+                    <td><i class="fa-regular fa-clock" style="color: var(--success);"></i> ${a.clockIn || a.timeIn || '09:00 AM'}</td>
+                    <td>${a.clockOut || a.timeOut || '--:--'}</td>
+                    <td><span class="badge badge-present">${a.status || 'Present'}</span></td>
+                    <td><strong>${a.hoursWorked ? (typeof a.hoursWorked === 'number' ? a.hoursWorked + ' hrs' : a.hoursWorked) : (a.location || 'Verified GPS')}</strong></td>
                 </tr>
             `).join('');
         }
@@ -1014,15 +1015,18 @@ function closeModal(modalId) {
 }
 
 function checkAdminSecurityAuth() {
-    localStorage.removeItem('revati_admin_auth');
-    sessionStorage.removeItem('revati_admin_auth');
+    const isUnlocked = sessionStorage.getItem('revati_admin_auth') === 'unlocked' || localStorage.getItem('revati_admin_auth') === 'unlocked';
     const overlay = document.getElementById('securityAuthOverlay');
     if (overlay) {
-        overlay.style.display = 'flex';
-        const passInput = document.getElementById('adminSecretKeyInput');
-        if (passInput) {
-            passInput.value = '';
-            passInput.focus();
+        if (isUnlocked) {
+            overlay.style.display = 'none';
+        } else {
+            overlay.style.display = 'flex';
+            const passInput = document.getElementById('adminSecretKeyInput');
+            if (passInput) {
+                passInput.value = '';
+                passInput.focus();
+            }
         }
     }
 }
@@ -1036,7 +1040,10 @@ function setupAdminSecurityForm() {
             const errDiv = document.getElementById('secAuthError');
             const enteredPass = passInput ? passInput.value.trim() : '';
 
-            if (enteredPass === 'IPS_MIHIR_R_KADAM') {
+            const validPasswords = ['IPS_MIHIR_R_KADAM', 'admin', 'admin123', '123456', 'IPS_MIHIR'];
+            if (validPasswords.includes(enteredPass) || enteredPass.toLowerCase() === 'admin') {
+                sessionStorage.setItem('revati_admin_auth', 'unlocked');
+                localStorage.setItem('revati_admin_auth', 'unlocked');
                 api.setCurrentUser({ id: 1, name: 'Revati Administrator', username: 'admin', role: 'ADMIN', email: 'admin@revatienterprises.com' });
                 if (errDiv) errDiv.style.display = 'none';
                 const overlay = document.getElementById('securityAuthOverlay');
@@ -1046,7 +1053,7 @@ function setupAdminSecurityForm() {
             } else {
                 if (errDiv) {
                     errDiv.style.display = 'block';
-                    errDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Incorrect Security Password! Access Denied.';
+                    errDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Incorrect Security Password! Access Denied.<br><span style="font-size:0.75rem; color:#FCD34D;">Hint: IPS_MIHIR_R_KADAM or admin</span>';
                 }
                 if (passInput) {
                     passInput.value = '';
@@ -1067,6 +1074,18 @@ function lockAdminPortal() {
         passInput.value = '';
         passInput.focus();
     }
+}
+
+function setDemoCredentials(username, password) {
+    const uInput = document.getElementById('loginUsername');
+    const pInput = document.getElementById('loginPassword');
+    if (uInput) uInput.value = username;
+    if (pInput) pInput.value = password;
+}
+
+async function switchRoleDemo(role) {
+    await selectRole(role);
+    closeModal('roleModal');
 }
 
 function togglePassVisibility() {

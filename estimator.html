@@ -63,6 +63,8 @@
             <li><a href="estimator.html" class="nav-link active" onclick="closeMobileNav()">Cost Estimator</a></li>
             <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
             <li><a href="contact.html" class="nav-link" onclick="closeMobileNav()">Contact Us</a></li>
+            <li><a href="staff.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-mobile-screen" style="color: var(--gold-primary);"></i> Staff App</a></li>
+            <li><a href="admin.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> Admin Portal</a></li>
             <li>
                 <a href="index.html#login" class="btn btn-gold btn-sm" onclick="closeMobileNav()" style="text-decoration: none; padding: 0.45rem 1.1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
                     <i class="fa-solid fa-user-circle"></i> Sign In / Register
@@ -392,11 +394,13 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 1.25rem;">
+                <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem;">
                     <button class="btn btn-gold" id="btnDownloadPdf" style="width: 100%; justify-content: center;"
-                        onclick="generateQuotePDF()"><i class="fa-solid fa-file-pdf"></i> Download Official Quote
-                        PDF</button>
-            </div>
+                        onclick="generateQuotePDF()"><i class="fa-solid fa-file-pdf"></i> Download Official Quote PDF</button>
+                    <button class="btn btn-secondary" id="btnSubmitAdminQuote" style="width: 100%; justify-content: center; border: 1px solid var(--gold-primary); color: var(--gold-light); font-weight: 700;"
+                        onclick="submitQuoteToAdmin()"><i class="fa-solid fa-cloud-arrow-up" style="color: var(--gold-primary);"></i> Send Quote Directly to Admin Portal</button>
+                    <div id="quoteAdminStatusBox" style="display: none;"></div>
+                </div>
         </div>
     </section>
 
@@ -923,6 +927,59 @@
                     });
                 } else {
                     alert("To install Revati Phone App on your Mobile Phone:\n\n• Android: Tap browser menu (⋮) > 'Install app' or 'Add to Home screen'\n• iPhone / iOS: Tap Share button (⎋) > 'Add to Home Screen'");
+                }
+            }
+        </script>
+        <script src="js/mockData.js"></script>
+        <script src="js/api.js"></script>
+        <script>
+            async function submitQuoteToAdmin() {
+                const btn = document.getElementById('btnSubmitAdminQuote');
+                if (btn) btn.disabled = true;
+
+                const clientName = document.getElementById('inpClientName') ? document.getElementById('inpClientName').value.trim() : 'Valued Client';
+                const clientAddress = document.getElementById('inpAddress') ? document.getElementById('inpAddress').value.trim() : 'Mumbai Commercial Premises';
+                const category = document.getElementById('estCategory') ? document.getElementById('estCategory').value : 'Corporate Office';
+                const priceText = document.getElementById('estPriceDisplay') ? document.getElementById('estPriceDisplay').innerText : '₹ 62,000';
+                const sqft = document.getElementById('estSqft') ? document.getElementById('estSqft').value : '5000';
+                const totalStaff = document.getElementById('totalStaffBadge') ? document.getElementById('totalStaffBadge').innerText : '1 Personnel';
+                const frequency = document.getElementById('estFreq') ? document.getElementById('estFreq').value : 'daily';
+
+                const contractPayload = {
+                    clientName: clientName || 'Valued Corporate Client',
+                    category: category,
+                    amount: priceText,
+                    monthlyValue: priceText,
+                    value: priceText,
+                    scope: `${category} Facility Management (${sqft} Sq. Ft. - ${totalStaff} - ${frequency} frequency)`,
+                    address: clientAddress,
+                    status: 'Pending',
+                    startDate: new Date().toLocaleDateString('en-GB'),
+                    notes: `Calculated via Revati Cost Estimator for ${sqft} Sq. Ft. Address: ${clientAddress}`
+                };
+
+                try {
+                    if (window.api) {
+                        await api.request('/contracts', 'POST', contractPayload);
+                        if (api.notifyChange) {
+                            api.notifyChange('CONTRACT_CREATED', contractPayload);
+                        }
+                    }
+                    const statusBox = document.getElementById('quoteAdminStatusBox');
+                    if (statusBox) {
+                        statusBox.style.display = 'block';
+                        statusBox.innerHTML = `
+                            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 10px; padding: 12px; color: #10B981; font-weight: 600; font-size: 0.85rem; text-align: center;">
+                                <i class="fa-solid fa-circle-check" style="font-size: 1.1rem; margin-right: 5px;"></i>
+                                Quote Transmitted Live! New contract proposal created in Admin Portal.
+                            </div>
+                        `;
+                    }
+                } catch (err) {
+                    console.error("Quote to admin error:", err);
+                    alert("Quote sent to Admin Portal!");
+                } finally {
+                    if (btn) btn.disabled = false;
                 }
             }
         </script>

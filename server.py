@@ -27,12 +27,13 @@ DB_COMPLAINTS = []
 DB_INVENTORY = []
 DB_REPORTS = []
 DB_LEAVES = []
+DB_CONTRACTS = []
 OTP_STORE = {}
 
 DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "db_store.json")
 
 def load_db_from_file():
-    global DB_EMPLOYEES, DB_ATTENDANCE, DB_TASKS, DB_COMPLAINTS, DB_INVENTORY, DB_LEAVES
+    global DB_EMPLOYEES, DB_ATTENDANCE, DB_TASKS, DB_COMPLAINTS, DB_INVENTORY, DB_LEAVES, DB_CONTRACTS
     if os.path.exists(DB_FILE):
         try:
             with open(DB_FILE, "r", encoding="utf-8") as f:
@@ -43,7 +44,8 @@ def load_db_from_file():
                 DB_COMPLAINTS = data.get("complaints", [])
                 DB_INVENTORY = data.get("inventory", [])
                 DB_LEAVES = data.get("leaves", [])
-                print(f"[DB LOG] Loaded {len(DB_EMPLOYEES)} employees and {len(DB_LEAVES)} leave records from db_store.json")
+                DB_CONTRACTS = data.get("contracts", [])
+                print(f"[DB LOG] Loaded {len(DB_EMPLOYEES)} employees, {len(DB_LEAVES)} leaves, {len(DB_CONTRACTS)} contracts from db_store.json")
         except Exception as e:
             print("[DB ERROR] Error reading db_store.json:", e)
 
@@ -55,7 +57,8 @@ def save_db_to_file():
             "tasks": DB_TASKS,
             "complaints": DB_COMPLAINTS,
             "inventory": DB_INVENTORY,
-            "leaves": DB_LEAVES
+            "leaves": DB_LEAVES,
+            "contracts": DB_CONTRACTS
         }
         with open(DB_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
@@ -193,6 +196,8 @@ class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_json(DB_INVENTORY)
         elif path == '/api/leaves':
             self.send_json(DB_LEAVES)
+        elif path == '/api/contracts':
+            self.send_json(DB_CONTRACTS)
         elif path == '/api/reports':
             self.send_json(DB_REPORTS)
         elif path == '/api/users':
@@ -370,6 +375,14 @@ class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
             DB_INVENTORY.insert(0, params)
             save_db_to_file()
             self.send_json(params)
+        elif path == '/api/contracts':
+            item_id = int(time.time() * 1000) % 100000
+            params['id'] = item_id
+            params['contractNo'] = f"REV-CON{len(DB_CONTRACTS) + 1:03d}"
+            params['status'] = params.get('status', 'Pending')
+            DB_CONTRACTS.insert(0, params)
+            save_db_to_file()
+            self.send_json(params)
         else:
             self.send_json({"error": "Endpoint not found"}, 404)
 
@@ -452,6 +465,8 @@ class RevatiRequestHandler(http.server.SimpleHTTPRequestHandler):
                 DB_COMPLAINTS = [c for c in DB_COMPLAINTS if str(c.get('id')) != target_id]
             elif path == '/api/inventory':
                 DB_INVENTORY = [inv for inv in DB_INVENTORY if str(inv.get('id')) != target_id]
+            elif path == '/api/contracts':
+                DB_CONTRACTS = [con for con in DB_CONTRACTS if str(con.get('id')) != target_id]
 
             save_db_to_file()
             self.send_json({"success": True, "message": "Record permanently deleted by Administrator"})

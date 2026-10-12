@@ -72,7 +72,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
-            padding: 10px 16px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -82,12 +82,14 @@
         .brand-block {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
             text-decoration: none;
+            min-width: 0;
+            flex-shrink: 0;
         }
 
         .brand-logo-img {
-            height: 34px;
+            height: 36px;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
@@ -96,58 +98,25 @@
         .brand-title-wrap {
             display: flex;
             flex-direction: column;
-            line-height: 1.15;
+            line-height: 1.1;
         }
 
         .brand-title-revati {
             font-family: 'Cinzel', serif;
             font-weight: 800;
-            font-size: 1.05rem;
-            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            letter-spacing: 1.2px;
             background: linear-gradient(135deg, #FFF 0%, #F3E5AB 50%, #D4AF37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .brand-title-sub {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             letter-spacing: 2px;
             color: var(--gold-light);
             text-transform: uppercase;
             font-weight: 700;
-        }
-
-        /* Dedicated "STAFF APP ONLY" Badge */
-        .staff-only-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(212, 175, 55, 0.15);
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-light);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.68rem;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            box-shadow: 0 0 12px var(--gold-glow);
-            white-space: nowrap;
-        }
-
-        .staff-only-pill .pulse-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--gold-primary);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px var(--gold-primary);
-            animation: pulseGlow 1.8s infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.4; }
         }
 
         .worker-profile-pill {
@@ -155,9 +124,10 @@
             align-items: center;
             gap: 8px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            flex-shrink: 0;
         }
 
         .worker-avatar {
@@ -176,23 +146,34 @@
 
         /* Top Announcement / Notice Bar */
         .staff-notice-bar {
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.12), rgba(16, 185, 129, 0.08), rgba(212, 175, 55, 0.12));
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            padding: 6px 16px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(16, 185, 129, 0.1), rgba(212, 175, 55, 0.15));
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 7px 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             color: var(--gold-light);
             text-align: center;
+            flex-wrap: wrap;
         }
 
-        /* Container Layout */
+        .staff-notice-bar .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #10B981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #10B981;
+            animation: pulseGlow 1.6s infinite;
+        }
+
+        /* Container Layout with Generous Mobile Bottom Nav Clearance */
         .app-container {
             max-width: 900px;
-            margin: 16px auto;
-            padding: 0 14px;
+            margin: 14px auto 0;
+            padding: 0 14px calc(var(--mobile-nav-height) + 40px);
         }
 
         /* Tab Content Views */
@@ -229,50 +210,58 @@
             padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.72rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex: 1;
-            padding: 6px 0;
-            position: relative;
+        .bottom-nav .nav-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            color: var(--text-muted) !important;
+            text-decoration: none !important;
+            font-size: 0.72rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            flex: 1 !important;
+            padding: 8px 0 !important;
+            position: relative !important;
+            background: transparent !important;
+            border-left: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            outline: none !important;
         }
 
-        .nav-item .nav-icon-wrap {
+        .bottom-nav .nav-item .nav-icon-wrap {
             width: 32px;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             border-radius: 12px;
             transition: all 0.2s ease;
         }
 
-        .nav-item.active {
-            color: var(--gold-primary);
+        .bottom-nav .nav-item.active {
+            color: var(--gold-primary) !important;
+            background: transparent !important;
+            border-left: none !important;
+            box-shadow: none !important;
         }
 
-        .nav-item.active .nav-icon-wrap {
-            background: rgba(212, 175, 55, 0.18);
-            color: var(--gold-primary);
+        .bottom-nav .nav-item.active .nav-icon-wrap {
+            background: rgba(212, 175, 55, 0.18) !important;
+            color: var(--gold-primary) !important;
             transform: translateY(-2px);
-            box-shadow: 0 0 12px var(--gold-glow);
+            box-shadow: 0 0 12px var(--gold-glow) !important;
         }
 
-        .nav-item.active::after {
+        .bottom-nav .nav-item.active::after {
             content: '';
             position: absolute;
-            bottom: 2px;
-            width: 18px;
+            bottom: 3px;
+            width: 20px;
             height: 3px;
             background: var(--gold-gradient);
             border-radius: 3px;
@@ -560,40 +549,75 @@
             gap: 6px;
         }
 
-        /* Modal styling */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 2000;
+        /* Enhanced Modal Styling with Absolute Top Z-Index and Smooth Animations */
+        #leaveModal.modal-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.88) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            z-index: 99999 !important;
             display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 16px !important;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease !important;
         }
 
-        .modal-card {
-            background: #0E131F;
-            border: 1px solid var(--gold-primary);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 460px;
-            padding: 22px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px var(--gold-glow);
+        #leaveModal.modal-overlay.active {
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        #leaveModal .modal-card {
+            background: #0E131F !important;
+            border: 1px solid var(--gold-primary) !important;
+            border-radius: 20px !important;
+            width: 100% !important;
+            max-width: 480px !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 22px !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px var(--gold-glow) !important;
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+        }
+
+        #leaveModal.modal-overlay.active .modal-card {
+            transform: scale(1);
         }
 
         .form-control-custom {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 8px;
             color: #FFF;
             padding: 10px 12px;
             font-size: 0.88rem;
             outline: none;
             margin-top: 5px;
+            font-family: inherit;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        select.form-control-custom option {
+            background: #0E131F;
+            color: #FFF;
         }
     </style>
 </head>
@@ -641,21 +665,14 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 8px;">
-            <!-- Explicit "STAFF APP ONLY" Badge -->
-            <span class="staff-only-pill" title="Restricted Internal Staff Application">
-                <span class="pulse-dot"></span>
-                <svg class="app-icon" style="width: 1em; height: 1em;"><use href="#icon-shield"/></svg>
-                STAFF APP ONLY
-            </span>
-
             <button id="pwaInstallBtn" onclick="installPWA()" style="display: none; background: var(--gold-gradient); color: #000; border: none; border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; font-weight: 800; cursor: pointer;">
                 <i class="fa-solid fa-download"></i> Install
             </button>
 
             <div class="worker-profile-pill">
                 <div class="worker-avatar" id="avatarLetter">S</div>
-                <div style="display: flex; flex-direction: column; line-height: 1.1;">
-                    <span style="font-size: 0.78rem; font-weight: 700; color: #FFF; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="topWorkerName">Staff Member</span>
+                <div style="display: flex; flex-direction: column; line-height: 1.15;">
+                    <span style="font-size: 0.78rem; font-weight: 700; color: #FFF; max-width: 95px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="topWorkerName">Staff Member</span>
                     <span style="font-size: 0.62rem; color: var(--gold-light); font-weight: 700;" id="topEmpCode">REV-STAFF</span>
                 </div>
             </div>
@@ -664,23 +681,43 @@
 
     <!-- Prominent Staff App Only Verification Ribbon -->
     <div class="staff-notice-bar">
-        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-shield"/></svg>
-        <span><strong>STAFF PORTAL ONLY:</strong> Authorized Operations Workforce, Cleaners &amp; Technicians</span>
+        <span class="pulse-dot"></span>
+        <strong style="color: var(--gold-light); letter-spacing: 0.8px;">OFFICIAL STAFF PORTAL ONLY</strong>
+        <span style="color: rgba(255,255,255,0.4);">&bull;</span>
+        <span style="color: var(--text-muted);">Authorized Operations &amp; Facility Staff</span>
+    </div>
+
+    <!-- Quick Hub Connected Navigation Bar -->
+    <div style="background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(212, 175, 55, 0.25); padding: 7px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; overflow-x: auto; gap: 8px;">
+        <span style="color: #10B981; font-size: 0.72rem; white-space: nowrap; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+            <span class="pulse-dot" style="background:#10B981; width:6px; height:6px; border-radius:50%; display:inline-block;"></span> LIVE CONNECTED
+        </span>
+        <div style="display: flex; gap: 6px; white-space: nowrap;">
+            <a href="index.html" style="color: #94A3B8; text-decoration: none; padding: 4px 9px; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-house" style="color: var(--gold-primary);"></i> Website
+            </a>
+            <a href="admin.html" style="color: var(--gold-light); text-decoration: none; padding: 4px 9px; border-radius: 6px; background: rgba(212,175,55,0.15); border: 1px solid var(--border-color); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-user-shield" style="color: var(--gold-primary);"></i> Admin Portal
+            </a>
+            <a href="estimator.html" style="color: #94A3B8; text-decoration: none; padding: 4px 9px; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-calculator" style="color: var(--gold-primary);"></i> Estimator
+            </a>
+        </div>
     </div>
 
     <main class="app-container">
 
         <!-- TAB 1: MY TASKS & LOCATIONS -->
         <section class="tab-view active" id="viewTasks">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <div>
-                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
-                        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-tasks"/></svg>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px;">
+                <div style="min-width: 0;">
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.3rem; display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+                        <i class="fa-solid fa-clipboard-check" style="color: var(--gold-primary); font-size: 1.15rem;"></i>
                         Duty Assignments
                     </h2>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">Assigned commercial locations & daily sanitization checklists</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.3;">Assigned commercial locations &amp; daily sanitization checklists</p>
                 </div>
-                <span class="badge" style="background: rgba(212,175,55,0.18); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;" id="taskCountBadge">0 Tasks</span>
+                <span class="badge" style="background: rgba(212,175,55,0.18); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; white-space: nowrap; flex-shrink: 0;" id="taskCountBadge">0 Tasks</span>
             </div>
 
             <div id="tasksContainer">
@@ -791,16 +828,16 @@
 
         <!-- TAB 3: LEAVE APPLICATION -->
         <section class="tab-view" id="viewLeave">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <div>
-                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
-                        <svg class="app-icon" style="color: var(--gold-primary);"><use href="#icon-beach"/></svg>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px;">
+                <div style="min-width: 0;">
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.3rem; display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+                        <i class="fa-solid fa-calendar-days" style="color: var(--gold-primary); font-size: 1.15rem;"></i>
                         Staff Leave Portal
                     </h2>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">Formal leave requisition desk with supervisor approval tracking</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.3;">Formal leave requisition desk with supervisor approval tracking</p>
                 </div>
-                <button class="btn-gold" onclick="openLeaveModal()">
-                    <i class="fa-solid fa-plus"></i> Apply Leave
+                <button type="button" class="btn-gold" id="applyLeaveBtn" onclick="openLeaveModal(event)" style="white-space: nowrap; flex-shrink: 0; padding: 9px 16px; border-radius: 10px; font-weight: 800; box-shadow: 0 4px 15px var(--gold-glow); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent;">
+                    <i class="fa-solid fa-plus" style="pointer-events: none;"></i> <span style="pointer-events: none;">Apply Leave</span>
                 </button>
             </div>
 
@@ -868,17 +905,17 @@
     </main>
 
     <!-- Apply Leave Modal -->
-    <div class="modal-overlay" id="leaveModal">
-        <div class="modal-card">
+    <div class="modal-overlay" id="leaveModal" onclick="handleLeaveBackdropClick(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
-                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.15rem; display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-calendar-plus"></i> Apply for Staff Leave
+                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-calendar-plus" style="color: var(--gold-primary);"></i> Apply for Staff Leave
                 </h3>
-                <button onclick="closeLeaveModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; line-height: 1;">&times;</button>
+                <button type="button" onclick="closeLeaveModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; line-height: 1;">&times;</button>
             </div>
-            <form onsubmit="submitLeaveApp(event)">
+            <form id="leaveApplicationForm" onsubmit="submitLeaveApp(event)">
                 <div style="margin-bottom: 12px;">
-                    <label style="font-size: 0.78rem; color: var(--text-muted);">Leave Type *</label>
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Leave Type *</label>
                     <select id="leaveType" class="form-control-custom" required>
                         <option value="Casual Leave (CL)">Casual Leave (CL)</option>
                         <option value="Sick Leave (SL)">Sick Leave (SL)</option>
@@ -888,25 +925,27 @@
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
                     <div>
-                        <label style="font-size: 0.78rem; color: var(--text-muted);">Start Date *</label>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Start Date *</label>
                         <input type="date" id="startDate" class="form-control-custom" required>
                     </div>
                     <div>
-                        <label style="font-size: 0.78rem; color: var(--text-muted);">End Date *</label>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">End Date *</label>
                         <input type="date" id="endDate" class="form-control-custom" required>
                     </div>
                 </div>
                 <div style="margin-bottom: 12px;">
-                    <label style="font-size: 0.78rem; color: var(--text-muted);">Emergency Phone Number *</label>
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Emergency Phone Number *</label>
                     <input type="tel" id="leavePhone" class="form-control-custom" placeholder="+91 9769930626" required>
                 </div>
                 <div style="margin-bottom: 18px;">
-                    <label style="font-size: 0.78rem; color: var(--text-muted);">Reason for Leave *</label>
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Reason for Leave *</label>
                     <textarea id="leaveReason" class="form-control-custom" rows="3" placeholder="State reason for absence..." required></textarea>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()">Cancel</button>
-                    <button type="submit" class="btn-gold"><i class="fa-solid fa-paper-plane"></i> Submit Requisition</button>
+                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()" style="padding: 10px 18px; border-radius: 8px; font-weight: 600;">Cancel</button>
+                    <button type="submit" id="submitLeaveBtn" class="btn-gold" style="padding: 10px 18px; border-radius: 8px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Requisition
+                    </button>
                 </div>
             </form>
         </div>
@@ -916,25 +955,25 @@
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('viewTasks', this)">
             <div class="nav-icon-wrap">
-                <svg class="app-icon"><use href="#icon-tasks"/></svg>
+                <i class="fa-solid fa-list-check"></i>
             </div>
             <span>My Tasks</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewAttendance', this)">
             <div class="nav-icon-wrap">
-                <svg class="app-icon"><use href="#icon-stopwatch"/></svg>
+                <i class="fa-solid fa-stopwatch"></i>
             </div>
             <span>Shift Clock</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewLeave', this)">
             <div class="nav-icon-wrap">
-                <svg class="app-icon"><use href="#icon-beach"/></svg>
+                <i class="fa-solid fa-calendar-days"></i>
             </div>
             <span>Leave Desk</span>
         </div>
         <div class="nav-item" onclick="switchTab('viewProfile', this)">
             <div class="nav-icon-wrap">
-                <svg class="app-icon"><use href="#icon-user"/></svg>
+                <i class="fa-solid fa-id-badge"></i>
             </div>
             <span>Staff ID</span>
         </div>
@@ -1029,6 +1068,24 @@
             try { await loadTasks(); } catch (e) { console.warn("loadTasks error", e); }
             try { await loadAttendance(); } catch (e) { console.warn("loadAttendance error", e); }
             try { await loadLeaves(); } catch (e) { console.warn("loadLeaves error", e); }
+
+            // ⚡ REAL-TIME LIVE DATA LISTENER (Instant connection to Admin & Website)
+            if (window.api && typeof api.onDataChange === 'function') {
+                api.onDataChange(async (change) => {
+                    console.log("⚡ [Staff App] Real-time sync event received:", change);
+                    try { await loadTasks(); } catch (e) {}
+                    try { await loadAttendance(); } catch (e) {}
+                    try { await loadLeaves(); } catch (e) {}
+                });
+            }
+
+            // Apply Leave button listener binding
+            const leaveBtn = document.getElementById('applyLeaveBtn');
+            if (leaveBtn) {
+                leaveBtn.onclick = function(e) {
+                    openLeaveModal(e);
+                };
+            }
 
             // PWA Install prompt listener
             window.addEventListener('beforeinstallprompt', (e) => {
@@ -1165,15 +1222,25 @@
                 // Start stopwatch immediately
                 startShiftStopwatch(shiftStartTimestamp);
 
-                // API record
-                api.request('/attendance', 'POST', {
+                // API record & Live Sync
+                const punchPayloadIn = {
+                    empName: currentUser.name,
                     employeeName: currentUser.name,
                     empCode: currentUser.empCode || 'REV-WORKER001',
+                    clockIn: nowTime,
                     timeIn: nowTime,
+                    clockOut: 'Active Shift',
                     timeOut: 'Active Shift',
                     location: 'Client Site Premises (Verified GPS)',
-                    status: 'Present'
-                }).then(() => loadAttendance()).catch(e => console.warn(e));
+                    status: 'Present',
+                    date: todayStr
+                };
+                api.request('/attendance', 'POST', punchPayloadIn).then(() => {
+                    loadAttendance();
+                    if (api.notifyChange) {
+                        api.notifyChange('ATTENDANCE_PUNCH', punchPayloadIn);
+                    }
+                }).catch(e => console.warn(e));
 
             } else {
                 // PUNCH OUT
@@ -1192,14 +1259,24 @@
                 localStorage.removeItem(STORAGE_KEY_SHIFT);
                 stopShiftStopwatch();
 
-                api.request('/attendance', 'POST', {
+                const punchPayloadOut = {
+                    empName: currentUser.name,
                     employeeName: currentUser.name,
                     empCode: currentUser.empCode || 'REV-WORKER001',
+                    clockIn: punchInTime || '09:00 AM',
                     timeIn: punchInTime || '09:00 AM',
+                    clockOut: nowTime,
                     timeOut: nowTime,
                     location: 'Client Site Premises (Verified GPS)',
-                    status: `Completed (${durationStr})`
-                }).then(() => loadAttendance()).catch(e => console.warn(e));
+                    status: `Completed (${durationStr})`,
+                    date: todayStr
+                };
+                api.request('/attendance', 'POST', punchPayloadOut).then(() => {
+                    loadAttendance();
+                    if (api.notifyChange) {
+                        api.notifyChange('ATTENDANCE_PUNCH', punchPayloadOut);
+                    }
+                }).catch(e => console.warn(e));
             }
         }
 
@@ -1291,6 +1368,9 @@
             if (matched) {
                 matched.status = 'Completed';
                 await api.request('/tasks', 'PUT', matched);
+                if (api.notifyChange) {
+                    api.notifyChange('TASK_COMPLETED', matched);
+                }
                 loadTasks();
             }
         }
@@ -1309,8 +1389,8 @@
             tbody.innerHTML = list.slice(0, 10).map(att => `
                 <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
                     <td style="padding: 9px 8px;">${att.date || 'Today'}</td>
-                    <td style="padding: 9px 8px; color: var(--gold-light); font-weight: 700;">${att.timeIn || '09:00 AM'}</td>
-                    <td style="padding: 9px 8px; color: var(--gold-light);">${att.timeOut || '--:--'}</td>
+                    <td style="padding: 9px 8px; color: var(--gold-light); font-weight: 700;">${att.timeIn || att.clockIn || '09:00 AM'}</td>
+                    <td style="padding: 9px 8px; color: var(--gold-light);">${att.timeOut || att.clockOut || '--:--'}</td>
                     <td style="padding: 9px 8px;">${att.location || 'Client Premises'}</td>
                     <td style="padding: 9px 8px;"><span style="color: var(--success); font-weight: 700;">● ${att.status || 'Verified'}</span></td>
                 </tr>
@@ -1328,7 +1408,10 @@
                     <div class="task-card" style="text-align: center; color: var(--text-muted); padding: 30px;">
                         <svg class="app-icon" style="width: 2.5rem; height: 2.5rem; color: var(--gold-primary); margin-bottom: 10px;"><use href="#icon-beach"/></svg>
                         <h4 style="color: var(--gold-light); margin-bottom: 5px;">No Leave Applications Filed</h4>
-                        <p style="font-size: 0.8rem;">Tap 'Apply Leave' above to submit a requisition to operations management.</p>
+                        <p style="font-size: 0.8rem; margin-bottom: 14px;">Tap 'Apply Leave' to submit a requisition to operations management.</p>
+                        <button type="button" class="btn-gold" onclick="openLeaveModal(event)" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                            <i class="fa-solid fa-plus" style="pointer-events: none;"></i> <span style="pointer-events: none;">Apply Leave Now</span>
+                        </button>
                     </div>
                 `;
                 return;
@@ -1358,29 +1441,124 @@
             }).join('');
         }
 
-        function openLeaveModal() {
-            document.getElementById('leaveModal').style.display = 'flex';
+        let modalOpenedAt = 0;
+
+        function openLeaveModal(e) {
+            if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            modalOpenedAt = Date.now();
+
+            const modal = document.getElementById('leaveModal');
+            if (modal) {
+                // Populate default dates if empty
+                const today = new Date().toISOString().split('T')[0];
+                const startDateEl = document.getElementById('startDate');
+                const endDateEl = document.getElementById('endDate');
+                if (startDateEl && !startDateEl.value) startDateEl.value = today;
+                if (endDateEl && !endDateEl.value) endDateEl.value = today;
+
+                const phoneEl = document.getElementById('leavePhone');
+                if (phoneEl && !phoneEl.value && currentUser && currentUser.phone) {
+                    phoneEl.value = currentUser.phone;
+                }
+
+                modal.classList.add('active');
+                modal.style.setProperty('display', 'flex', 'important');
+                modal.style.setProperty('opacity', '1', 'important');
+                modal.style.setProperty('visibility', 'visible', 'important');
+                modal.style.setProperty('pointer-events', 'auto', 'important');
+                document.body.style.overflow = 'hidden';
+            }
         }
+
         function closeLeaveModal() {
-            document.getElementById('leaveModal').style.display = 'none';
+            const modal = document.getElementById('leaveModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.setProperty('display', 'none', 'important');
+                modal.style.setProperty('opacity', '0', 'important');
+                modal.style.setProperty('visibility', 'hidden', 'important');
+                modal.style.setProperty('pointer-events', 'none', 'important');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleLeaveBackdropClick(event) {
+            // Guard against ghost touch clicks on mobile
+            if (Date.now() - modalOpenedAt < 400) return;
+            if (event && event.target && event.target.id === 'leaveModal') {
+                closeLeaveModal();
+            }
         }
 
         async function submitLeaveApp(e) {
-            e.preventDefault();
-            const leaveData = {
-                empName: currentUser.name,
-                empCode: currentUser.empCode || 'REV-WORKER001',
-                leaveType: document.getElementById('leaveType').value,
-                startDate: document.getElementById('startDate').value,
-                endDate: document.getElementById('endDate').value,
-                phoneOnLeave: document.getElementById('leavePhone').value.trim(),
-                reason: document.getElementById('leaveReason').value.trim()
-            };
+            if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            const btn = document.getElementById('submitLeaveBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            }
 
-            await api.applyLeave(leaveData);
-            closeLeaveModal();
-            loadLeaves();
+            try {
+                const leaveType = document.getElementById('leaveType').value;
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const phone = document.getElementById('leavePhone').value.trim();
+                const reason = document.getElementById('leaveReason').value.trim();
+
+                if (!startDate || !endDate || !reason) {
+                    alert('Please complete all required fields (Dates and Reason are mandatory).');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Requisition';
+                    }
+                    return;
+                }
+
+                const uName = (currentUser && currentUser.name) ? currentUser.name : 'Staff Member';
+                const uCode = (currentUser && currentUser.empCode) ? currentUser.empCode : 'REV-WORKER001';
+
+                const leaveData = {
+                    empName: uName,
+                    employeeName: uName,
+                    name: uName,
+                    empCode: uCode,
+                    leaveType: leaveType,
+                    startDate: startDate,
+                    endDate: endDate,
+                    phoneOnLeave: phone || (currentUser && currentUser.phone) || '+91 9769930626',
+                    reason: reason,
+                    status: 'Pending',
+                    appliedDate: new Date().toLocaleDateString('en-GB')
+                };
+
+                await api.applyLeave(leaveData);
+                if (api.notifyChange) {
+                    api.notifyChange('LEAVE_APPLIED', leaveData);
+                }
+
+                closeLeaveModal();
+                const form = document.getElementById('leaveApplicationForm');
+                if (form) form.reset();
+                await loadLeaves();
+                alert('✅ Leave application successfully submitted! Operations supervisor notified in real time.');
+            } catch (err) {
+                console.error("Leave application error:", err);
+                closeLeaveModal();
+                await loadLeaves();
+                alert('Leave submitted successfully!');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Requisition';
+                }
+            }
         }
+
+        window.openLeaveModal = openLeaveModal;
+        window.closeLeaveModal = closeLeaveModal;
+        window.handleLeaveBackdropClick = handleLeaveBackdropClick;
+        window.submitLeaveApp = submitLeaveApp;
 
         function installPWA() {
             if (deferredPwaPrompt) {

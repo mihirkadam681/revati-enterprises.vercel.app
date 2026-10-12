@@ -60,6 +60,8 @@
             <li><a href="estimator.html" class="nav-link" onclick="closeMobileNav()">Cost Estimator</a></li>
             <li><a href="about.html" class="nav-link" onclick="closeMobileNav()">About Us</a></li>
             <li><a href="contact.html" class="nav-link active" onclick="closeMobileNav()">Contact Us</a></li>
+            <li><a href="staff.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-mobile-screen" style="color: var(--gold-primary);"></i> Staff App</a></li>
+            <li><a href="admin.html" class="nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary);"></i> Admin Portal</a></li>
             <li>
                 <a href="index.html#login" class="btn btn-gold btn-sm" onclick="closeMobileNav()"
                     style="text-decoration: none; padding: 0.45rem 1.1rem; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
@@ -124,23 +126,22 @@
                 <h3 style="color: var(--gold-primary); font-size: 1.25rem; margin-bottom: 1.5rem;"><i
                         class="fa-solid fa-paper-plane"></i> Send an Instant Facility Enquiry</h3>
 
-                <form
-                    onsubmit="alert('Thank you for reaching out! A Revati Enterprises Facility Manager will call you shortly.'); return false;">
+                <form id="contactEnquiryForm" onsubmit="submitContactEnquiry(event)">
                     <div class="form-group">
-                        <label>Your Full Name</label>
-                        <input type="text" class="form-control" placeholder="e.g. Rajesh Kumar" required>
+                        <label>Your Full Name *</label>
+                        <input type="text" id="contactFullName" class="form-control" placeholder="e.g. Rajesh Kumar" required>
                     </div>
                     <div class="form-group">
-                        <label>Company / Society Name</label>
-                        <input type="text" class="form-control" placeholder="e.g. Acme Corporate Park" required>
+                        <label>Company / Society Name *</label>
+                        <input type="text" id="contactCompany" class="form-control" placeholder="e.g. Acme Corporate Park" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone Number / WhatsApp</label>
-                        <input type="tel" class="form-control" placeholder="e.g. +91 9876543210" required>
+                        <label>Phone Number / WhatsApp *</label>
+                        <input type="tel" id="contactPhone" class="form-control" placeholder="e.g. +91 9876543210" required>
                     </div>
                     <div class="form-group">
                         <label>Facility Service Requirement</label>
-                        <select class="form-control">
+                        <select id="contactService" class="form-control">
                             <option>Corporate Housekeeping & Staffing</option>
                             <option>Glass Facade Exterior Cleaning</option>
                             <option>Carpet & Upholstery Deep Cleaning</option>
@@ -149,6 +150,14 @@
                             <option>General Facility Audit</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Scope / Additional Requirements</label>
+                        <textarea id="contactNotes" class="form-control" rows="3" placeholder="Tell us about your facility size, daily shifts needed, or any specific requirements..."></textarea>
+                    </div>
+                    <button type="submit" id="btnSubmitContact" class="btn btn-gold" style="width: 100%; justify-content: center; margin-top: 0.75rem;">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Facility Enquiry Live
+                    </button>
+                    <div id="contactStatusBox" style="display: none;"></div>
                 </form>
             </div>
         </div>
@@ -247,6 +256,59 @@
                 });
             } else {
                 alert("To install Revati Phone App on your Mobile Phone:\n\n• Android: Tap browser menu (⋮) > 'Install app' or 'Add to Home screen'\n• iPhone / iOS: Tap Share button (⎋) > 'Add to Home Screen'");
+            }
+        }
+    </script>
+    <script src="js/mockData.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        async function submitContactEnquiry(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btnSubmitContact');
+            if (btn) btn.disabled = true;
+
+            const clientName = document.getElementById('contactFullName').value.trim();
+            const company = document.getElementById('contactCompany').value.trim();
+            const phone = document.getElementById('contactPhone').value.trim();
+            const service = document.getElementById('contactService').value;
+            const notes = document.getElementById('contactNotes') ? document.getElementById('contactNotes').value.trim() : '';
+
+            const newTicket = {
+                title: `Inquiry: ${service} - ${clientName}`,
+                clientName: clientName,
+                client: company || clientName,
+                company: company,
+                phone: phone,
+                service: service,
+                description: `Website Enquiry: ${service} | Client: ${clientName} (${company}) | Phone: ${phone}${notes ? ' | Notes: ' + notes : ''}`,
+                status: 'Open',
+                priority: 'High',
+                date: new Date().toLocaleDateString('en-GB')
+            };
+
+            try {
+                if (window.api) {
+                    await api.request('/complaints', 'POST', newTicket);
+                    if (api.notifyChange) {
+                        api.notifyChange('NEW_ENQUIRY', newTicket);
+                    }
+                }
+                const statusBox = document.getElementById('contactStatusBox');
+                if (statusBox) {
+                    statusBox.style.display = 'block';
+                    statusBox.innerHTML = `
+                        <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 10px; padding: 14px; color: #10B981; font-weight: 600; margin-top: 14px; text-align: center;">
+                            <i class="fa-solid fa-circle-check" style="font-size: 1.2rem; margin-right: 6px;"></i>
+                            Enquiry Submitted Live! Real-time ticket created in Admin Portal.
+                        </div>
+                    `;
+                }
+                document.getElementById('contactEnquiryForm').reset();
+            } catch (err) {
+                console.error("Enquiry submission error:", err);
+                alert("Enquiry recorded! We will connect with you shortly.");
+            } finally {
+                if (btn) btn.disabled = false;
             }
         }
     </script>

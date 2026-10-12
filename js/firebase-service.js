@@ -103,6 +103,7 @@ class FirebaseService {
     }
 
     async initFirebase(config) {
+
         this.updateStatus('connecting');
         try {
             if (typeof firebase === 'undefined') {
