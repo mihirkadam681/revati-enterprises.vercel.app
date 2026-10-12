@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>REVATI ENTERPRISES | Admin & Operations Management Portal</title>
+    <!-- Premium Google Fonts: Cinzel & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- CSS Styles -->
     <link rel="stylesheet" href="css/styles.css">
     <!-- FontAwesome Icons (Multi-CDN CSS + SVG Vector Engine) -->
@@ -17,8 +22,471 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Revati App">
     <link rel="apple-touch-icon" href="images/logo.png">
+
+    <!-- EXECUTIVE ADMIN DESIGN SYSTEM & RESPONSIVE POLISH -->
+    <style id="adminExecutiveStyles">
+        :root {
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --bg-admin-main: #07090E;
+            --bg-admin-sidebar: #090D16;
+            --bg-admin-header: rgba(9, 13, 22, 0.94);
+            --bg-admin-card: rgba(14, 19, 31, 0.78);
+            --bg-admin-card-hover: rgba(20, 27, 43, 0.88);
+            --gold-primary: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-dark: #AA820A;
+            --gold-gradient: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA820A 100%);
+            --gold-glow: rgba(212, 175, 55, 0.25);
+            --border-gold-subtle: rgba(212, 175, 55, 0.18);
+            --border-gold-bright: rgba(212, 175, 55, 0.45);
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+
+        body.admin-body-3d {
+            font-family: var(--font-body);
+            background-color: var(--bg-admin-main);
+            color: #E2E8F0;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar.sidebar-3d {
+            width: 280px;
+            min-width: 280px;
+            background: var(--bg-admin-sidebar);
+            border-right: 1px solid var(--border-gold-subtle);
+            padding: 1.25rem 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 100;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            max-height: 100vh;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(212, 175, 55, 0.25) transparent;
+        }
+
+        .sidebar.sidebar-3d::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar.sidebar-3d::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.25);
+            border-radius: 4px;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.5rem 0.5rem 1.1rem;
+            border-bottom: 1px solid var(--border-gold-subtle);
+            margin-bottom: 0.85rem;
+        }
+
+        .brand-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--gold-primary);
+            letter-spacing: 0.04em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        .nav-group-title {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #718096;
+            margin: 1.1rem 0.5rem 0.45rem;
+            font-weight: 700;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 0.85rem;
+            color: #A0AEC0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.88rem;
+            transition: all 0.2s ease;
+            margin-bottom: 0.15rem;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(3px);
+        }
+
+        .nav-item.active {
+            color: #FFFFFF;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.04));
+            border-left: 3px solid var(--gold-primary);
+            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.12);
+            font-weight: 600;
+        }
+
+        .nav-item.active .nav-icon {
+            color: var(--gold-primary);
+        }
+
+        /* Top Header */
+        .top-header.top-header-3d {
+            height: 68px;
+            background: var(--bg-admin-header);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-gold-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        /* Live Clock Pill */
+        .admin-clock-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #CBD5E1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Status Beacon */
+        .live-beacon {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--border-gold-subtle);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Content Body & Cards */
+        .content-body {
+            padding: 1.75rem;
+            flex: 1;
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card-box {
+            background: var(--bg-admin-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-gold-subtle);
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card-box:hover {
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+        }
+
+        .banner-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(14, 19, 31, 0.95) 70%);
+            border: 1px solid var(--border-gold-bright);
+            border-radius: 14px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), var(--gold-glow);
+        }
+
+        .banner-title {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.4rem;
+        }
+
+        .banner-desc {
+            font-size: 0.88rem;
+            color: #CBD5E1;
+            line-height: 1.5;
+            max-width: 900px;
+        }
+
+        /* KPI Stat Cards */
+        .stat-card {
+            background: var(--bg-admin-card);
+            border: 1px solid var(--border-gold-subtle);
+            border-radius: 12px;
+            padding: 1.25rem 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gold-gradient);
+            opacity: 0.6;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-gold-bright);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+        }
+
+        .stat-value {
+            font-family: var(--font-body);
+            font-weight: 800;
+            font-size: 1.45rem;
+            color: #FFFFFF;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: #94A3B8;
+            font-weight: 500;
+            margin-top: 0.35rem;
+            display: block;
+        }
+
+        .stat-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-icon-emerald { background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .stat-icon-amber { background: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .stat-icon-blue { background: rgba(59, 130, 246, 0.15); color: #3B82F6; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .stat-icon-rose { background: rgba(239, 68, 68, 0.15); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* Tables & Filters */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.88rem;
+        }
+
+        .custom-table thead th {
+            background: rgba(11, 16, 26, 0.85);
+            color: var(--gold-light);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-gold-subtle);
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .custom-table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .custom-table tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .custom-table tbody td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #CBD5E1;
+            vertical-align: middle;
+        }
+
+        /* Table Filter Search Bar */
+        .table-search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.45rem 0.85rem;
+            gap: 0.6rem;
+            width: 100%;
+            max-width: 320px;
+            transition: border-color 0.2s;
+        }
+
+        .table-search-bar:focus-within {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .table-search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #FFFFFF;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+
+        /* Mobile Drawer & Overlay */
+        #sidebarBackdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 95;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #sidebarBackdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        #mobileSidebarToggle {
+            display: none;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--border-gold-subtle);
+            color: var(--gold-primary);
+            padding: 0.45rem 0.75rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #mobileSidebarCloseBtn {
+            display: none;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #CBD5E1;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        @media (max-width: 992px) {
+            #mobileSidebarToggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #mobileSidebarCloseBtn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar.sidebar-3d {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                z-index: 100;
+                box-shadow: 10px 0 35px rgba(0, 0, 0, 0.8);
+            }
+
+            .sidebar.sidebar-3d.mobile-open {
+                transform: translateX(0);
+            }
+
+            .content-body {
+                padding: 1.1rem;
+            }
+
+            .top-header.top-header-3d {
+                padding: 0 1rem;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-clock-pill {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body class="admin-body-3d" style="color: var(--text-main); position: relative; overflow-x: hidden;">
+
+    <!-- Mobile Drawer Backdrop Overlay -->
+    <div id="sidebarBackdrop" onclick="closeAdminSidebar()"></div>
 
     <!-- 3D AMBIENT BACKGROUND ORBS & WATERMARK LOGO -->
     <img src="images/logo.png" alt="Revati Watermark Logo" class="bg-watermark-logo">
@@ -27,32 +495,35 @@
 
     <!-- DEDICATED ADMIN OPERATIONS PORTAL CONTAINER -->
     <div id="app" style="display: flex; min-height: 100vh; position: relative; z-index: 1;">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar sidebar-3d">
+        <!-- Sidebar Navigation (With Mobile Drawer Capability) -->
+        <aside class="sidebar sidebar-3d" id="adminSidebar">
             <div class="brand-header">
                 <img src="images/logo.png" alt="RE Logo" class="brand-logo-img">
-                <div>
-                    <div class="brand-title">REVATI PORTAL</div>
-                    <div class="brand-subtitle">Housekeeping & Maint.</div>
+                <div style="flex: 1;">
+                    <div class="brand-title">REVATI OPERATIONS</div>
+                    <div class="brand-subtitle">Executive Facility Command</div>
                 </div>
+                <button type="button" id="mobileSidebarCloseBtn" onclick="closeAdminSidebar()" title="Close Navigation">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <div style="margin-bottom: 1rem;">
+            <div style="margin-bottom: 0.85rem;">
                 <a href="index.html" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: center; font-size: 0.78rem; text-decoration: none;">
-                    <i class="fa-solid fa-arrow-left"></i> Back to Company Website
+                    <i class="fa-solid fa-arrow-left"></i> Back to Main Website
                 </a>
             </div>
 
-            <div id="roleNoticeBanner" style="padding: 0.6rem 0.85rem; background: rgba(212, 175, 55, 0.12); border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1rem;">
-                <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">ACTIVE PORTAL MODE</div>
-                <div id="roleBannerText" style="font-size: 0.85rem; font-weight: 700; color: var(--gold-primary); margin-top: 0.15rem;">ADMINISTRATOR</div>
+            <div id="roleNoticeBanner" style="padding: 0.65rem 0.85rem; background: rgba(212, 175, 55, 0.12); border-radius: 8px; border: 1px solid var(--border-gold-subtle); margin-bottom: 0.85rem;">
+                <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">ACTIVE PORTAL MODE</div>
+                <div id="roleBannerText" style="font-size: 0.88rem; font-weight: 800; color: var(--gold-primary); margin-top: 0.15rem;">SYSTEM ADMINISTRATOR</div>
             </div>
 
-            <div class="nav-group-title">PORTAL NAVIGATION</div>
+            <div class="nav-group-title">CORE OPERATIONS</div>
             <ul class="nav-menu">
                 <li class="nav-item active" data-view="dashboard" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
                     <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
-                    <span>Client & Admin Dashboard</span>
+                    <span>Executive Dashboard</span>
                 </li>
                 <li class="nav-item" data-view="employees" data-role-allow="ADMIN,MANAGEMENT">
                     <span class="nav-icon"><i class="fa-solid fa-building-user"></i></span>
@@ -62,10 +533,6 @@
                     <span class="nav-icon"><i class="fa-solid fa-users-gear"></i></span>
                     <span>Employee Roster & Work</span>
                 </li>
-                <li class="nav-item" data-view="org-hierarchy" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
-                    <span class="nav-icon"><i class="fa-solid fa-sitemap"></i></span>
-                    <span>Management & Leadership</span>
-                </li>
                 <li class="nav-item" data-view="housekeeping" data-role-allow="ADMIN,MANAGEMENT,CLIENT">
                     <span class="nav-icon"><i class="fa-solid fa-clipboard-check"></i></span>
                     <span id="navTasksLabel">Quality SLA & Inspections</span>
@@ -74,10 +541,22 @@
                     <span class="nav-icon"><i class="fa-solid fa-headset"></i></span>
                     <span id="navMntLabel">Service Tickets & Support</span>
                 </li>
+            </ul>
+
+            <div class="nav-group-title">HR & LEADERSHIP</div>
+            <ul class="nav-menu">
                 <li class="nav-item" data-view="leaves" data-role-allow="ADMIN,SUPERVISOR">
                     <span class="nav-icon"><i class="fa-solid fa-umbrella-beach"></i></span>
                     <span>Staff Leaves & OTP Registrations</span>
                 </li>
+                <li class="nav-item" data-view="org-hierarchy" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-sitemap"></i></span>
+                    <span>Management & Leadership</span>
+                </li>
+            </ul>
+
+            <div class="nav-group-title">FINANCE & LOGISTICS</div>
+            <ul class="nav-menu">
                 <li class="nav-item" data-view="inventory" data-role-allow="ADMIN,MANAGEMENT">
                     <span class="nav-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
                     <span>Chemical & Material Stock</span>
@@ -86,6 +565,10 @@
                     <span class="nav-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
                     <span>Billing & Contract Invoices</span>
                 </li>
+            </ul>
+
+            <div class="nav-group-title">CONNECTED APPS</div>
+            <ul class="nav-menu">
                 <li class="nav-item" data-view="letterhead" onclick="window.location.href='letterhead.html'" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
                     <span class="nav-icon"><i class="fa-solid fa-file-contract" style="color: var(--gold-primary);"></i></span>
                     <span>Official Letterhead Studio</span>
@@ -94,9 +577,13 @@
                     <span class="nav-icon"><i class="fa-solid fa-building-shield" style="color: var(--gold-primary);"></i></span>
                     <span>Customer Portal App</span>
                 </li>
+                <li class="nav-item" onclick="window.location.href='staff.html'" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-mobile-screen" style="color: var(--gold-primary);"></i></span>
+                    <span>Staff / Worker Mobile App</span>
+                </li>
             </ul>
 
-            <div class="nav-group-title rbac-admin-only" style="margin-top: 1.5rem;">ADMINISTRATION ONLY</div>
+            <div class="nav-group-title rbac-admin-only">ADMINISTRATION ONLY</div>
             <ul class="nav-menu rbac-admin-only">
                 <li class="nav-item" data-view="admin-panel" data-role-allow="ADMIN">
                     <span class="nav-icon"><i class="fa-solid fa-sliders"></i></span>
@@ -108,11 +595,11 @@
                 </li>
             </ul>
 
-            <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem;">
-                <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="openModal('switchRoleModal')">
+            <div style="margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--border-gold-subtle); display: flex; flex-direction: column; gap: 0.5rem;">
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.85rem;" onclick="openModal('switchRoleModal')">
                     <i class="fa-solid fa-user-gear"></i> Switch Role
                 </button>
-                <button class="btn btn-secondary" style="width: 100%; justify-content: center; color: var(--danger);" onclick="handleLogout()">
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center; color: var(--danger); font-size: 0.85rem;" onclick="handleLogout()">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout Session
                 </button>
             </div>
@@ -123,17 +610,24 @@
             <!-- Top Navigation Header -->
             <header class="top-header top-header-3d">
                 <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <button type="button" id="mobileSidebarToggle" onclick="toggleAdminSidebar()" title="Toggle Menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                     <a href="index.html" class="btn btn-secondary btn-sm" style="text-decoration: none;">
                         <i class="fa-solid fa-arrow-left"></i> Website
                     </a>
-                    <a href="customer.html" class="btn btn-secondary btn-sm" style="text-decoration: none; border-color: rgba(212,175,55,0.45); color: var(--gold-primary); font-weight: 600;" title="Open Live Customer Portal">
+                    <a href="customer.html" class="btn btn-gold btn-sm" style="text-decoration: none; font-weight: 700; box-shadow: 0 2px 10px rgba(212,175,55,0.25);" title="Open Live Customer Portal">
                         <i class="fa-solid fa-building-shield"></i> Customer App
                     </a>
                     <a href="staff.html" class="btn btn-secondary btn-sm" style="text-decoration: none;" title="Open Staff / Worker App">
                         <i class="fa-solid fa-mobile-screen"></i> Staff App
                     </a>
-                    <div id="adminBadgeIndicator" class="badge badge-gold" style="font-size: 0.82rem; padding: 0.4rem 0.85rem;">
-                        <i class="fa-solid fa-shield-halved"></i> ADMIN FULL CONTROL
+                    <div class="live-beacon">
+                        <span class="pulse-dot"></span> LIVE OPERATIONS
+                    </div>
+                    <div class="admin-clock-pill" id="adminLiveClock">
+                        <i class="fa-regular fa-clock" style="color: var(--gold-primary);"></i>
+                        <span id="clockTimeText">Connecting IST...</span>
                     </div>
                     <button id="firebaseConfigBtn" class="badge" onclick="openFirebaseConfigModal()" style="font-size: 0.82rem; padding: 0.4rem 0.85rem; cursor: pointer; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #F59E0B;" title="Click to configure Firebase">
                         <i class="fa-solid fa-cloud"></i> <span id="firebaseStatusText">Firebase: Local Fallback</span>
@@ -360,7 +854,14 @@
                             </div>
                             <a href="estimator.html" class="btn btn-gold btn-sm" style="text-decoration: none;"><i class="fa-solid fa-calculator"></i> + New Contract Quote</a>
                         </div>
-                        <div class="table-responsive" style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div class="table-search-bar">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                                <input type="text" id="searchContractsInput" placeholder="Filter client contracts..." onkeyup="filterAdminTable('searchContractsInput', 'contractsTableBody')">
+                            </div>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-building-circle-check"></i> Managed Commercial Properties</span>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 0.5rem;">
                             <table class="custom-table">
                                 <thead>
                                     <tr>
@@ -444,8 +945,14 @@
                                 <button class="btn btn-primary rbac-admin-only" onclick="openModal('empModal')"><i class="fa-solid fa-user-plus"></i> + Add New Employee</button>
                             </div>
                         </div>
-
-                        <div class="table-responsive" style="margin-top: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div class="table-search-bar">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                                <input type="text" id="searchStaffRosterInput" placeholder="Filter employee roster..." onkeyup="filterAdminTable('searchStaffRosterInput', 'staffDirectoryTableBody')">
+                            </div>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-users"></i> Staff & Janitorial Force</span>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 0.5rem;">
                             <table class="custom-table">
                                 <thead>
                                     <tr>
@@ -584,8 +1091,14 @@
                             </div>
                             <button class="btn btn-primary rbac-task-create" onclick="openModal('taskModal')"><i class="fa-solid fa-plus"></i> Add Cleaning Task</button>
                         </div>
-
-                        <div class="table-responsive" style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div class="table-search-bar">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                                <input type="text" id="searchTasksInput" placeholder="Filter tasks by area or specialist..." onkeyup="filterAdminTable('searchTasksInput', 'taskTableBody')">
+                            </div>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-clipboard-check"></i> Quality SLA Inspection Schedules</span>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 0.5rem;">
                             <table class="custom-table">
                                 <thead>
                                     <tr>
@@ -616,8 +1129,14 @@
                             </div>
                             <button class="btn btn-primary rbac-complaint-create" onclick="openModal('complaintModal')"><i class="fa-solid fa-triangle-exclamation"></i> Lodge Maintenance Ticket</button>
                         </div>
-
-                        <div class="table-responsive" style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div class="table-search-bar">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                                <input type="text" id="searchComplaintsInput" placeholder="Filter tickets by equipment, tech or priority..." onkeyup="filterAdminTable('searchComplaintsInput', 'complaintTableBody')">
+                            </div>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-headset"></i> 24/7 Facility Engineering Support</span>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 0.5rem;">
                             <table class="custom-table">
                                 <thead>
                                     <tr>
@@ -649,8 +1168,14 @@
                             </div>
                             <button class="btn btn-primary rbac-inventory-create" onclick="openModal('inventoryModal')"><i class="fa-solid fa-box"></i> Add Inventory Item</button>
                         </div>
-
-                        <div class="table-responsive" style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                            <div class="table-search-bar">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--gold-primary);"></i>
+                                <input type="text" id="searchInventoryInput" placeholder="Filter chemical stocks & tools..." onkeyup="filterAdminTable('searchInventoryInput', 'invTableBody')">
+                            </div>
+                            <span style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-boxes-stacked"></i> Taski & Diversey Stock</span>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 0.5rem;">
                             <table class="custom-table">
                                 <thead>
                                     <tr>
@@ -1175,5 +1700,80 @@
     <script src="js/excelExporter.js?v=999"></script>
     <script src="js/app.js?v=999"></script>
     <script src="js/scroll3d.js"></script>
+
+    <!-- EXECUTIVE COMMAND ENHANCEMENTS SCRIPT -->
+    <script>
+        // Real-Time IST Digital Clock
+        function updateAdminClock() {
+            const clockEl = document.getElementById('clockTimeText');
+            if (!clockEl) return;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+            const dateStr = now.toLocaleDateString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: 'short'
+            });
+            clockEl.textContent = `${dateStr}, ${timeStr} IST`;
+        }
+        setInterval(updateAdminClock, 1000);
+        updateAdminClock();
+
+        // Responsive Sidebar Drawer for Mobile
+        function toggleAdminSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (!sidebar || !backdrop) return;
+            sidebar.classList.toggle('mobile-open');
+            backdrop.classList.toggle('active');
+        }
+
+        function closeAdminSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (backdrop) backdrop.classList.remove('active');
+        }
+
+        // Instant Live Table Filtering
+        function filterAdminTable(inputId, tableBodyId) {
+            const input = document.getElementById(inputId);
+            const tbody = document.getElementById(tableBodyId);
+            if (!input || !tbody) return;
+            const filter = input.value.toLowerCase().trim();
+            const rows = tbody.getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                const text = rows[i].textContent.toLowerCase();
+                rows[i].style.display = text.includes(filter) ? '' : 'none';
+            }
+        }
+
+        // Close mobile drawer when selecting navigation item
+        document.querySelectorAll('#adminSidebar .nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    closeAdminSidebar();
+                }
+            });
+        });
+
+        // Global Escape Key to dismiss modals and drawer
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAdminSidebar();
+                document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+            }
+        });
+
+        window.toggleAdminSidebar = toggleAdminSidebar;
+        window.closeAdminSidebar = closeAdminSidebar;
+        window.filterAdminTable = filterAdminTable;
+    </script>
 </body>
 </html>
