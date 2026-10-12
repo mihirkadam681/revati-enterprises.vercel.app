@@ -561,7 +561,7 @@
             background: rgba(0, 0, 0, 0.88) !important;
             backdrop-filter: blur(12px) !important;
             -webkit-backdrop-filter: blur(12px) !important;
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             display: none;
             align-items: center !important;
             justify-content: center !important;
@@ -569,7 +569,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease, visibility 0.25s ease !important;
+            transition: opacity 0.2s ease, visibility 0.2s ease !important;
         }
 
         #leaveModal.modal-overlay.active {
@@ -590,7 +590,10 @@
             padding: 22px !important;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px var(--gold-glow) !important;
             transform: scale(0.95);
-            transition: transform 0.25s ease;
+            transition: transform 0.2s ease;
+            position: relative !important;
+            z-index: 1000000 !important;
+            pointer-events: auto !important;
         }
 
         #leaveModal.modal-overlay.active .modal-card {
@@ -608,6 +611,8 @@
             outline: none;
             margin-top: 5px;
             font-family: inherit;
+            user-select: auto !important;
+            -webkit-user-select: auto !important;
         }
 
         .form-control-custom:focus {
@@ -836,7 +841,7 @@
                     </h2>
                     <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.3;">Formal leave requisition desk with supervisor approval tracking</p>
                 </div>
-                <button type="button" class="btn-gold" id="applyLeaveBtn" onclick="openLeaveModal(event)" style="white-space: nowrap; flex-shrink: 0; padding: 9px 16px; border-radius: 10px; font-weight: 800; box-shadow: 0 4px 15px var(--gold-glow); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent;">
+                <button type="button" class="btn-gold" id="applyLeaveBtn" onclick="openLeaveModal(event)" style="white-space: nowrap; flex-shrink: 0; padding: 9px 16px; border-radius: 10px; font-weight: 800; box-shadow: 0 4px 15px var(--gold-glow); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;">
                     <i class="fa-solid fa-plus" style="pointer-events: none;"></i> <span style="pointer-events: none;">Apply Leave</span>
                 </button>
             </div>
@@ -905,13 +910,13 @@
     </main>
 
     <!-- Apply Leave Modal -->
-    <div class="modal-overlay" id="leaveModal" onclick="handleLeaveBackdropClick(event)">
-        <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-overlay" id="leaveModal" role="dialog" aria-modal="true" aria-labelledby="leaveModalTitle">
+        <div class="modal-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
-                <h3 style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                <h3 id="leaveModalTitle" style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-calendar-plus" style="color: var(--gold-primary);"></i> Apply for Staff Leave
                 </h3>
-                <button type="button" onclick="closeLeaveModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; line-height: 1;">&times;</button>
+                <button type="button" onclick="closeLeaveModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; line-height: 1; touch-action: manipulation;" aria-label="Close modal">&times;</button>
             </div>
             <form id="leaveApplicationForm" onsubmit="submitLeaveApp(event)">
                 <div style="margin-bottom: 12px;">
@@ -942,14 +947,110 @@
                     <textarea id="leaveReason" class="form-control-custom" rows="3" placeholder="State reason for absence..." required></textarea>
                 </div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()" style="padding: 10px 18px; border-radius: 8px; font-weight: 600;">Cancel</button>
-                    <button type="submit" id="submitLeaveBtn" class="btn-gold" style="padding: 10px 18px; border-radius: 8px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <button type="button" class="btn-secondary" onclick="closeLeaveModal()" style="padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; touch-action: manipulation;">Cancel</button>
+                    <button type="submit" id="submitLeaveBtn" class="btn-gold" style="padding: 10px 18px; border-radius: 8px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; touch-action: manipulation;">
                         <i class="fa-solid fa-paper-plane"></i> Submit Requisition
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+    <!-- IMMEDIATE SELF-CONTAINED LEAVE MODAL CONTROLLER SCRIPT -->
+    <script id="leaveModalController">
+        let isBackdropPress = false;
+
+        function openLeaveModal(e) {
+            if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
+            }
+
+            const modal = document.getElementById('leaveModal');
+            if (!modal) {
+                console.error("[LeaveModal] Element #leaveModal not found in DOM");
+                return;
+            }
+
+            // Auto-fill dates and phone if empty
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const startDateEl = document.getElementById('startDate');
+                const endDateEl = document.getElementById('endDate');
+                if (startDateEl && !startDateEl.value) startDateEl.value = today;
+                if (endDateEl && !endDateEl.value) endDateEl.value = today;
+
+                const phoneEl = document.getElementById('leavePhone');
+                if (phoneEl && !phoneEl.value && window.currentUser && window.currentUser.phone) {
+                    phoneEl.value = window.currentUser.phone;
+                }
+            } catch (err) {
+                console.warn("[LeaveModal] Init fields warning:", err);
+            }
+
+            modal.classList.add('active');
+            modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0, 0, 0, 0.88) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; z-index: 999999 !important; align-items: center !important; justify-content: center !important; padding: 16px !important;';
+
+            const card = modal.querySelector('.modal-card');
+            if (card) {
+                card.style.cssText = 'background: #0E131F !important; border: 1px solid var(--gold-primary) !important; border-radius: 20px !important; width: 100% !important; max-width: 480px !important; max-height: 90vh !important; overflow-y: auto !important; padding: 22px !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px var(--gold-glow) !important; pointer-events: auto !important; transform: scale(1) !important; opacity: 1 !important; visibility: visible !important;';
+            }
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLeaveModal() {
+            const modal = document.getElementById('leaveModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+            document.body.style.overflow = '';
+        }
+
+        window.openLeaveModal = openLeaveModal;
+        window.closeLeaveModal = closeLeaveModal;
+
+        // Bulletproof Backdrop Dismissal: ONLY dismiss if user pressed DOWN on the backdrop itself
+        (function setupBackdropListener() {
+            const modalEl = document.getElementById('leaveModal');
+            if (modalEl) {
+                modalEl.addEventListener('pointerdown', function(e) {
+                    isBackdropPress = (e.target === modalEl);
+                });
+                modalEl.addEventListener('pointerup', function(e) {
+                    if (isBackdropPress && e.target === modalEl) {
+                        closeLeaveModal();
+                    }
+                    isBackdropPress = false;
+                });
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === modalEl) {
+                        e.stopPropagation();
+                    }
+                });
+            }
+
+            // Direct binding to apply leave button
+            function bindLeaveTriggers() {
+                const btn = document.getElementById('applyLeaveBtn');
+                if (btn) {
+                    btn.onclick = function(e) {
+                        openLeaveModal(e);
+                    };
+                    btn.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        openLeaveModal(e);
+                    }, { passive: false });
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bindLeaveTriggers);
+            } else {
+                bindLeaveTriggers();
+            }
+        })();
+    </script>
 
     <!-- Mobile Bottom Navigation Bar: Perfectly Assembled & Aligned -->
     <nav class="bottom-nav">
@@ -1441,55 +1542,7 @@
             }).join('');
         }
 
-        let modalOpenedAt = 0;
 
-        function openLeaveModal(e) {
-            if (e && typeof e.preventDefault === 'function') e.preventDefault();
-            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
-            modalOpenedAt = Date.now();
-
-            const modal = document.getElementById('leaveModal');
-            if (modal) {
-                // Populate default dates if empty
-                const today = new Date().toISOString().split('T')[0];
-                const startDateEl = document.getElementById('startDate');
-                const endDateEl = document.getElementById('endDate');
-                if (startDateEl && !startDateEl.value) startDateEl.value = today;
-                if (endDateEl && !endDateEl.value) endDateEl.value = today;
-
-                const phoneEl = document.getElementById('leavePhone');
-                if (phoneEl && !phoneEl.value && currentUser && currentUser.phone) {
-                    phoneEl.value = currentUser.phone;
-                }
-
-                modal.classList.add('active');
-                modal.style.setProperty('display', 'flex', 'important');
-                modal.style.setProperty('opacity', '1', 'important');
-                modal.style.setProperty('visibility', 'visible', 'important');
-                modal.style.setProperty('pointer-events', 'auto', 'important');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeLeaveModal() {
-            const modal = document.getElementById('leaveModal');
-            if (modal) {
-                modal.classList.remove('active');
-                modal.style.setProperty('display', 'none', 'important');
-                modal.style.setProperty('opacity', '0', 'important');
-                modal.style.setProperty('visibility', 'hidden', 'important');
-                modal.style.setProperty('pointer-events', 'none', 'important');
-                document.body.style.overflow = '';
-            }
-        }
-
-        function handleLeaveBackdropClick(event) {
-            // Guard against ghost touch clicks on mobile
-            if (Date.now() - modalOpenedAt < 400) return;
-            if (event && event.target && event.target.id === 'leaveModal') {
-                closeLeaveModal();
-            }
-        }
 
         async function submitLeaveApp(e) {
             if (e && typeof e.preventDefault === 'function') e.preventDefault();
@@ -1555,9 +1608,6 @@
             }
         }
 
-        window.openLeaveModal = openLeaveModal;
-        window.closeLeaveModal = closeLeaveModal;
-        window.handleLeaveBackdropClick = handleLeaveBackdropClick;
         window.submitLeaveApp = submitLeaveApp;
 
         function installPWA() {
@@ -1569,6 +1619,27 @@
                     }
                 });
             }
+        }
+    </script>
+
+    <!-- AUTOMATIC SERVICE WORKER UPDATE & CACHE PURGE ENGINE -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then((reg) => {
+                reg.update();
+            }).catch((err) => console.warn('SW Reg notice:', err));
+
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log("⚡ [Staff App] Fresh Service Worker activated, refreshing view...");
+                window.location.reload();
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then((names) => {
+                names.forEach((name) => {
+                    if (name !== 'revati-app-v7') caches.delete(name);
+                });
+            });
         }
     </script>
 </body>
