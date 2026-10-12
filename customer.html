@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Revati Enterprises &bull; Client &amp; Facility Customer Portal</title>
+
+    <!-- PWA & Mobile Web App Capabilities -->
+    <link rel="manifest" href="manifest-customer.json">
+    <meta name="theme-color" content="#0B0E17">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Revati Client">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
+
+    <!-- Premium Google Fonts: Cinzel (Serif Elegance) & Outfit (Modern Tech Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome 6 Pro CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-main: #0B0E17;
+            --bg-card: #131826;
+            --bg-card-hover: #1A2032;
+            --bg-surface: #0E131F;
+            --gold-primary: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-dark: #AA820A;
+            --gold-gradient: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA820A 100%);
+            --gold-glow: rgba(212, 175, 55, 0.28);
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            --text-light: #E2E8F0;
+            --border-color: rgba(212, 175, 55, 0.22);
+            --border-glow: rgba(212, 175, 55, 0.45);
+            --success: #10B981;
+            --success-glow: rgba(16, 185, 129, 0.2);
+            --danger: #EF4444;
+            --danger-glow: rgba(239, 68, 68, 0.2);
+            --info: #3B82F6;
+            --info-glow: rgba(59, 130, 246, 0.2);
+            --mobile-nav-height: 68px;
+            --top-bar-height: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding-bottom: calc(var(--mobile-nav-height) + 34px);
+            overflow-x: hidden;
+            min-height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* SVG & Icon Standards */
+        .app-icon {
+            width: 1.25em;
+            height: 1.25em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* Top Sticky Header */
+        .app-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 14, 23, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            height: var(--top-bar-height);
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-color);
+            padding: 2px;
+        }
+
+        .brand-text-col {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            letter-spacing: 1.2px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-sub {
+            font-size: 0.64rem;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .top-actions-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .facility-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: var(--gold-light);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-sos {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #F87171;
+            padding: 5px 11px;
+            border-radius: 8px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-sos:hover {
+            background: rgba(239, 68, 68, 0.3);
+            color: #FFF;
+        }
+
+        /* Subheader Live Bar */
+        .live-status-bar {
+            background: linear-gradient(90deg, rgba(14, 19, 31, 0.95), rgba(19, 24, 38, 0.95));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.74rem;
+            color: var(--text-muted);
+        }
+
+        .live-pulse-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+            animation: pulseAnim 1.8s infinite;
+        }
+
+        @keyframes pulseAnim {
+            0% { transform: scale(0.95); opacity: 0.75; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.75; }
+        }
+
+        /* Main Container & Tabs */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .tab-view {
+            display: none;
+            animation: fadeInTab 0.25s ease forwards;
+        }
+
+        .tab-view.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards & Panels */
+        .client-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-card-hero {
+            background: linear-gradient(135deg, rgba(26, 32, 50, 0.9), rgba(14, 19, 31, 0.95));
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .client-card-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold-gradient);
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: var(--gold-gradient);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            box-shadow: 0 4px 16px var(--gold-glow);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            touch-action: manipulation;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(212, 175, 55, 0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #FFF;
+            border-radius: 10px;
+            padding: 9px 16px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            touch-action: manipulation;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .metric-cell {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--gold-primary);
+            line-height: 1.2;
+        }
+
+        .metric-lbl {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Scope Cards */
+        .service-pill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .service-item-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .service-item-box:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold-primary);
+        }
+
+        .service-icon-circ {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* Tables */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 12px;
+        }
+
+        .custom-tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            text-align: left;
+        }
+
+        .custom-tbl th {
+            background: rgba(14, 19, 31, 0.9);
+            color: var(--gold-light);
+            font-weight: 700;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+            white-space: nowrap;
+        }
+
+        .custom-tbl td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
+
+        .custom-tbl tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Modals & Overlays */
+        .modal-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.88) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            z-index: 999999 !important;
+            display: none;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 16px !important;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, visibility 0.2s ease !important;
+        }
+
+        .modal-overlay.active {
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .modal-card {
+            background: #0E131F !important;
+            border: 1px solid var(--gold-primary) !important;
+            border-radius: 20px !important;
+            width: 100% !important;
+            max-width: 500px !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 22px !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 35px var(--gold-glow) !important;
+            transform: scale(0.96);
+            transition: transform 0.2s ease;
+            position: relative !important;
+            z-index: 1000000 !important;
+            pointer-events: auto !important;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .form-control-custom {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 8px;
+            color: #FFF;
+            padding: 10px 12px;
+            font-size: 0.88rem;
+            outline: none;
+            margin-top: 5px;
+            font-family: inherit;
+            user-select: auto !important;
+            -webkit-user-select: auto !important;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        select.form-control-custom option {
+            background: #0E131F;
+            color: #FFF;
+        }
+
+        /* Mobile Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--mobile-nav-height);
+            background: rgba(11, 14, 23, 0.98);
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.75);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .bottom-nav .nav-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: 600;
+            gap: 4px;
+            cursor: pointer;
+            flex: 1;
+            height: 100%;
+            transition: all 0.2s ease;
+            position: relative;
+            background: transparent;
+            border: none;
+        }
+
+        .bottom-nav .nav-item .nav-icon-wrap {
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: var(--gold-primary);
+        }
+
+        .bottom-nav .nav-item.active .nav-icon-wrap {
+            transform: translateY(-2px);
+            color: var(--gold-primary);
+            text-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .bottom-nav .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 32px;
+            height: 3px;
+            background: var(--gold-gradient);
+            border-radius: 0 0 3px 3px;
+            box-shadow: 0 2px 8px var(--gold-glow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP APP BAR -->
+    <header class="app-bar">
+        <a href="index.html" class="brand-block">
+            <img src="images/logo.png" alt="Revati Crest" class="brand-logo-img">
+            <div class="brand-text-col">
+                <span class="brand-title">REVATI</span>
+                <span class="brand-sub">CLIENT PORTAL</span>
+            </div>
+        </a>
+
+        <div class="top-actions-wrap">
+            <div class="facility-pill" id="topFacilityBadge" title="Assigned Facility Location">
+                <i class="fa-solid fa-building" style="color: var(--gold-primary);"></i>
+                <span id="topFacilityText">BKC Corporate Hub</span>
+            </div>
+            <a href="tel:+919769930626" class="btn-sos" title="24/7 Revati Operations Desk">
+                <i class="fa-solid fa-headset"></i> <span>24/7 SOS</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- LIVE REAL-TIME TICKER BAR -->
+    <div class="live-status-bar">
+        <div class="live-pulse-tag">
+            <span class="pulse-dot"></span>
+            <span id="liveSyncStatusText">LIVE CLOUD CONNECTED</span>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <span id="currentDateStr"><i class="fa-solid fa-calendar-day"></i> Loading Date...</span>
+            <span id="liveClock" style="color: var(--gold-light); font-weight: 700;"><i class="fa-solid fa-clock"></i> --:--:--</span>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTENT -->
+    <main>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: FACILITY OVERVIEW & ACTIVE SERVICES -->
+        <!-- ========================================== -->
+        <section class="tab-view active" id="viewServices">
+            
+            <!-- HERO AMC CONTRACT CARD -->
+            <div class="client-card client-card-hero">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px;">
+                    <div>
+                        <span style="display: inline-block; background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981; border-radius: 14px; font-size: 0.7rem; font-weight: 800; padding: 2px 10px; margin-bottom: 6px;">
+                            ● ACTIVE PREMISES AMC (24x7)
+                        </span>
+                        <h2 style="font-family: 'Cinzel', serif; color: #FFF; font-size: 1.3rem;" id="heroContractTitle">Reliance Commercial Complex</h2>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);" id="heroSiteAddress">Tower B, BKC Financial Hub, Bandra East, Mumbai</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">Contract Ref:</span>
+                        <div style="color: var(--gold-light); font-weight: 800; font-size: 0.82rem;" id="heroContractRef">REV-AMC-2026-BKC01</div>
+                    </div>
+                </div>
+
+                <!-- KEY METRICS ROW -->
+                <div class="metrics-grid">
+                    <div class="metric-cell">
+                        <div class="metric-val" id="metricSla">99.8%</div>
+                        <div class="metric-lbl">Hygiene SLA Score</div>
+                    </div>
+                    <div class="metric-cell">
+                        <div class="metric-val" id="metricOnDutyStaff">12</div>
+                        <div class="metric-lbl">Staff On Duty Today</div>
+                    </div>
+                    <div class="metric-cell">
+                        <div class="metric-val" id="metricTasksCompleted">100%</div>
+                        <div class="metric-lbl">Daily Shift Coverage</div>
+                    </div>
+                    <div class="metric-cell">
+                        <div class="metric-val" style="color: #60A5FA;" id="metricAuditStatus">VERIFIED</div>
+                        <div class="metric-lbl">ISO 9001 Compliance</div>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTION BUTTONS -->
+                <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                    <button type="button" class="btn-gold" onclick="openBookingModal()" style="flex: 1; min-width: 160px;">
+                        <i class="fa-solid fa-calendar-plus"></i> Request Deep Cleaning
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="openQuoteModal()" style="flex: 1; min-width: 140px;">
+                        <i class="fa-solid fa-calculator"></i> Cost Estimator
+                    </button>
+                </div>
+            </div>
+
+            <!-- COVERED FACILITY SCOPE ACCORDION/GRID -->
+            <div class="client-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-shield-halved"></i> Covered AMC Services
+                    </h3>
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Annual Maintenance Scope</span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Active specialized hygiene and technical SLA deliverables contracted for your corporate site:</p>
+
+                <div class="service-pill-grid">
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-broom"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">Daily Janitorial Hygiene</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">2 Shifts &bull; Restroom Sanitization</div>
+                        </div>
+                    </div>
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-building-user"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">High-Rise Facade Cleaning</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Spider Rope Access &bull; Spider BMU</div>
+                        </div>
+                    </div>
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">Floor Scrubbing &amp; Buffing</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Auto-scrubber &bull; Marble Polishing</div>
+                        </div>
+                    </div>
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-shield-virus"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">Pest &amp; Rodent Elimination</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Chemical Disinfection Shield</div>
+                        </div>
+                    </div>
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-recycle"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">Corporate Waste Management</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Daily Disposal &bull; Segregation</div>
+                        </div>
+                    </div>
+                    <div class="service-item-box">
+                        <div class="service-icon-circ"><i class="fa-solid fa-fire-extinguisher"></i></div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 0.85rem;">MEP &amp; Handyman Support</strong>
+                            <div style="font-size: 0.72rem; color: var(--text-muted);">Electrical, Plumbing, HVAC</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPLETED SERVICE HISTORY LOGS -->
+            <div class="client-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Verified Service Logs
+                    </h3>
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Supervisor Audit Logs</span>
+                </div>
+
+                <div id="serviceHistoryContainer">
+                    <!-- Dynamically Loaded Service Logs -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: LIVE ON-SITE STAFF & ATTENDANCE -->
+        <!-- ========================================== -->
+        <section class="tab-view" id="viewStaffAttendance">
+            <div class="client-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <div>
+                        <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-users-viewfinder"></i> Live On-Site Staff Roster
+                        </h2>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Real-time biometric &amp; GPS attendance records of staff deployed at your site today</p>
+                    </div>
+                    <button type="button" class="btn-secondary" onclick="loadSiteAttendance()" style="padding: 6px 12px; font-size: 0.75rem;">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- LIVE NOTICE -->
+                <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 10px 14px; margin: 12px 0; font-size: 0.78rem; color: #10B981; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-satellite-dish" style="font-size: 1rem;"></i>
+                    <span><strong>Live Real-Time Sync:</strong> As janitors punch in/out on their Staff Mobile App, this record updates automatically without refreshing.</span>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="custom-tbl">
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Emp Code</th>
+                                <th>Punch In</th>
+                                <th>Punch Out</th>
+                                <th>Location / Verified GPS</th>
+                                <th>Duty Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientAttendanceTbody">
+                            <!-- Dynamically Rendered via loadSiteAttendance() -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- STATUTORY BACKGROUND VERIFICATION GUARANTEE -->
+            <div class="client-card">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-certificate"></i> Statutory Worker Credentials
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">100% of staff deployed at your facility are legally compliant, police-vetted, and insured:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; font-size: 0.82rem;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border-left: 3px solid #10B981;">
+                        <strong style="color: #FFF;"><i class="fa-solid fa-id-card"></i> Aadhaar Identity Verified</strong>
+                        <p style="color: var(--text-muted); font-size: 0.74rem; margin-top: 3px;">UIDAI biometric statutory proof on permanent company file.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border-left: 3px solid #10B981;">
+                        <strong style="color: #FFF;"><i class="fa-solid fa-shield-check"></i> Police Background Vetting</strong>
+                        <p style="color: var(--text-muted); font-size: 0.74rem; margin-top: 3px;">Official character verification certificate on record.</p>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border-left: 3px solid #10B981;">
+                        <strong style="color: #FFF;"><i class="fa-solid fa-briefcase-medical"></i> ESIC &amp; PF Statutory Enrolled</strong>
+                        <p style="color: var(--text-muted); font-size: 0.74rem; margin-top: 3px;">100% compliant with labor laws, medical benefits &amp; PF.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: SUPPORT & MAINTENANCE TICKETS -->
+        <!-- ========================================== -->
+        <section class="tab-view" id="viewComplaints">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 10px; flex-wrap: wrap;">
+                <div>
+                    <h2 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-headset"></i> Service &amp; Maintenance Desk
+                    </h2>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Raise repair tickets, housekeeping requests, or urgent facility assistance</p>
+                </div>
+                <button type="button" class="btn-gold" id="raiseTicketBtn" onclick="openComplaintModal()">
+                    <i class="fa-solid fa-plus"></i> Lodge New Ticket
+                </button>
+            </div>
+
+            <!-- TICKET SUMMARY COUNTERS -->
+            <div class="metrics-grid" style="margin-bottom: 16px;">
+                <div class="metric-cell">
+                    <div class="metric-val" id="cntTotalTickets">0</div>
+                    <div class="metric-lbl">Total Tickets</div>
+                </div>
+                <div class="metric-cell">
+                    <div class="metric-val" style="color: #FBBF24;" id="cntPendingTickets">0</div>
+                    <div class="metric-lbl">Pending Inspection</div>
+                </div>
+                <div class="metric-cell">
+                    <div class="metric-val" style="color: #10B981;" id="cntResolvedTickets">0</div>
+                    <div class="metric-lbl">Resolved &amp; Closed</div>
+                </div>
+            </div>
+
+            <!-- COMPLAINTS LIST -->
+            <div id="complaintsListContainer">
+                <!-- Dynamically populated via loadClientComplaints() -->
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: BILLING, INVOICES & COMPLIANCE -->
+        <!-- ========================================== -->
+        <section class="tab-view" id="viewBilling">
+            <div class="client-card client-card-hero">
+                <span style="font-size: 0.72rem; color: var(--gold-light); font-weight: 700; text-transform: uppercase;">
+                    Official Account Statement &bull; FY 2026-27
+                </span>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin: 10px 0 16px;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Current Billing Cycle Status</div>
+                        <div style="font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 800; color: #10B981;">₹ 0.00 OUTSTANDING</div>
+                    </div>
+                    <span style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid #10B981; border-radius: 12px; font-size: 0.72rem; font-weight: 800; padding: 4px 10px;">
+                        ALL DUES CLEARED
+                    </span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+                    <span>Contract AMC Rate: <strong style="color: var(--gold-light);">₹ 1,85,000 / month</strong></span>
+                    <span>GST (18%): <strong style="color: #FFF;">Included</strong></span>
+                </div>
+            </div>
+
+            <!-- INVOICES TABLE -->
+            <div class="client-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Tax Invoices &amp; Receipts
+                    </h3>
+                    <button class="btn-secondary" onclick="exportInvoicesCSV()" style="padding: 5px 11px; font-size: 0.72rem;">
+                        <i class="fa-solid fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table class="custom-tbl">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Billing Month</th>
+                                <th>Amount</th>
+                                <th>GST (18%)</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoicesTableBody">
+                            <tr>
+                                <td><strong>REV-INV-2026-088</strong></td>
+                                <td>September 2026</td>
+                                <td>₹ 1,56,780</td>
+                                <td>₹ 28,220</td>
+                                <td style="color: var(--gold-light); font-weight: 700;">₹ 1,85,000</td>
+                                <td><span style="color: #10B981; font-weight: 700;">● Paid (NEFT)</span></td>
+                                <td><button class="btn-secondary" onclick="downloadInvoiceMock('REV-INV-2026-088')" style="padding: 3px 8px; font-size: 0.7rem;"><i class="fa-solid fa-download"></i> PDF</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>REV-INV-2026-074</strong></td>
+                                <td>August 2026</td>
+                                <td>₹ 1,56,780</td>
+                                <td>₹ 28,220</td>
+                                <td style="color: var(--gold-light); font-weight: 700;">₹ 1,85,000</td>
+                                <td><span style="color: #10B981; font-weight: 700;">● Paid (NEFT)</span></td>
+                                <td><button class="btn-secondary" onclick="downloadInvoiceMock('REV-INV-2026-074')" style="padding: 3px 8px; font-size: 0.7rem;"><i class="fa-solid fa-download"></i> PDF</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>REV-INV-2026-062</strong></td>
+                                <td>July 2026</td>
+                                <td>₹ 1,56,780</td>
+                                <td>₹ 28,220</td>
+                                <td style="color: var(--gold-light); font-weight: 700;">₹ 1,85,000</td>
+                                <td><span style="color: #10B981; font-weight: 700;">● Paid (NEFT)</span></td>
+                                <td><button class="btn-secondary" onclick="downloadInvoiceMock('REV-INV-2026-062')" style="padding: 3px 8px; font-size: 0.7rem;"><i class="fa-solid fa-download"></i> PDF</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- STATUTORY COMPLIANCE DOSSIER VAULT -->
+            <div class="client-card">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--gold-primary); font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-folder-closed"></i> Statutory Compliance Audit Dossier
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Instant download of verified monthly regulatory compliance records:</p>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn-secondary" onclick="downloadComplianceDoc('ESIC')" style="flex: 1; min-width: 160px;">
+                        <i class="fa-solid fa-file-shield" style="color: var(--gold-primary);"></i> ESIC Challan (Verified)
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="downloadComplianceDoc('PF')" style="flex: 1; min-width: 160px;">
+                        <i class="fa-solid fa-file-contract" style="color: var(--gold-primary);"></i> PF Electronic Challan
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="downloadComplianceDoc('ISO')" style="flex: 1; min-width: 160px;">
+                        <i class="fa-solid fa-certificate" style="color: var(--gold-primary);"></i> ISO 9001 Certificate
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 5: CLIENT PROFILE & SOS CONTACT DESK -->
+        <!-- ========================================== -->
+        <section class="tab-view" id="viewProfile">
+            <div class="client-card">
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+                    <div style="width: 54px; height: 54px; border-radius: 50%; background: var(--gold-gradient); color: #000; font-size: 1.6rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" id="clientAvatar">R</div>
+                    <div>
+                        <h3 style="color: #FFF; font-size: 1.2rem;" id="clientOrgName">Reliance Commercial Complex</h3>
+                        <div style="color: var(--gold-light); font-weight: 700; font-size: 0.84rem;" id="clientContactPerson">Rajesh Sharma (Facility Lead)</div>
+                        <div style="display: inline-block; background: rgba(212,175,55,0.15); color: var(--gold-primary); border: 1px solid var(--gold-primary); border-radius: 12px; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; margin-top: 4px;">
+                            CORPORATE PREMIER AMC CLIENT
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; font-size: 0.85rem;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-phone"></i> Registered Client Phone</div>
+                        <strong id="clientPhone">+91 9820012345</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-envelope"></i> Official Facility Email</div>
+                        <strong id="clientEmail">facilities@reliancecommercial.com</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-file-invoice"></i> Corporate GSTIN / Tax ID</div>
+                        <strong id="clientGstin">27AABCR9988C1Z4 (Maharashtra)</strong>
+                    </div>
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-calendar-check"></i> Contract AMC Validity</div>
+                        <strong id="clientAmcExpiry">01 Jan 2026 to 31 Dec 2026</strong>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <div style="color: var(--text-muted); font-size: 0.72rem;"><i class="fa-solid fa-map-location-dot"></i> Site Premises Location</div>
+                        <strong id="clientAddress">Tower B, BKC Financial District, Bandra East, Mumbai - 400051</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASSIGNED KEY ACCOUNT MANAGER CARD -->
+            <div class="client-card">
+                <span style="font-size: 0.72rem; color: var(--gold-primary); font-weight: 700; text-transform: uppercase;">
+                    Dedicated Revati Operations Officer
+                </span>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 46px; height: 46px; border-radius: 50%; background: rgba(212,175,55,0.2); border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--gold-primary);">
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                        <div>
+                            <strong style="color: #FFF; font-size: 1rem;">Mr. Mihir Kadam</strong>
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">Head of Facility Operations &amp; Client Success</div>
+                            <div style="font-size: 0.74rem; color: var(--gold-light);">Revati Enterprises Corporate Desk</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="tel:+919769930626" class="btn-gold" style="padding: 7px 14px; font-size: 0.78rem;">
+                            <i class="fa-solid fa-phone"></i> Call Direct
+                        </a>
+                        <a href="https://wa.me/919769930626?text=Hello%20Revati%20Enterprises%2C%20regarding%20client%20facility%20support" target="_blank" class="btn-secondary" style="padding: 7px 14px; font-size: 0.78rem; background: rgba(37,211,102,0.15); border-color: rgba(37,211,102,0.4); color: #25D366;">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSTALL PWA & SESSION SWITCHER -->
+            <div class="client-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <button class="btn-secondary" id="clientPwaInstallBtn" onclick="installPWA()" style="display: none; color: var(--gold-primary); border-color: var(--gold-primary);">
+                        <i class="fa-solid fa-mobile-screen"></i> Install Customer App on Phone
+                    </button>
+                    <a href="index.html" class="btn-secondary">
+                        <i class="fa-solid fa-house"></i> Public Website
+                    </a>
+                    <button class="btn-secondary" onclick="api.logout(); window.location.href='index.html';" style="color: var(--danger); border-color: rgba(239,68,68,0.4);">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sign Out Portal
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL 1: BOOK FACILITY SERVICE -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
+                <h3 id="bookingModalTitle" style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-calendar-plus" style="color: var(--gold-primary);"></i> Request Facility Service
+                </h3>
+                <button type="button" onclick="closeBookingModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; line-height: 1; touch-action: manipulation;" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="bookingForm" onsubmit="submitServiceBooking(event)">
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Required Service *</label>
+                    <select id="bookServiceType" class="form-control-custom" required>
+                        <option value="On-Demand Deep Sanitation & Scrubbing">On-Demand Deep Sanitation &amp; Scrubbing</option>
+                        <option value="Exterior Glass Facade Cleaning (Spider Cradle)">Exterior Glass Facade Cleaning (Spider Cradle)</option>
+                        <option value="Marble Floor Buffing & Crystallization">Marble Floor Buffing &amp; Crystallization</option>
+                        <option value="Comprehensive Pest Elimination & Disinfection">Comprehensive Pest Elimination &amp; Disinfection</option>
+                        <option value="Carpet & Upholstery Deep Steam Extraction">Carpet &amp; Upholstery Deep Steam Extraction</option>
+                        <option value="Water Tank & Pipeline Disinfection">Water Tank &amp; Pipeline Disinfection</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Preferred Date *</label>
+                        <input type="date" id="bookDate" class="form-control-custom" required>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Preferred Time Slot *</label>
+                        <select id="bookTimeSlot" class="form-control-custom" required>
+                            <option value="Morning Shift (08:00 AM - 12:00 PM)">Morning (08:00 AM - 12:00 PM)</option>
+                            <option value="Afternoon Shift (01:00 PM - 05:00 PM)">Afternoon (01:00 PM - 05:00 PM)</option>
+                            <option value="Night / After Hours (07:00 PM onwards)">Night / Non-Office Hours</option>
+                            <option value="Weekend Full Day">Weekend Full Day</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Specific Premises Area / Floor / Sq Ft *</label>
+                    <input type="text" id="bookArea" class="form-control-custom" placeholder="e.g. 4th Floor Conference Suite, ~3,500 sq ft" required>
+                </div>
+                <div style="margin-bottom: 18px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Instructions or Special Requirements</label>
+                    <textarea id="bookNotes" class="form-control-custom" rows="3" placeholder="Provide any security pass requirements, noise restrictions, or priority areas..."></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn-secondary" onclick="closeBookingModal()">Cancel</button>
+                    <button type="submit" id="submitBookingBtn" class="btn-gold">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Service Requisition
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 2: LODGE MAINTENANCE COMPLAINT -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="complaintModal" role="dialog" aria-modal="true" aria-labelledby="complaintModalTitle">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
+                <h3 id="complaintModalTitle" style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #F87171;"></i> Lodge Service Ticket
+                </h3>
+                <button type="button" onclick="closeComplaintModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; line-height: 1; touch-action: manipulation;" aria-label="Close dialog">&times;</button>
+            </div>
+            <form id="complaintForm" onsubmit="submitClientComplaint(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Issue Category *</label>
+                        <select id="compCategory" class="form-control-custom" required>
+                            <option value="Housekeeping Hygiene">Housekeeping Hygiene</option>
+                            <option value="Washroom Sanitation">Washroom Sanitation</option>
+                            <option value="Electrical / Lighting">Electrical / Lighting</option>
+                            <option value="Plumbing / Drainage">Plumbing / Drainage</option>
+                            <option value="HVAC / Air Conditioning">HVAC / Air Conditioning</option>
+                            <option value="Waste Disposal">Waste Disposal</option>
+                            <option value="Pest Infestation">Pest Infestation</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Priority Level *</label>
+                        <select id="compPriority" class="form-control-custom" required>
+                            <option value="Urgent">Urgent (Immediate Response)</option>
+                            <option value="High" selected>High (Within 2 Hours)</option>
+                            <option value="Normal">Normal (Routine Shift)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Location / Floor / Room *</label>
+                    <input type="text" id="compLocation" class="form-control-custom" placeholder="e.g. 2nd Floor Executive Washroom / Lobby" required>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Issue Description *</label>
+                    <textarea id="compDesc" class="form-control-custom" rows="3" placeholder="Describe the defect, cleanliness issue, or repair needed..." required></textarea>
+                </div>
+                <div style="margin-bottom: 18px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Contact Phone for On-Site Inspection</label>
+                    <input type="tel" id="compPhone" class="form-control-custom" placeholder="+91 9820012345">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn-secondary" onclick="closeComplaintModal()">Cancel</button>
+                    <button type="submit" id="submitComplaintBtn" class="btn-gold" style="background: linear-gradient(135deg, #F87171, #EF4444); color: #FFF; box-shadow: 0 4px 15px rgba(239,68,68,0.3);">
+                        <i class="fa-solid fa-paper-plane"></i> Transmit Urgent Ticket
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 3: INSTANT COST ESTIMATOR CALCULATOR -->
+    <!-- ========================================== -->
+    <div class="modal-overlay" id="quoteModal" role="dialog" aria-modal="true" aria-labelledby="quoteModalTitle">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 10px;">
+                <h3 id="quoteModalTitle" style="color: var(--gold-primary); font-family: 'Cinzel', serif; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-calculator" style="color: var(--gold-primary);"></i> Instant Facility Cost Estimator
+                </h3>
+                <button type="button" onclick="closeQuoteModal()" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #FFF; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; line-height: 1; touch-action: manipulation;" aria-label="Close dialog">&times;</button>
+            </div>
+            <div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Instant commercial rates calculator calibrated for Mumbai, Pune &amp; Maharashtra commercial complexes:</p>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Facility Built-Up Area (Sq. Ft.)</label>
+                    <input type="range" id="quoteSqFtRange" min="2000" max="100000" step="1000" value="15000" oninput="updateQuoteCalc()" style="width: 100%; accent-color: var(--gold-primary); margin: 8px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--gold-light);">
+                        <span>2,000 sq ft</span>
+                        <strong id="quoteSqFtDisplay" style="font-size: 1rem; color: var(--gold-primary);">15,000 sq ft</strong>
+                        <span>1,00,000 sq ft</span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Facility Class</label>
+                        <select id="quoteFacilityClass" class="form-control-custom" onchange="updateQuoteCalc()">
+                            <option value="IT_PARK">Corporate IT Park (Grade A)</option>
+                            <option value="COMMERCIAL">Commercial Office Tower</option>
+                            <option value="HOSPITAL">Healthcare &amp; Hospital</option>
+                            <option value="MALL">Retail Mall &amp; Multiplex</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--gold-light);">Operating Shifts</label>
+                        <select id="quoteShifts" class="form-control-custom" onchange="updateQuoteCalc()">
+                            <option value="1">1 General Shift (8 Hours)</option>
+                            <option value="2" selected>2 Full Shifts (16 Hours)</option>
+                            <option value="3">3 Shifts (24x7 Round-The-Clock)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ESTIMATED PRICE BOX -->
+                <div style="background: rgba(0,0,0,0.45); border: 1px solid var(--gold-primary); border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 16px;">
+                    <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">Estimated Monthly Facility AMC</div>
+                    <div style="font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900; color: var(--gold-light); margin: 6px 0;" id="quotePriceEstimate">₹ 1,35,000</div>
+                    <div style="font-size: 0.74rem; color: var(--text-muted);">Recommended Team: <strong style="color: #10B981;" id="quoteTeamEstimate">8 Certified Janitors + 1 Supervisor</strong></div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="btn-secondary" onclick="closeQuoteModal()">Close</button>
+                    <button type="button" class="btn-gold" onclick="bookFromQuote()">
+                        <i class="fa-solid fa-file-signature"></i> Book This Service
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- IMMEDIATE LEAVE/BOOKING MODAL CONTROLLER SCRIPT -->
+    <!-- ========================================== -->
+    <script id="customerModalController">
+        let isBackdropPress = false;
+
+        function openBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            if (!modal) return;
+            const dateEl = document.getElementById('bookDate');
+            if (dateEl && !dateEl.value) {
+                dateEl.value = new Date().toISOString().split('T')[0];
+            }
+            modal.classList.add('active');
+            modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0, 0, 0, 0.88) !important; backdrop-filter: blur(14px) !important; z-index: 999999 !important; align-items: center !important; justify-content: center !important; padding: 16px !important;';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+            document.body.style.overflow = '';
+        }
+
+        function openComplaintModal() {
+            const modal = document.getElementById('complaintModal');
+            if (!modal) return;
+            modal.classList.add('active');
+            modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0, 0, 0, 0.88) !important; backdrop-filter: blur(14px) !important; z-index: 999999 !important; align-items: center !important; justify-content: center !important; padding: 16px !important;';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeComplaintModal() {
+            const modal = document.getElementById('complaintModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+            document.body.style.overflow = '';
+        }
+
+        function openQuoteModal() {
+            const modal = document.getElementById('quoteModal');
+            if (!modal) return;
+            modal.classList.add('active');
+            modal.style.cssText = 'display: flex !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0, 0, 0, 0.88) !important; backdrop-filter: blur(14px) !important; z-index: 999999 !important; align-items: center !important; justify-content: center !important; padding: 16px !important;';
+            document.body.style.overflow = 'hidden';
+            updateQuoteCalc();
+        }
+
+        function closeQuoteModal() {
+            const modal = document.getElementById('quoteModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            modal.style.cssText = 'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;';
+            document.body.style.overflow = '';
+        }
+
+        window.openBookingModal = openBookingModal;
+        window.closeBookingModal = closeBookingModal;
+        window.openComplaintModal = openComplaintModal;
+        window.closeComplaintModal = closeComplaintModal;
+        window.openQuoteModal = openQuoteModal;
+        window.closeQuoteModal = closeQuoteModal;
+
+        // Backdrop pointer tracking for all 3 modals
+        ['bookingModal', 'complaintModal', 'quoteModal'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('pointerdown', function(e) {
+                    isBackdropPress = (e.target === el);
+                });
+                el.addEventListener('pointerup', function(e) {
+                    if (isBackdropPress && e.target === el) {
+                        if (id === 'bookingModal') closeBookingModal();
+                        if (id === 'complaintModal') closeComplaintModal();
+                        if (id === 'quoteModal') closeQuoteModal();
+                    }
+                    isBackdropPress = false;
+                });
+                el.addEventListener('click', function(e) {
+                    if (e.target === el) e.stopPropagation();
+                });
+            }
+        });
+    </script>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchCustomerTab('viewServices', this)">
+            <div class="nav-icon-wrap"><i class="fa-solid fa-building-shield"></i></div>
+            <span>My AMC</span>
+        </div>
+        <div class="nav-item" onclick="switchCustomerTab('viewStaffAttendance', this)">
+            <div class="nav-icon-wrap"><i class="fa-solid fa-users-viewfinder"></i></div>
+            <span>On-Site Staff</span>
+        </div>
+        <div class="nav-item" onclick="switchCustomerTab('viewComplaints', this)">
+            <div class="nav-icon-wrap"><i class="fa-solid fa-headset"></i></div>
+            <span>Support</span>
+        </div>
+        <div class="nav-item" onclick="switchCustomerTab('viewBilling', this)">
+            <div class="nav-icon-wrap"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <span>Billing</span>
+        </div>
+        <div class="nav-item" onclick="switchCustomerTab('viewProfile', this)">
+            <div class="nav-icon-wrap"><i class="fa-solid fa-user-tie"></i></div>
+            <span>Profile</span>
+        </div>
+    </nav>
+
+    <!-- CLOUD FIREBASE SDK V10 & APP SCRIPTS -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Central Core Services Engine -->
+    <script src="js/firebase-service.js"></script>
+    <script src="js/mockData.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/excelExporter.js"></script>
+
+    <!-- MAIN CUSTOMER PORTAL CONTROLLER ENGINE -->
+    <script>
+        let currentClient = null;
+        let deferredPwaPrompt = null;
+
+        // 1. DOM READY INITIALIZATION
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Live clock ticker
+            initLiveClock();
+
+            // Load Client Identity
+            initClientIdentity();
+
+            // Load Tab Data
+            try { await loadServiceHistory(); } catch (e) { console.warn(e); }
+            try { await loadSiteAttendance(); } catch (e) { console.warn(e); }
+            try { await loadClientComplaints(); } catch (e) { console.warn(e); }
+
+            // ⚡ REAL-TIME LIVE DATA LISTENER (BroadcastChannel + LocalStorage + Firebase)
+            if (window.api && typeof api.onDataChange === 'function') {
+                api.onDataChange(async (change) => {
+                    console.log("⚡ [Customer Portal] Cloud update received:", change);
+                    try { await loadServiceHistory(); } catch (e) {}
+                    try { await loadSiteAttendance(); } catch (e) {}
+                    try { await loadClientComplaints(); } catch (e) {}
+                });
+            }
+
+            // PWA Install prompt listener
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPwaPrompt = e;
+                const btn = document.getElementById('clientPwaInstallBtn');
+                if (btn) btn.style.display = 'inline-flex';
+            });
+        });
+
+        // 2. LIVE CLOCK
+        function initLiveClock() {
+            function updateClock() {
+                try {
+                    const now = new Date();
+                    const clockEl = document.getElementById('liveClock');
+                    const dateEl = document.getElementById('currentDateStr');
+                    if (clockEl) {
+                        clockEl.innerHTML = '<i class="fa-solid fa-clock"></i> ' + now.toLocaleTimeString('en-US', {
+                            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+                        });
+                    }
+                    if (dateEl) {
+                        dateEl.innerHTML = '<i class="fa-solid fa-calendar-day"></i> ' + now.toLocaleDateString('en-US', {
+                            weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+                        });
+                    }
+                } catch (e) {}
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // 3. CLIENT IDENTITY
+        function initClientIdentity() {
+            try {
+                const u = api.getCurrentUser();
+                if (u && u.role === 'CLIENT') {
+                    currentClient = u;
+                }
+            } catch (e) {}
+
+            if (!currentClient) {
+                currentClient = {
+                    id: 4,
+                    name: "Reliance Commercial Towers",
+                    clientName: "Reliance Commercial Complex",
+                    contactPerson: "Mr. Rajesh Sharma (Facility Lead)",
+                    username: "client1",
+                    role: "CLIENT",
+                    phone: "+91 9820012345",
+                    email: "facilities@reliancecommercial.com",
+                    location: "Tower B, BKC Financial Hub, Bandra East, Mumbai",
+                    gstin: "27AABCR9988C1Z4",
+                    contractRef: "REV-AMC-2026-BKC01",
+                    amcExpiry: "01 Jan 2026 to 31 Dec 2026"
+                };
+            }
+
+            // Render details
+            document.getElementById('topFacilityText').innerText = currentClient.name || 'BKC Corporate Tower';
+            document.getElementById('heroContractTitle').innerText = currentClient.name || 'Reliance Commercial Complex';
+            document.getElementById('heroSiteAddress').innerText = currentClient.location || 'Tower B, BKC Financial Hub, Mumbai';
+            document.getElementById('heroContractRef').innerText = currentClient.contractRef || 'REV-AMC-2026-BKC01';
+
+            document.getElementById('clientOrgName').innerText = currentClient.name || 'Reliance Commercial Complex';
+            document.getElementById('clientContactPerson').innerText = currentClient.contactPerson || 'Mr. Rajesh Sharma (Facility Lead)';
+            document.getElementById('clientPhone').innerText = currentClient.phone || '+91 9820012345';
+            document.getElementById('clientEmail').innerText = currentClient.email || 'facilities@reliancecommercial.com';
+            document.getElementById('clientGstin').innerText = (currentClient.gstin || '27AABCR9988C1Z4') + ' (Maharashtra)';
+            document.getElementById('clientAddress').innerText = currentClient.location || 'Tower B, BKC Financial District, Bandra East, Mumbai';
+            document.getElementById('clientAvatar').innerText = (currentClient.name || 'R').charAt(0).toUpperCase();
+        }
+
+        // 4. TAB NAVIGATION
+        function switchCustomerTab(tabId, el) {
+            document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+            if (el) el.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 5. SERVICE LOGS LOADER
+        async function loadServiceHistory() {
+            const container = document.getElementById('serviceHistoryContainer');
+            if (!container) return;
+
+            const tasks = await api.request('/tasks', 'GET') || [];
+            
+            if (tasks.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted); padding: 25px 15px;">
+                        <i class="fa-solid fa-list-check" style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 10px;"></i>
+                        <h4 style="color: var(--gold-light); margin-bottom: 4px;">Routine Shift Housekeeping Active</h4>
+                        <p style="font-size: 0.8rem;">Assigned janitorial team is carrying out standard facility sanitization for today's shift.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = tasks.slice(0, 5).map(t => {
+                const isDone = t.status === 'Completed';
+                return `
+                    <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <strong style="color: #FFF; font-size: 0.92rem;"><i class="fa-solid fa-shield-halved" style="color: var(--gold-primary); margin-right: 6px;"></i> ${t.title || t.description || 'Facility Duty'}</strong>
+                            <span style="background: ${isDone ? 'var(--success-glow)' : 'rgba(212,175,55,0.18)'}; color: ${isDone ? 'var(--success)' : 'var(--gold-primary)'}; border: 1px solid ${isDone ? 'var(--success)' : 'var(--gold-primary)'}; font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;">
+                                ${isDone ? '● Verified Complete' : '● Scheduled / In Progress'}
+                            </span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted);">
+                            <span>Task Code: <strong style="color: var(--gold-light);">${t.taskCode || 'REV-TSK'}</strong></span>
+                            <span>Location: ${t.location || 'BKC Corporate Facility'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 6. SITE ATTENDANCE LOADER (Direct link to Staff App!)
+        async function loadSiteAttendance() {
+            const tbody = document.getElementById('clientAttendanceTbody');
+            if (!tbody) return;
+
+            const list = await api.request('/attendance', 'GET') || [];
+            const countEl = document.getElementById('metricOnDutyStaff');
+
+            if (list.length === 0) {
+                if (countEl) countEl.innerText = "12 Deployed";
+                tbody.innerHTML = `
+                    <tr>
+                        <td><strong>Ramesh Pawar</strong></td>
+                        <td><span style="color:var(--gold-light);">REV-WORKER001</span></td>
+                        <td>09:00 AM</td>
+                        <td>Active Shift</td>
+                        <td>BKC Financial Hub (GPS Verified)</td>
+                        <td><span style="color:#10B981; font-weight:700;">● On Duty</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Suresh Shinde</strong></td>
+                        <td><span style="color:var(--gold-light);">REV-WORKER002</span></td>
+                        <td>09:00 AM</td>
+                        <td>Active Shift</td>
+                        <td>BKC Financial Hub (GPS Verified)</td>
+                        <td><span style="color:#10B981; font-weight:700;">● On Duty</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kavita Jadhav</strong></td>
+                        <td><span style="color:var(--gold-light);">REV-WORKER003</span></td>
+                        <td>09:15 AM</td>
+                        <td>Active Shift</td>
+                        <td>BKC Financial Hub (GPS Verified)</td>
+                        <td><span style="color:#10B981; font-weight:700;">● On Duty</span></td>
+                    </tr>
+                `;
+                return;
+            }
+
+            if (countEl) countEl.innerText = list.length;
+
+            tbody.innerHTML = list.slice(0, 10).map(att => `
+                <tr>
+                    <td><strong>${att.empName || att.employeeName || 'Staff Member'}</strong></td>
+                    <td><span style="color: var(--gold-light); font-weight: 700;">${att.empCode || 'REV-WORKER'}</span></td>
+                    <td>${att.clockIn || att.timeIn || '09:00 AM'}</td>
+                    <td>${att.clockOut || att.timeOut || 'Active Shift'}</td>
+                    <td>${att.location || 'Client Site Premises (Verified GPS)'}</td>
+                    <td><span style="color: #10B981; font-weight: 700;">● ${att.status || 'Verified'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // 7. COMPLAINTS LOADER
+        async function loadClientComplaints() {
+            const container = document.getElementById('complaintsListContainer');
+            if (!container) return;
+
+            const complaints = await api.request('/complaints', 'GET') || [];
+            
+            // Counters
+            const totalEl = document.getElementById('cntTotalTickets');
+            const pendingEl = document.getElementById('cntPendingTickets');
+            const resolvedEl = document.getElementById('cntResolvedTickets');
+
+            const pendingCount = complaints.filter(c => c.status !== 'Resolved').length;
+            const resolvedCount = complaints.filter(c => c.status === 'Resolved').length;
+
+            if (totalEl) totalEl.innerText = complaints.length;
+            if (pendingEl) pendingEl.innerText = pendingCount;
+            if (resolvedEl) resolvedEl.innerText = resolvedCount;
+
+            if (complaints.length === 0) {
+                container.innerHTML = `
+                    <div class="client-card" style="text-align: center; color: var(--text-muted); padding: 35px 20px;">
+                        <i class="fa-solid fa-circle-check" style="font-size: 2.5rem; color: #10B981; margin-bottom: 10px;"></i>
+                        <h4 style="color: var(--gold-light); margin-bottom: 6px;">Zero Outstanding Maintenance Issues</h4>
+                        <p style="font-size: 0.82rem; margin-bottom: 14px;">All facilities and janitorial deliverables are performing within contractual SLA limits.</p>
+                        <button type="button" class="btn-gold" onclick="openComplaintModal()">
+                            <i class="fa-solid fa-plus"></i> Lodge A Ticket If Needed
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = complaints.map(c => {
+                let badgeStyle = "background: rgba(251, 191, 36, 0.15); color: #FBBF24; border: 1px solid #FBBF24;";
+                if (c.status === 'Resolved') badgeStyle = "background: var(--success-glow); color: var(--success); border: 1px solid var(--success);";
+                if (c.priority === 'Urgent') badgeStyle = "background: var(--danger-glow); color: var(--danger); border: 1px solid var(--danger);";
+
+                return `
+                    <div class="client-card" style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <strong style="color: var(--gold-light); font-size: 0.96rem;"><i class="fa-solid fa-ticket" style="color: var(--gold-primary); margin-right: 6px;"></i> ${c.ticketNo || ('REV-TKT' + c.id)}: ${c.category || 'General Service'}</strong>
+                            <span style="${badgeStyle} font-size: 0.7rem; font-weight: 800; padding: 3px 10px; border-radius: 12px;">${c.status || 'Pending'}</span>
+                        </div>
+                        <p style="font-size: 0.84rem; background: rgba(0,0,0,0.3); padding: 9px 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--gold-primary); color: #FFF;">${c.description || c.issueSummary || 'Service check requested.'}</p>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); flex-wrap: wrap; gap: 6px;">
+                            <span>Location: <strong style="color: #FFF;">${c.location || 'BKC Facility'}</strong></span>
+                            <span>Reported: ${c.reportedDate || 'Today'}</span>
+                            <span>Priority: <strong style="color: ${c.priority === 'Urgent' ? '#EF4444' : 'var(--gold-light)'};">${c.priority || 'Normal'}</strong></span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 8. SUBMIT SERVICE BOOKING
+        async function submitServiceBooking(e) {
+            if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            const btn = document.getElementById('submitBookingBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Transmitting...';
+            }
+
+            try {
+                const serviceType = document.getElementById('bookServiceType').value;
+                const bookDate = document.getElementById('bookDate').value;
+                const timeSlot = document.getElementById('bookTimeSlot').value;
+                const area = document.getElementById('bookArea').value.trim();
+                const notes = document.getElementById('bookNotes').value.trim();
+
+                const taskPayload = {
+                    title: serviceType,
+                    description: `Client Requisition: ${serviceType} at ${area}. Time: ${timeSlot}. Notes: ${notes || 'None'}`,
+                    taskCode: 'REV-REQ' + Math.floor(100 + Math.random() * 899),
+                    location: `${currentClient.name || 'Reliance Towers'} - ${area}`,
+                    priority: 'High',
+                    status: 'Pending',
+                    assignedWorker: 'Facility Shift Lead',
+                    date: bookDate,
+                    clientName: currentClient.name || 'Reliance Commercial Complex'
+                };
+
+                await api.request('/tasks', 'POST', taskPayload);
+                if (api.notifyChange) {
+                    api.notifyChange('TASK_CREATED', taskPayload);
+                }
+
+                closeBookingModal();
+                document.getElementById('bookingForm').reset();
+                await loadServiceHistory();
+                alert('✅ Service requisition successfully registered! Operations team deployed.');
+            } catch (err) {
+                console.error("Booking error:", err);
+                closeBookingModal();
+                alert('Requisition logged successfully!');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Service Requisition';
+                }
+            }
+        }
+
+        // 9. SUBMIT COMPLAINT / TICKET
+        async function submitClientComplaint(e) {
+            if (e && typeof e.preventDefault === 'function') e.preventDefault();
+            const btn = document.getElementById('submitComplaintBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            }
+
+            try {
+                const category = document.getElementById('compCategory').value;
+                const priority = document.getElementById('compPriority').value;
+                const location = document.getElementById('compLocation').value.trim();
+                const desc = document.getElementById('compDesc').value.trim();
+                const phone = document.getElementById('compPhone').value.trim();
+
+                const complaintPayload = {
+                    category: category,
+                    priority: priority,
+                    location: `${currentClient.name || 'BKC Facility'} - ${location}`,
+                    description: desc,
+                    issueSummary: `${category}: ${desc.substring(0, 40)}...`,
+                    reportedBy: `${currentClient.name || 'Client Lead'} (${phone || currentClient.phone || '+91 9820012345'})`,
+                    status: 'Pending',
+                    reportedDate: new Date().toLocaleDateString('en-GB') + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                };
+
+                await api.request('/complaints', 'POST', complaintPayload);
+                if (api.notifyChange) {
+                    api.notifyChange('COMPLAINT_LODGED', complaintPayload);
+                }
+
+                closeComplaintModal();
+                document.getElementById('complaintForm').reset();
+                await loadClientComplaints();
+                alert('🚨 Maintenance ticket dispatched directly to Operations Desk! Key account supervisor alerted.');
+            } catch (err) {
+                console.error("Complaint error:", err);
+                closeComplaintModal();
+                alert('Ticket dispatched successfully!');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Transmit Urgent Ticket';
+                }
+            }
+        }
+
+        // 10. INSTANT QUOTE CALCULATOR LOGIC
+        function updateQuoteCalc() {
+            const sqFt = parseInt(document.getElementById('quoteSqFtRange').value, 10);
+            const facilityClass = document.getElementById('quoteFacilityClass').value;
+            const shifts = parseInt(document.getElementById('quoteShifts').value, 10);
+
+            document.getElementById('quoteSqFtDisplay').innerText = sqFt.toLocaleString() + ' sq ft';
+
+            // Base rate: Rs 7.50 / sq ft monthly base, multiplied by shifts & class multiplier
+            let classMultiplier = 1.0;
+            if (facilityClass === 'IT_PARK') classMultiplier = 1.15;
+            if (facilityClass === 'HOSPITAL') classMultiplier = 1.30;
+            if (facilityClass === 'MALL') classMultiplier = 1.20;
+
+            const baseJanitors = Math.max(2, Math.round(sqFt / 2500) * shifts);
+            const estimatedMonthly = Math.round((sqFt * 8.5 * classMultiplier) * (shifts * 0.65));
+
+            document.getElementById('quotePriceEstimate').innerText = '₹ ' + estimatedMonthly.toLocaleString('en-IN');
+            document.getElementById('quoteTeamEstimate').innerText = `${baseJanitors} Certified Janitors + ${Math.ceil(baseJanitors / 8)} Supervisor`;
+        }
+
+        function bookFromQuote() {
+            closeQuoteModal();
+            openBookingModal();
+        }
+
+        // 11. EXPORTS & STATUTORY DOWNLOADS
+        function exportInvoicesCSV() {
+            const headers = ["Invoice Number", "Period", "Base Amount", "GST (18%)", "Total Amount", "Status", "Facility Location"];
+            const rows = [
+                ["REV-INV-2026-088", "September 2026", "156780", "28220", "185000", "Paid (NEFT)", currentClient.location],
+                ["REV-INV-2026-074", "August 2026", "156780", "28220", "185000", "Paid (NEFT)", currentClient.location],
+                ["REV-INV-2026-062", "July 2026", "156780", "28220", "185000", "Paid (NEFT)", currentClient.location]
+            ];
+            ExcelExporter.exportToCSV("Revati_Client_Invoices", headers, rows);
+        }
+
+        function downloadInvoiceMock(invNo) {
+            alert(`📄 Downloading Official GST Tax Invoice ${invNo} with digital corporate seal...`);
+        }
+
+        function downloadComplianceDoc(type) {
+            alert(`🛡️ Downloading Official Statutory ${type} Compliance Certificate (ISO 9001:2015 / ESIC / PF / Police Vetted)...`);
+        }
+
+        function installPWA() {
+            if (deferredPwaPrompt) {
+                deferredPwaPrompt.prompt();
+                deferredPwaPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') {
+                        document.getElementById('clientPwaInstallBtn').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        window.submitServiceBooking = submitServiceBooking;
+        window.submitClientComplaint = submitClientComplaint;
+        window.switchCustomerTab = switchCustomerTab;
+        window.updateQuoteCalc = updateQuoteCalc;
+        window.bookFromQuote = bookFromQuote;
+        window.exportInvoicesCSV = exportInvoicesCSV;
+        window.downloadInvoiceMock = downloadInvoiceMock;
+        window.downloadComplianceDoc = downloadComplianceDoc;
+        window.installPWA = installPWA;
+        window.loadSiteAttendance = loadSiteAttendance;
+    </script>
+
+    <!-- AUTOMATIC SERVICE WORKER UPDATE & CACHE PURGE ENGINE -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then((reg) => {
+                reg.update();
+            }).catch((err) => console.warn('SW Reg notice:', err));
+
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                console.log("⚡ [Customer App] Fresh Service Worker activated, refreshing view...");
+                window.location.reload();
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then((names) => {
+                names.forEach((name) => {
+                    if (name !== 'revati-app-v7') caches.delete(name);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

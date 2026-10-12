@@ -33,6 +33,11 @@
       "description": "Register New Staff Member with OTP"
     },
     {
+      "name": "Customer Portal",
+      "url": "./customer.html",
+      "description": "Client AMC & Facility Portal"
+    },
+    {
       "name": "Admin Portal",
       "url": "./admin.html",
       "description": "Admin Control & Approval Center"

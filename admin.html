@@ -90,6 +90,10 @@
                     <span class="nav-icon"><i class="fa-solid fa-file-contract" style="color: var(--gold-primary);"></i></span>
                     <span>Official Letterhead Studio</span>
                 </li>
+                <li class="nav-item" onclick="window.location.href='customer.html'" data-role-allow="ADMIN,SUPERVISOR,MANAGEMENT,CLIENT">
+                    <span class="nav-icon"><i class="fa-solid fa-building-shield" style="color: var(--gold-primary);"></i></span>
+                    <span>Customer Portal App</span>
+                </li>
             </ul>
 
             <div class="nav-group-title rbac-admin-only" style="margin-top: 1.5rem;">ADMINISTRATION ONLY</div>
@@ -120,7 +124,13 @@
             <header class="top-header top-header-3d">
                 <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                     <a href="index.html" class="btn btn-secondary btn-sm" style="text-decoration: none;">
-                        <i class="fa-solid fa-arrow-left"></i> Main Company Website
+                        <i class="fa-solid fa-arrow-left"></i> Website
+                    </a>
+                    <a href="customer.html" class="btn btn-secondary btn-sm" style="text-decoration: none; border-color: rgba(212,175,55,0.45); color: var(--gold-primary); font-weight: 600;" title="Open Live Customer Portal">
+                        <i class="fa-solid fa-building-shield"></i> Customer App
+                    </a>
+                    <a href="staff.html" class="btn btn-secondary btn-sm" style="text-decoration: none;" title="Open Staff / Worker App">
+                        <i class="fa-solid fa-mobile-screen"></i> Staff App
                     </a>
                     <div id="adminBadgeIndicator" class="badge badge-gold" style="font-size: 0.82rem; padding: 0.4rem 0.85rem;">
                         <i class="fa-solid fa-shield-halved"></i> ADMIN FULL CONTROL

@@ -820,6 +820,22 @@ class ApiService {
         return await this.request('/leaves', 'PUT', { id, status, adminComment: comment });
     }
 
+    async getComplaints() {
+        return await this.request('/complaints', 'GET');
+    }
+
+    async lodgeComplaint(complaintData) {
+        return await this.request('/complaints', 'POST', complaintData);
+    }
+
+    async getContracts() {
+        return await this.request('/contracts', 'GET');
+    }
+
+    async bookService(serviceData) {
+        return await this.request('/tasks', 'POST', serviceData);
+    }
+
     async deleteRecord(endpoint, id) {
         const user = this.getCurrentUser();
         if (user.role !== 'ADMIN') {
